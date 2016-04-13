@@ -1,0 +1,25 @@
+.fieldlabel {
+    width: 140px;
+    line-height: 18px;
+    padding-right: 10px;
+}
+
+.fieldtext {
+    width: 190px;
+    background: none repeat scroll 0 0 #fff;
+    border: 1px solid #8c8989;
+    font-family: Arial,Helvetica,sans-serif;
+    font-size: 11px;
+    line-height: 15px;
+    padding: 1px 5px;
+    border-radius: 2px;
+}
+
+.error {
+    border: 1px solid #ff0000;
+}
+
+.fieldrow {
+    padding: 5px;
+    height: 19px;
+}
