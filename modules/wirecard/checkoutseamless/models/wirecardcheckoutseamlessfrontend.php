@@ -355,7 +355,7 @@ class wirecardCheckoutSeamlessFrontend
                 'discount' => array(
                     'description' => $oLang->translateString('DISCOUNT', $iLangId),
                     'vat' => 0,
-                    'price' => $oOrder->oxorder_oxdiscount->rawValue * -1
+                    'price' => $oOrder->oxorder__oxdiscount->rawValue * -1
                 ),
             );
 
