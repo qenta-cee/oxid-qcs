@@ -345,17 +345,22 @@ class wirecardCheckoutSeamlessFrontend
                 'wrapping cost' => array(
                     'description' => $oLang->translateString('GIFT_WRAPPING', $iLangId),
                     'vat' => $oOrder->oxorder__oxwrapvat->rawValue,
-                    'price' => $oOrder->oxorder__oxwrapvat->rawValue
+                    'price' => $oOrder->oxorder__oxwrapcost->rawValue
                 ),
                 'gift card cost' => array(
                     'description' => $oLang->translateString('GREETING_CARD', $iLangId),
                     'vat' => $oOrder->oxorder__oxgiftcardvat->rawValue,
                     'price' => $oOrder->oxorder__oxgiftcardcost->rawValue
                 ),
+                'discount' => array(
+                    'description' => $oLang->translateString('DISCOUNT', $iLangId),
+                    'vat' => 0,
+                    'price' => $oOrder->oxorder_oxdiscount->rawValue * -1
+                ),
             );
 
             foreach ($aAdditionalCosts as $type => $data) {
-                if ($data['price'] > 0) {
+                if ($data['price'] != 0) {
                     $basketItemsCount++;
                     $netTaxAdditional = number_format($data['price'] * ($data['vat'] / 100), 2);
                     $netPriceAdditional = number_format($data['price'] - $netTaxAdditional, 2);
