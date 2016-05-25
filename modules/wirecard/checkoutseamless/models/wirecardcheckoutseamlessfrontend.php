@@ -329,7 +329,7 @@ class wirecardCheckoutSeamlessFrontend
                 $basketAmount += $amount * $oOrderArticle->oxorderarticles__oxbprice->rawValue;
             }
 
-            //add possible additional pcosts as articles to basket
+            //add possible additional costs as articles to basket
             $aAdditionalCosts = array(
                 'shipping cost' => array(
                     'description' => $oLang->translateString('SHIPPING_COST', $iLangId),

@@ -46,7 +46,7 @@ $aModule = array(
         'en' => 'Module for payment using Wirecard Checkout Seamless.<br /><br /><div id="helpPanel"><div class="bd"><strong>Support and sales information</strong><br /><a href="https://guides.wirecard.at/support" target="_blank">support</a><br /><a href="https://guides.wirecard.at/sales" target="_blank">sales</a></div></div>',
     ),
     'thumbnail'   => 'picture.jpg',
-    'version'     => '2.1.3',
+    'version'     => '2.1.4',
     'author'      => 'Wirecard CEE',
     'url'         => 'http://www.wirecard.at',
     'email'       => 'support@wirecard.at',
