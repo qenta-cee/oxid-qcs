@@ -92,7 +92,8 @@ class wirecardCheckoutSeamlessOrder extends wirecardCheckoutSeamlessOrder_parent
                         $aFormattedErrors[] = $error->getConsumerMessage();
                     }
 
-                    $oOrder->delete();
+                    if($config->getDeleteFailedOrCanceledOrders())
+                        $oOrder->delete();
 
                     wirecardCheckoutSeamlessUtils::getInstance()->log(__METHOD__ . ':ERROR:' . print_r($aFormattedErrors, true));
                     return parent::_getNextStep(implode("<br/>\n", $aFormattedErrors));
@@ -195,6 +196,8 @@ EOT
     public function wirecardConfirm()
     {
         wirecardCheckoutSeamlessUtils::getInstance()->log(__METHOD__ . ':' . print_r($_POST, true));
+
+        $config = wirecardCheckoutSeamlessConfig::getInstance();
 
         $out = WirecardCEE_QMore_ReturnFactory::generateConfirmResponseString();
 
@@ -301,16 +304,27 @@ EOT
                 case WirecardCEE_QMore_ReturnFactory::STATE_CANCEL:
                     /** @var $return WirecardCEE_QMore_Return_Cancel */
                     wirecardCheckoutSeamlessUtils::getInstance()->log(__METHOD__ . ':CANCEL');
+                    $oOrder->oxorder__oxtransstatus = new oxField('CANCELED');
+                    $oOrder->cancelOrder();
+                    $oOrder->save();
+
                     $oDbOrder->delete($aOrderData['OXID']);
-                    $oOrder->delete();
+
+                    if($config->getDeleteFailedOrCanceledOrders())
+                        $oOrder->delete();
                     break;
 
                 case WirecardCEE_QMore_ReturnFactory::STATE_FAILURE:
                     /** @var $return WirecardCEE_QMore_Return_Failure */
                     wirecardCheckoutSeamlessUtils::getInstance()->log(__METHOD__ . ':FAILURE:' . print_r($return->getErrors(),
                             true));
+                    $oOrder->oxorder__oxtransstatus = new oxField('FAILED');
+                    $oOrder->cancelOrder();
+                    $oOrder->save();
+
                     $oDbOrder->delete($aOrderData['OXID']);
-                    $oOrder->delete();
+                    if($config->getDeleteFailedOrCanceledOrders())
+                        $oOrder->delete();
 
                     $consumerMessage = '';
                     /** var $e WirecardCEE_QMore_Error */

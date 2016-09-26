@@ -65,6 +65,8 @@ $aLang = array(
     'HELP_SHOP_MODULE_sPluginMode' => 'Zum Testen der Integration eine vordefinierte Konfiguration ausw&auml;hlen. F&uuml;r Produktivsysteme "Production" ausw&auml;hlen.',
     'SHOP_MODULE_bUseIframe' => 'Seite von Finanzdienstleistern in iFrame anzeigen',
     'HELP_SHOP_MODULE_bUseIframe' => 'Andernfalls wird Ihr Konsument auf diese Seite weitergeleitet und danach zur&uuml;ck zu Ihrem Onlineshop geleitet.',
+    'SHOP_MODULE_sDeleteFailedOrCanceledOrders' => 'Bestellungen bei fehlgeschlagener oder abgebrochener Zahlung löschen',
+    'HELP_SHOP_MODULE_sDeleteFailedOrCanceledOrders' => 'Falls aktiviert, werden die Bestellungen bei fehlgeschlagener oder abgebrochener Zahlung gelöscht. Achtung: Diese Einstellung gilt für alle Wirecard-Zahlungsmittel.',
     'SHOP_MODULE_bDssSaqAEnable' => 'SAQ A konform',
     'HELP_SHOP_MODULE_bDssSaqAEnable' => 'Falls kein H&auml;kchen gesetzt ist, gilt der strengere SAQ A-EP. Falls ein H&auml;kchen gesetzt ist, wird in Wirecard Checkout Seamless das "PCI DSS SAQ A Compliance"-Feature verwendet und es gilt der SAQ A. <a href="https://guides.wirecard.at/wcs:pci3_fallback:start" target="_blank">Weitere Informationen</a>',
     'SHOP_MODULE_bShowCreditcardCardholder' => 'Feld f&uuml;r Karteninhaber anzeigen',
