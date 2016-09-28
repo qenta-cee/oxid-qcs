@@ -660,6 +660,8 @@ class wirecardCheckoutSeamlessPayment extends wirecardCheckoutSeamlessPayment_pa
         if (oxRegistry::getSession()->hasVariable('wcs_payerrortext')) {
             $wcs_payment_error = oxRegistry::getSession()->getVariable('wcs_payerrortext');
             oxRegistry::getSession()->deleteVariable('wcs_payerrortext');
+            oxRegistry::getSession()->deleteVariable('sess_challenge');
+            oxRegistry::getSession()->deleteVariable('wcpPaymentState');
         }
 
         return $wcs_payment_error;

@@ -46,7 +46,7 @@ $aModule = array(
         'en' => 'Module for payment using Wirecard Checkout Seamless.<br /><br /><div id="helpPanel"><div class="bd"><strong>Support and sales information</strong><br /><a href="https://guides.wirecard.at/support" target="_blank">support</a><br /><a href="https://guides.wirecard.at/sales" target="_blank">sales</a></div></div>',
     ),
     'thumbnail'   => 'picture.jpg',
-    'version'     => '2.1.4',
+    'version'     => '2.1.5',
     'author'      => 'Wirecard CEE',
     'url'         => 'http://www.wirecard.at',
     'email'       => 'support@wirecard.at',
@@ -113,6 +113,7 @@ $aModule = array(
         array('group' => 'wcs_plugin', 'name' => 'bSendAdditionalCustomerData', 'type' => 'bool', 'value' => '1'),
         array('group' => 'wcs_plugin', 'name' => 'bSendAdditionalBasketData', 'type' => 'bool', 'value' => '1'),
         array('group' => 'wcs_plugin', 'name' => 'bUseIframe', 'type' => 'bool', 'value' => '1'),
+        array('group' => 'wcs_plugin', 'name' => 'sDeleteFailedOrCanceledOrders', 'type' => 'bool', 'value' => '1'),
 
         array('group' => 'wcs_installment_invoice_settings', 'name' => 'sInvoiceInstallmentProvider', 'type' => 'select', 'value' => 'PAYOLUTION', 'constraints' => 'PAYOLUTION|RATEPAY|WIRECARD'),
         array('group' => 'wcs_installment_invoice_settings', 'name' => 'sPayolutionMId', 'type' => 'str', 'value' => ''),

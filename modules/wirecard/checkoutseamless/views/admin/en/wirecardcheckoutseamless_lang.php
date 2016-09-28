@@ -65,6 +65,8 @@ $aLang = array(
     'HELP_SHOP_MODULE_sPluginMode' => 'For integration, select predefined configuration settings or "Production" for live systems.',
     'SHOP_MODULE_bUseIframe' => 'Display page from financial service provides in an iframe',
     'HELP_SHOP_MODULE_bUseIframe' => 'Otherwise your consumer will be forwarded to this page and then redirected to your online shop.',
+    'SHOP_MODULE_sDeleteFailedOrCanceledOrders' => 'Delete orders if payment fails or is canceled',
+    'HELP_SHOP_MODULE_sDeleteFailedOrCanceledOrders' => 'If enabled, pending orders will be deleted in the order list if payment fails or if payment gets canceled. Note that this setting applies to all Wirecard payment methods.',
     'SHOP_MODULE_bDssSaqAEnable' => 'SAQ A compliance',
     'HELP_SHOP_MODULE_bDssSaqAEnable' => 'Not checked, the stringent SAQ A-EP is applicable. Checked, Wirecard Checkout Seamless is integrated with the "PCI DSS SAQ A Compliance" feature and SAQ A is applicable. <a href="https://guides.wirecard.at/wcs:pci3_fallback:start" target="_blank">More information</a>',
     'SHOP_MODULE_bShowCreditcardCardholder' => 'Display card holder field',

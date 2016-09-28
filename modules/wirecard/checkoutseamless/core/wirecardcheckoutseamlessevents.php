@@ -272,13 +272,13 @@ class wirecardCheckoutSeamlessEvents
     public static function addWirecardCheckoutSeamlessOrderTable()
     {
         $sSql = "CREATE TABLE IF NOT EXISTS `wirecardcheckoutseamless_order` (
-              `OXID` char(32) NOT NULL,
-              `OXORDERID` char(32) NOT NULL,
+              `OXID` char(32) NOT NULL COLLATE 'latin1_general_ci',
+              `OXORDERID` char(32) NOT NULL COLLATE 'latin1_general_ci',
               `BASKET` TEXT NULL,
               `TIMESTAMP` timestamp NOT NULL default CURRENT_TIMESTAMP on update CURRENT_TIMESTAMP,
               PRIMARY KEY (`OXID`),
               KEY `WIRECARDCHECKOUTSEAMLESS_ORDER_OXORDERID` (`OXORDERID`)
-            );";
+            ) COLLATE='utf8_general_ci'";
 
         oxDb::getDb()->execute($sSql);
     }

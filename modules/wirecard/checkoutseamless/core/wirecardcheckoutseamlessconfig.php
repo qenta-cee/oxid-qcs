@@ -131,6 +131,10 @@ class wirecardCheckoutSeamlessConfig
         }
     }
 
+    public function getDeleteFailedOrCanceledOrders(){
+        return $this->_getConfig()->getConfigParam('sDeleteFailedOrCanceledOrders');
+    }
+
     public function getServiceUrl()
     {
         return $this->_getConfig()->getConfigParam('sServiceUrl');
