@@ -30,31 +30,7 @@
  * Please do not use the plugin if you do not agree to these terms of use!
  */
 
-
-/**
- * @name WirecardCEE_Stdlib_Module_ModuleAbstract
- * @category WirecardCEE
- * @package WirecardCEE_Stdlib
- * @subpackage Module
- * @abstract
- */
-abstract class WirecardCEE_Stdlib_Module_ModuleAbstract implements WirecardCEE_Stdlib_Module_ModuleInterface
+class WirecardCEE_Stdlib_Validate_Exception extends Exception
 {
-    /**
-     * Returns the user configuration details found in 'Config' directory
-     * (user.config.php)
-     *
-     * @return Array
-     * @abstract
-     */
-    public static function getConfig() { }
 
-    /**
-     * Returns the client configuration details found in 'Config' directory
-     * (client.config.php)
-     *
-     * @return Array
-     * @abstract
-     */
-    public static function getClientConfig() { }
 }

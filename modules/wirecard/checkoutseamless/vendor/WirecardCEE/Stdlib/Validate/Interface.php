@@ -31,30 +31,31 @@
  */
 
 
-/**
- * @name WirecardCEE_Stdlib_Module_ModuleAbstract
- * @category WirecardCEE
- * @package WirecardCEE_Stdlib
- * @subpackage Module
- * @abstract
- */
-abstract class WirecardCEE_Stdlib_Module_ModuleAbstract implements WirecardCEE_Stdlib_Module_ModuleInterface
+interface WirecardCEE_Stdlib_Validate_Interface
 {
     /**
-     * Returns the user configuration details found in 'Config' directory
-     * (user.config.php)
+     * Returns true if and only if $value meets the validation requirements
      *
-     * @return Array
-     * @abstract
+     * If $value fails validation, then this method returns false, and
+     * getMessages() will return an array of messages that explain why the
+     * validation failed.
+     *
+     * @param  mixed $value
+     *
+     * @return boolean
+     * @throws WirecardCEE_Stdlib_Validate_Exception If validation of $value is impossible
      */
-    public static function getConfig() { }
+    public function isValid($value);
 
     /**
-     * Returns the client configuration details found in 'Config' directory
-     * (client.config.php)
+     * Returns an array of messages that explain why the most recent isValid()
+     * call returned false. The array keys are validation failure message identifiers,
+     * and the array values are the corresponding human-readable message strings.
      *
-     * @return Array
-     * @abstract
+     * If isValid() was never called or if the most recent isValid() call
+     * returned true, then this method returns an empty array.
+     *
+     * @return array
      */
-    public static function getClientConfig() { }
+    public function getMessages();
 }

@@ -62,6 +62,8 @@ class wirecardCheckoutSeamlessFrontend
 
         $this->_client->setPluginVersion($pluginVersion);
 
+        $oOrder = $this->_getOrder();
+
         $sHomeUrl = oxRegistry::getSession()->processUrl($config->getOxConfig()->getShopSecureHomeUrl());
 
 //        $sStoken = oxRegistry::getSession()->getSessionChallengeToken();
@@ -85,6 +87,7 @@ class wirecardCheckoutSeamlessFrontend
         $this->_client->setDuplicateRequestCheck($config->getDuplicateRequestCheck());
         $this->_client->setAutoDeposit($config->getAutoDeposit());
         $this->_client->setConfirmMail($config->getConfirmMail());
+        $this->_client->createConsumerMerchantCrmId($oOrder->getFieldData('oxbillemail'));
     }
 
     public function initiate()

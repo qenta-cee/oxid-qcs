@@ -1,19 +1,39 @@
 <?php
-/*
-* Die vorliegende Software ist Eigentum von Wirecard CEE und daher vertraulich
-* zu behandeln. Jegliche Weitergabe an dritte, in welcher Form auch immer, ist
-* unzulaessig.
-*
-* Software & Service Copyright (C) by
-* Wirecard Central Eastern Europe GmbH,
-* FB-Nr: FN 195599 x, http://www.wirecard.at
-*/
+/**
+ * Shop System Plugins - Terms of Use
+ *
+ * The plugins offered are provided free of charge by Wirecard Central Eastern Europe GmbH
+ * (abbreviated to Wirecard CEE) and are explicitly not part of the Wirecard CEE range of
+ * products and services.
+ *
+ * They have been tested and approved for full functionality in the standard configuration
+ * (status on delivery) of the corresponding shop system. They are under General Public
+ * License Version 2 (GPLv2) and can be used, developed and passed on to third parties under
+ * the same terms.
+ *
+ * However, Wirecard CEE does not provide any guarantee or accept any liability for any errors
+ * occurring when used in an enhanced, customized shop system configuration.
+ *
+ * Operation in an enhanced, customized configuration is at your own risk and requires a
+ * comprehensive test phase by the user of the plugin.
+ *
+ * Customers use the plugins at their own risk. Wirecard CEE does not guarantee their full
+ * functionality neither does Wirecard CEE assume liability for any disadvantages related to
+ * the use of the plugins. Additionally, Wirecard CEE does not guarantee the full functionality
+ * for customized shop systems or installed plugins of other vendors of plugins within the same
+ * shop system.
+ *
+ * Customers are responsible for testing the plugin's functionality before starting productive
+ * operation.
+ *
+ * By installing the plugin into the shop system the customer agrees to these terms of use.
+ * Please do not use the plugin if you do not agree to these terms of use!
+ */
 
 /**
  * @name WirecardCEE_QMore_BackendClient
  * @category WirecardCEE
  * @package WirecardCEE_QMore
- * @version 3.2.0
  */
 class WirecardCEE_QMore_BackendClient extends WirecardCEE_Stdlib_Client_ClientAbstract
 {
@@ -229,20 +249,18 @@ class WirecardCEE_QMore_BackendClient extends WirecardCEE_Stdlib_Client_ClientAb
     /**
      * Creates an instance of an WirecardCEE_QMore_BackendClient object.
      *
-     * @param array|WirecardCEE_Stdlib_Config $aConfig
+     * @param array|WirecardCEE_Stdlib_Config $config
      */
-    public function __construct(array $config = null)
+    public function __construct($config = null)
     {
         $this->_fingerprintOrder = new WirecardCEE_Stdlib_FingerprintOrder();
 
         //if no config was sent fallback to default config file
-        if (is_null($config))
-        {
+        if (is_null($config)) {
             $config = WirecardCEE_QMore_Module::getConfig();
         }
 
-        if (is_array($config) && isset($aConfig['WirecardCEEQMoreConfig']))
-        {
+        if (is_array($config) && isset( $config['WirecardCEEQMoreConfig'] )) {
             // we only need the WirecardCEEQMoreConfig here
             $config = $config['WirecardCEEQMoreConfig'];
         }
@@ -253,31 +271,31 @@ class WirecardCEE_QMore_BackendClient extends WirecardCEE_Stdlib_Client_ClientAb
 
         // now let's check if the CUSTOMER_ID, SHOP_ID, LANGUAGE and SECRET
         // exist in $this->oUserConfig object that we created from config array
-        $sCustomerId = isset($this->oUserConfig->CUSTOMER_ID) ? trim($this->oUserConfig->CUSTOMER_ID) : null;
-        $sShopId = isset($this->oUserConfig->SHOP_ID) ? trim($this->oUserConfig->SHOP_ID) : null;
-        $sLanguage = isset($this->oUserConfig->LANGUAGE) ? trim($this->oUserConfig->LANGUAGE) : null;
-        $sSecret = isset($this->oUserConfig->SECRET) ? trim($this->oUserConfig->SECRET) : null;
-        $sPassword = isset($this->oUserConfig->PASSWORD) ? trim($this->oUserConfig->PASSWORD) : null;
+        $sCustomerId = isset( $this->oUserConfig->CUSTOMER_ID ) ? trim($this->oUserConfig->CUSTOMER_ID) : null;
+        $sShopId     = isset( $this->oUserConfig->SHOP_ID ) ? trim($this->oUserConfig->SHOP_ID) : null;
+        $sLanguage   = isset( $this->oUserConfig->LANGUAGE ) ? trim($this->oUserConfig->LANGUAGE) : null;
+        $sSecret     = isset( $this->oUserConfig->SECRET ) ? trim($this->oUserConfig->SECRET) : null;
+        $sPassword   = isset( $this->oUserConfig->PASSWORD ) ? trim($this->oUserConfig->PASSWORD) : null;
 
         // If not throw the InvalidArgumentException exception!
-        if (empty($sCustomerId) || is_null($sCustomerId))
-        {
-            throw new WirecardCEE_QMore_Exception_InvalidArgumentException(sprintf('CUSTOMER_ID passed to %s is invalid.', __METHOD__));
+        if (empty( $sCustomerId ) || is_null($sCustomerId)) {
+            throw new WirecardCEE_QMore_Exception_InvalidArgumentException(sprintf('CUSTOMER_ID passed to %s is invalid.',
+                __METHOD__));
         }
 
-        if (empty($sLanguage) || is_null($sLanguage))
-        {
-            throw new WirecardCEE_QMore_Exception_InvalidArgumentException(sprintf('LANGUAGE passed to %s is invalid.', __METHOD__));
+        if (empty( $sLanguage ) || is_null($sLanguage)) {
+            throw new WirecardCEE_QMore_Exception_InvalidArgumentException(sprintf('LANGUAGE passed to %s is invalid.',
+                __METHOD__));
         }
 
-        if (empty($sSecret) || is_null($sSecret))
-        {
-            throw new WirecardCEE_QMore_Exception_InvalidArgumentException(sprintf('SECRET passed to %s is invalid.', __METHOD__));
+        if (empty( $sSecret ) || is_null($sSecret)) {
+            throw new WirecardCEE_QMore_Exception_InvalidArgumentException(sprintf('SECRET passed to %s is invalid.',
+                __METHOD__));
         }
 
-        if (empty($sPassword) || is_null($sPassword))
-        {
-            throw new WirecardCEE_QMore_Exception_InvalidArgumentException(sprintf('PASSWORD passed to %s is invalid.', __METHOD__));
+        if (empty( $sPassword ) || is_null($sPassword)) {
+            throw new WirecardCEE_QMore_Exception_InvalidArgumentException(sprintf('PASSWORD passed to %s is invalid.',
+                __METHOD__));
         }
 
         // everything ok! let's set the fields
@@ -303,14 +321,12 @@ class WirecardCEE_QMore_BackendClient extends WirecardCEE_Stdlib_Client_ClientAb
             self::PAYMENTTYPE,
         );
 
-        if (strlen($transactionType))
-        {
+        if (strlen($transactionType)) {
             $this->_setField(self::TRANSACTIONTYPE, $transactionType);
             $order[] = self::TRANSACTIONTYPE;
         }
 
-        if (strlen($bankCountry))
-        {
+        if (strlen($bankCountry)) {
             $this->_setField(self::BANKCOUNTRY, $bankCountry);
             $order[] = self::BANKCOUNTRY;
         }
@@ -326,13 +342,14 @@ class WirecardCEE_QMore_BackendClient extends WirecardCEE_Stdlib_Client_ClientAb
      * @throws WirecardCEE_Stdlib_Client_Exception_InvalidResponseException
      * @return WirecardCEE_QMore_Response_Backend_Refund
      */
-    public function refund($iOrderNumber, $iAmount, $sCurrency)
+    public function refund($iOrderNumber, $iAmount, $sCurrency, $basket=null)
     {
         $this->_requestData[self::COMMAND] = self::$COMMAND_REFUND;
 
         $this->_setField(self::ORDER_NUMBER, $iOrderNumber);
         $this->_setField(self::AMOUNT, $iAmount);
         $this->_setField(self::CURRENCY, strtoupper($sCurrency));
+        $this->_setBasket($basket);
 
         $this->_fingerprintOrder->setOrder(Array(
             self::CUSTOMER_ID,
@@ -344,6 +361,7 @@ class WirecardCEE_QMore_BackendClient extends WirecardCEE_Stdlib_Client_ClientAb
             self::AMOUNT,
             self::CURRENCY
         ));
+        $this->_appendBasketFingerprintOrder($basket);
 
         return new WirecardCEE_QMore_Response_Backend_Refund($this->_send());
     }
@@ -380,12 +398,17 @@ class WirecardCEE_QMore_BackendClient extends WirecardCEE_Stdlib_Client_ClientAb
      * @throws WirecardCEE_Stdlib_Client_Exception_InvalidResponseException
      * @return WirecardCEE_QMore_Response_Backend_RecurPayment
      */
-    public function recurPayment($iSourceOrderNumber, $iAmount, $sCurrency, $sOrderDescription, $iOrderNumber = null, $bDepositFlag = null)
-    {
+    public function recurPayment(
+        $iSourceOrderNumber,
+        $iAmount,
+        $sCurrency,
+        $sOrderDescription,
+        $iOrderNumber = null,
+        $bDepositFlag = null
+    ) {
         $this->_requestData[self::COMMAND] = self::$COMMAND_RECUR_PAYMENT;
 
-        if (!is_null($iOrderNumber))
-        {
+        if (!is_null($iOrderNumber)) {
             $this->_setField(self::ORDER_NUMBER, $iOrderNumber);
         }
 
@@ -393,8 +416,7 @@ class WirecardCEE_QMore_BackendClient extends WirecardCEE_Stdlib_Client_ClientAb
         $this->_setField(self::AMOUNT, $iAmount);
         $this->_setField(self::CURRENCY, strtoupper($sCurrency));
 
-        if (!is_null($bDepositFlag))
-        {
+        if (!is_null($bDepositFlag)) {
             $this->_setField(self::AUTO_DEPOSIT, $bDepositFlag ? self::$BOOL_TRUE : self::$BOOL_FALSE);
         }
 
@@ -461,6 +483,7 @@ class WirecardCEE_QMore_BackendClient extends WirecardCEE_Stdlib_Client_ClientAb
             self::LANGUAGE,
             self::ORDER_NUMBER
         ));
+
         return new WirecardCEE_QMore_Response_Backend_ApproveReversal($this->_send());
     }
 
@@ -470,13 +493,14 @@ class WirecardCEE_QMore_BackendClient extends WirecardCEE_Stdlib_Client_ClientAb
      * @throws WirecardCEE_Stdlib_Client_Exception_InvalidResponseException
      * @return WirecardCEE_QMore_Response_Backend_Deposit
      */
-    public function deposit($iOrderNumber, $iAmount, $sCurrency)
+    public function deposit($iOrderNumber, $iAmount, $sCurrency, $basket=null)
     {
         $this->_requestData[self::COMMAND] = self::$COMMAND_DEPOSIT;
 
         $this->_setField(self::ORDER_NUMBER, $iOrderNumber);
         $this->_setField(self::AMOUNT, $iAmount);
         $this->_setField(self::CURRENCY, strtoupper($sCurrency));
+        $this->_setBasket($basket);
 
         $this->_fingerprintOrder->setOrder(Array(
             self::CUSTOMER_ID,
@@ -488,6 +512,8 @@ class WirecardCEE_QMore_BackendClient extends WirecardCEE_Stdlib_Client_ClientAb
             self::AMOUNT,
             self::CURRENCY
         ));
+        $this->_appendBasketFingerprintOrder($basket);
+
         return new WirecardCEE_QMore_Response_Backend_Deposit($this->_send());
     }
 
@@ -513,6 +539,7 @@ class WirecardCEE_QMore_BackendClient extends WirecardCEE_Stdlib_Client_ClientAb
             self::ORDER_NUMBER,
             self::PAYMENT_NUMBER
         ));
+
         return new WirecardCEE_QMore_Response_Backend_DepositReversal($this->_send());
     }
 
@@ -525,8 +552,7 @@ class WirecardCEE_QMore_BackendClient extends WirecardCEE_Stdlib_Client_ClientAb
     public function transferFund($fundTransferType)
     {
 
-        switch ($fundTransferType)
-        {
+        switch ($fundTransferType) {
             case self::$TRANSFER_FUND_TYPE_EXISTING:
                 $client = new WirecardCEE_QMore_Request_Backend_TransferFund_Existing($this->oUserConfig);
                 break;
@@ -548,6 +574,7 @@ class WirecardCEE_QMore_BackendClient extends WirecardCEE_Stdlib_Client_ClientAb
         }
 
         $client->setType($fundTransferType);
+
         return $client;
     }
 
