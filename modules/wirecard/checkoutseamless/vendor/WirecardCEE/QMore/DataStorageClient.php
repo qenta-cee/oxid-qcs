@@ -1,19 +1,40 @@
 <?php
-/*
-* Die vorliegende Software ist Eigentum von Wirecard CEE und daher vertraulich
-* zu behandeln. Jegliche Weitergabe an dritte, in welcher Form auch immer, ist
-* unzulaessig.
-*
-* Software & Service Copyright (C) by
-* Wirecard Central Eastern Europe GmbH,
-* FB-Nr: FN 195599 x, http://www.wirecard.at
-*/
+/**
+ * Shop System Plugins - Terms of Use
+ *
+ * The plugins offered are provided free of charge by Wirecard Central Eastern Europe GmbH
+ * (abbreviated to Wirecard CEE) and are explicitly not part of the Wirecard CEE range of
+ * products and services.
+ *
+ * They have been tested and approved for full functionality in the standard configuration
+ * (status on delivery) of the corresponding shop system. They are under General Public
+ * License Version 2 (GPLv2) and can be used, developed and passed on to third parties under
+ * the same terms.
+ *
+ * However, Wirecard CEE does not provide any guarantee or accept any liability for any errors
+ * occurring when used in an enhanced, customized shop system configuration.
+ *
+ * Operation in an enhanced, customized configuration is at your own risk and requires a
+ * comprehensive test phase by the user of the plugin.
+ *
+ * Customers use the plugins at their own risk. Wirecard CEE does not guarantee their full
+ * functionality neither does Wirecard CEE assume liability for any disadvantages related to
+ * the use of the plugins. Additionally, Wirecard CEE does not guarantee the full functionality
+ * for customized shop systems or installed plugins of other vendors of plugins within the same
+ * shop system.
+ *
+ * Customers are responsible for testing the plugin's functionality before starting productive
+ * operation.
+ *
+ * By installing the plugin into the shop system the customer agrees to these terms of use.
+ * Please do not use the plugin if you do not agree to these terms of use!
+ */
+
 
 /**
  * @name WirecardCEE_QMore_DataStorageClient
  * @category WirecardCEE
  * @package WirecardCEE_QMore
- * @version 3.2.0
  */
 class WirecardCEE_QMore_DataStorageClient extends WirecardCEE_Stdlib_Client_ClientAbstract
 {
@@ -104,51 +125,91 @@ class WirecardCEE_QMore_DataStorageClient extends WirecardCEE_Stdlib_Client_Clie
     const CREDITCARD_SHOW_CVC_FIELD = 'creditcardShowCvcField';
 
     /**
+     * Placeholder text for the credit card number field.
+     *
+     * @var string
+     */
+    const CREDITCARD_PAN_PLACEHOLDER = 'creditcardPanPlaceholder';
+
+    /**
+     *  Placeholder text for the credit card verification number field.
+     *
+     * @var string
+     */
+    const CREDITCARD_CVC_PLACEHOLDER = 'creditcardCvcPlaceholder';
+
+    /**
+     * Placeholder text for the credit card holder field.
+     *
+     * @var string
+     */
+    const CREDITCARD_CARDHOLDERNAME_PLACEHOLDER = 'creditcardCardholderNamePlaceholder';
+
+    /**
+     * Placeholder text for the credit card issue number.
+     *
+     * @var string
+     */
+    const CREDITCARD_ISSUENUMBER_PLACEHOLDER = 'creditcardIssueNumberPlaceholder';
+
+    /**
+     *  Display placeholder text for the credit card expiration date.
+     *
+     * @var string
+     */
+    const CREDITCARD_SHOW_EXPIRATIONDATE_PLACEHOLDER = 'creditcardShowExpirationDatePlaceholder';
+
+    /**
+     * Display placeholder text for the credit card issue date.
+     *
+     * @var string
+     */
+    const CREDITCARD_SHOW_ISSUEDATE_PLACEHOLDER = 'creditcardShowIssueDatePlaceholder';
+
+    /**
      * DataStorage contructor.
      *
      * @param array|Object $config
      *
      * @throws WirecardCEE_QMore_Exception_InvalidArgumentException
      */
-    public function __construct(array $config = null)
+    public function __construct($config = null)
     {
         $this->_fingerprintOrder = new WirecardCEE_Stdlib_FingerprintOrder();
 
         //if no config was sent fallback to default config file
-        if (is_null($config))
-        {
-            $aConfig = WirecardCEE_QMore_Module::getConfig();
+        if (is_null($config)) {
+            $config = WirecardCEE_QMore_Module::getConfig();
         }
 
-        if (isset($config['WirecardCEEQMoreConfig']))
-        {
+        if (isset( $config['WirecardCEEQMoreConfig'] )) {
             //we only need WirecardCEEQMoreConfig here
             $config = $config['WirecardCEEQMoreConfig'];
         }
 
-        $this->oUserConfig = is_object($config) ? $config : new WirecardCEE_Stdlib_Config($config);
+        $this->oUserConfig   = is_object($config) ? $config : new WirecardCEE_Stdlib_Config($config);
         $this->oClientConfig = new WirecardCEE_Stdlib_Config(WirecardCEE_QMore_Module::getClientConfig());
 
         //now let's check if the CUSTOMER_ID, SHOP_ID, LANGUAGE and SECRET exist in config array
-        $sCustomerId = isset($this->oUserConfig->CUSTOMER_ID) ? trim($this->oUserConfig->CUSTOMER_ID) : null;
-        $sShopId = isset($this->oUserConfig->SHOP_ID) ? trim($this->oUserConfig->SHOP_ID) : null;
-        $sLanguage = isset($this->oUserConfig->LANGUAGE) ? trim($this->oUserConfig->LANGUAGE) : null;
-        $sSecret = isset($this->oUserConfig->SECRET) ? trim($this->oUserConfig->SECRET) : null;
+        $sCustomerId = isset( $this->oUserConfig->CUSTOMER_ID ) ? trim($this->oUserConfig->CUSTOMER_ID) : null;
+        $sShopId     = isset( $this->oUserConfig->SHOP_ID ) ? trim($this->oUserConfig->SHOP_ID) : null;
+        $sLanguage   = isset( $this->oUserConfig->LANGUAGE ) ? trim($this->oUserConfig->LANGUAGE) : null;
+        $sSecret     = isset( $this->oUserConfig->SECRET ) ? trim($this->oUserConfig->SECRET) : null;
 
         //If not throw the InvalidArgumentException exception!
-        if (empty($sCustomerId) || is_null($sCustomerId))
-        {
-            throw new WirecardCEE_QMore_Exception_InvalidArgumentException(sprintf('CUSTOMER_ID passed to %s is invalid.', __METHOD__));
+        if (empty( $sCustomerId ) || is_null($sCustomerId)) {
+            throw new WirecardCEE_QMore_Exception_InvalidArgumentException(sprintf('CUSTOMER_ID passed to %s is invalid.',
+                __METHOD__));
         }
 
-        if (empty($sLanguage) || is_null($sLanguage))
-        {
-            throw new WirecardCEE_QMore_Exception_InvalidArgumentException(sprintf('LANGUAGE passed to %s is invalid.', __METHOD__));
+        if (empty( $sLanguage ) || is_null($sLanguage)) {
+            throw new WirecardCEE_QMore_Exception_InvalidArgumentException(sprintf('LANGUAGE passed to %s is invalid.',
+                __METHOD__));
         }
 
-        if (empty($sSecret) || is_null($sSecret))
-        {
-            throw new WirecardCEE_QMore_Exception_InvalidArgumentException(sprintf('SECRET passed to %s is invalid.', __METHOD__));
+        if (empty( $sSecret ) || is_null($sSecret)) {
+            throw new WirecardCEE_QMore_Exception_InvalidArgumentException(sprintf('SECRET passed to %s is invalid.',
+                __METHOD__));
         }
 
         $this->_setField(self::SHOP_ID, $sShopId);
@@ -159,29 +220,36 @@ class WirecardCEE_QMore_DataStorageClient extends WirecardCEE_Stdlib_Client_Clie
 
     /**
      *
-     * @param string $orderIdent
-     *
      * @return WirecardCEE_QMore_DataStorage_Response_Initiation
      */
     public function initiate()
     {
         $aMissingFields = new ArrayObject();
 
-        if (!$this->_isFieldSet(self::CUSTOMER_ID)) $aMissingFields->append(self::CUSTOMER_ID);
-        if (!$this->_isFieldSet(self::ORDER_IDENT)) $aMissingFields->append(self::ORDER_IDENT);
-        if (!$this->_isFieldSet(self::RETURN_URL)) $aMissingFields->append(self::RETURN_URL);
-        if (!$this->_isFieldSet(self::LANGUAGE)) $aMissingFields->append(self::LANGUAGE);
-        if (empty($this->_secret)) $aMissingFields->append(self::SECRET);
+        if (!$this->_isFieldSet(self::CUSTOMER_ID)) {
+            $aMissingFields->append(self::CUSTOMER_ID);
+        }
+        if (!$this->_isFieldSet(self::ORDER_IDENT)) {
+            $aMissingFields->append(self::ORDER_IDENT);
+        }
+        if (!$this->_isFieldSet(self::RETURN_URL)) {
+            $aMissingFields->append(self::RETURN_URL);
+        }
+        if (!$this->_isFieldSet(self::LANGUAGE)) {
+            $aMissingFields->append(self::LANGUAGE);
+        }
+        if (empty( $this->_secret )) {
+            $aMissingFields->append(self::SECRET);
+        }
 
         //Are there any errors in the $aMissingFields object?
         //If so throw the InvalidArgumentException and print all the fields that are missing!
-        if ($aMissingFields->count())
-        {
-            throw new WirecardCEE_QMore_Exception_InvalidArgumentException(sprintf("Could not initiate DataStorage! Missing mandatory field(s): %s; thrown in %s", implode(", ", (array)$aMissingFields), __METHOD__));
+        if ($aMissingFields->count()) {
+            throw new WirecardCEE_QMore_Exception_InvalidArgumentException(sprintf("Could not initiate DataStorage! Missing mandatory field(s): %s; thrown in %s",
+                implode(", ", (array) $aMissingFields), __METHOD__));
         }
 
-        if (!$this->_isFieldSet(self::JAVASCRIPT_SCRIPT_VERSION))
-        {
+        if (!$this->_isFieldSet(self::JAVASCRIPT_SCRIPT_VERSION)) {
             $this->setJavascriptScriptVersion('');
         }
 
@@ -196,6 +264,7 @@ class WirecardCEE_QMore_DataStorageClient extends WirecardCEE_Stdlib_Client_Clie
         ));
 
         $this->oInitResponse = new WirecardCEE_QMore_DataStorage_Response_Initiation($this->_send());
+
         return $this->oInitResponse;
     }
 
@@ -207,40 +276,35 @@ class WirecardCEE_QMore_DataStorageClient extends WirecardCEE_Stdlib_Client_Clie
     {
         $aMissingFields = new ArrayObject();
 
-        if (!$this->_isFieldSet(self::CUSTOMER_ID))
-        {
+        if (!$this->_isFieldSet(self::CUSTOMER_ID)) {
             $aMissingFields->append(self::CUSTOMER_ID);
         }
 
         // check if storageId has been set from outside. If not fallback to
         // response and see if response can give us storageId
-        if (!$this->_isFieldSet(self::STORAGE_ID))
-        {
-            if (!$this->oInitResponse instanceof WirecardCEE_QMore_DataStorage_Response_Initiation)
-            {
-                throw new WirecardCEE_QMore_Exception_BadMethodCallException(sprintf("StorageId hasn't been found. Use 'initiate()' or 'setStorageId()'! Thrown in %s", __METHOD__));
+        if (!$this->_isFieldSet(self::STORAGE_ID)) {
+            if (!$this->oInitResponse instanceof WirecardCEE_QMore_DataStorage_Response_Initiation) {
+                throw new WirecardCEE_QMore_Exception_BadMethodCallException(sprintf("StorageId hasn't been found. Use 'initiate()' or 'setStorageId()'! Thrown in %s",
+                    __METHOD__));
             }
 
             $sStorageId = $this->oInitResponse->getStorageId();
 
-            if (empty($sStorageId) || is_null($sStorageId))
-            {
+            if (empty( $sStorageId ) || is_null($sStorageId)) {
                 $aMissingFields->append(self::STORAGE_ID);
-            }
-            else
-            {
+            } else {
                 $this->setStorageId($sStorageId);
             }
         }
 
         //Are there any errors in the $aMissingFields object?
         //If so throw the InvalidArgumentException and print all the fields that are missing!
-        if ($aMissingFields->count())
-        {
-            throw new WirecardCEE_QMore_Exception_InvalidArgumentException(sprintf("Could not initiate DataStorage Read! Missing mandatory field(s): %s; thrown in %s", implode(", ", (array)$aMissingFields), __METHOD__));
+        if ($aMissingFields->count()) {
+            throw new WirecardCEE_QMore_Exception_InvalidArgumentException(sprintf("Could not initiate DataStorage Read! Missing mandatory field(s): %s; thrown in %s",
+                implode(", ", (array) $aMissingFields), __METHOD__));
         }
 
-        $_dataStorageRead = new WirecardCEE_QMore_DataStorage_Request_Read($this->oUserConfig->toArray());
+        $_dataStorageRead               = new WirecardCEE_QMore_DataStorage_Request_Read($this->oUserConfig->toArray());
         $this->oDataStorageReadResponse = $_dataStorageRead->read($this->_requestData[self::STORAGE_ID]);
 
         return $this->oDataStorageReadResponse;
@@ -250,13 +314,14 @@ class WirecardCEE_QMore_DataStorageClient extends WirecardCEE_Stdlib_Client_Clie
     /**
      * setter for parameter javascriptScriptVersion
      *
-     * @param type $javascriptVersion
+     * @param string $javascriptScriptVersion
      *
      * @return WirecardCEE_QMore_DataStorageClient
      */
     public function setJavascriptScriptVersion($javascriptScriptVersion)
     {
         $this->_setField(self::JAVASCRIPT_SCRIPT_VERSION, $javascriptScriptVersion);
+
         return $this;
     }
 
@@ -270,6 +335,7 @@ class WirecardCEE_QMore_DataStorageClient extends WirecardCEE_Stdlib_Client_Clie
     public function setReturnUrl($sUrl)
     {
         $this->_setField(self::RETURN_URL, $sUrl);
+
         return $this;
     }
 
@@ -284,6 +350,7 @@ class WirecardCEE_QMore_DataStorageClient extends WirecardCEE_Stdlib_Client_Clie
     public function setOrderIdent($sOrderIdent)
     {
         $this->_setField(self::ORDER_IDENT, $sOrderIdent);
+
         return $this;
     }
 
@@ -296,6 +363,7 @@ class WirecardCEE_QMore_DataStorageClient extends WirecardCEE_Stdlib_Client_Clie
     public function setStorageId($sStorageId)
     {
         $this->_setField(self::STORAGE_ID, $sStorageId);
+
         return $this;
     }
 
@@ -334,7 +402,7 @@ class WirecardCEE_QMore_DataStorageClient extends WirecardCEE_Stdlib_Client_Clie
      *
      * @param $showCardholderField
      */
-    public function setCreditCardCardholderNameField($showCardholderField)
+    public function setCreditCardShowCardholderNameField($showCardholderField)
     {
         $this->_setField(self::CREDITCARD_SHOW_CARDHOLDER_NAMEFIELD, $showCardholderField ? 'true' : 'false');
     }
@@ -349,6 +417,65 @@ class WirecardCEE_QMore_DataStorageClient extends WirecardCEE_Stdlib_Client_Clie
         $this->_setField(self::CREDITCARD_SHOW_CVC_FIELD, $showCvcField ? 'true' : 'false');
     }
 
+    /**
+     * setter for parameter creditcardPanPlaceholder
+     *
+     * @param $placeholder
+     */
+    public function setCreditCardPanPlaceholder($placeholder)
+    {
+        $this->_setField(self::CREDITCARD_PAN_PLACEHOLDER, $placeholder);
+    }
+
+    /**
+     * setter for parameter creditcardCvcPlaceholder
+     *
+     * @param $placeholder
+     */
+    public function setCreditCardCvcPlaceholder($placeholder)
+    {
+        $this->_setField(self::CREDITCARD_CVC_PLACEHOLDER, $placeholder);
+    }
+
+    /**
+     * setter for parameter creditcardCardholderNamePlaceholder
+     *
+     * @param $placeholder
+     */
+    public function setCreditCardCardholderNamePlaceholder($placeholder)
+    {
+        $this->_setField(self::CREDITCARD_CARDHOLDERNAME_PLACEHOLDER, $placeholder);
+    }
+
+    /**
+     * setter for parameter creditcardIssueNumberPlaceholder
+     *
+     * @param $placeholder
+     */
+    public function setCreditCardCardIssueNumberPlaceholder($placeholder)
+    {
+        $this->_setField(self::CREDITCARD_ISSUENUMBER_PLACEHOLDER, $placeholder);
+    }
+
+    /**
+     * setter for creditcardShowExpirationDatePlaceholder
+     *
+     * @param $showPlaceholder
+     */
+    public function setCreditCardShowExpirationDatePlaceholder($showPlaceholder)
+    {
+        $this->_setField(self::CREDITCARD_SHOW_EXPIRATIONDATE_PLACEHOLDER, $showPlaceholder ? 'true' : 'false');
+    }
+
+    /**
+     * setter for creditcardShowIssueDatePlaceholder
+     *
+     * @param $showPlaceholder
+     */
+    public function setCreditCardShowIssueDatePlaceholder($showPlaceholder)
+    {
+        $this->_setField(self::CREDITCARD_SHOW_ISSUEDATE_PLACEHOLDER, $showPlaceholder ? 'true' : 'false');
+    }
 
     /**
      * *******************

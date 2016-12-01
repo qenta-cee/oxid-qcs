@@ -62,9 +62,10 @@ class wirecardCheckoutSeamlessFrontend
 
         $this->_client->setPluginVersion($pluginVersion);
 
+        $oOrder = $this->_getOrder();
+
         $sHomeUrl = oxRegistry::getSession()->processUrl($config->getOxConfig()->getShopSecureHomeUrl());
 
-//        $sStoken = oxRegistry::getSession()->getSessionChallengeToken();
         $sRtoken = oxRegistry::getSession()->getRemoteAccessToken(true);
 
         /** @var oxUtilsUrl $util */
@@ -72,7 +73,6 @@ class wirecardCheckoutSeamlessFrontend
 
         $this->_client->setConfirmUrl($util->cleanUrlParams($sHomeUrl . 'cl=order&fnc=wirecardConfirm&stoken=' . '&' . oxRegistry::getSession()->sid(true) . '&rtoken=' . $sRtoken,
             '&'));
-        //$this->_client->setConfirmUrl($util->cleanUrlParams($sHomeUrl . 'cl=order&fnc=wirecardConfirm', '&'));
         $this->_client->setSuccessUrl($util->cleanUrlParams($sHomeUrl . 'cl=order&fnc=wirecardSuccess', '&'));
         $this->_client->setPendingUrl($util->cleanUrlParams($sHomeUrl . 'cl=order&fnc=wirecardPending', '&'));
         $this->_client->setCancelUrl($util->cleanUrlParams($sHomeUrl . 'cl=order&fnc=wirecardCancel', '&'));
@@ -85,6 +85,7 @@ class wirecardCheckoutSeamlessFrontend
         $this->_client->setDuplicateRequestCheck($config->getDuplicateRequestCheck());
         $this->_client->setAutoDeposit($config->getAutoDeposit());
         $this->_client->setConfirmMail($config->getConfirmMail());
+        $this->_client->createConsumerMerchantCrmId($oOrder->getFieldData('oxbillemail'));
     }
 
     public function initiate()
