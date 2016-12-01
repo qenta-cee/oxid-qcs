@@ -66,7 +66,6 @@ class wirecardCheckoutSeamlessFrontend
 
         $sHomeUrl = oxRegistry::getSession()->processUrl($config->getOxConfig()->getShopSecureHomeUrl());
 
-//        $sStoken = oxRegistry::getSession()->getSessionChallengeToken();
         $sRtoken = oxRegistry::getSession()->getRemoteAccessToken(true);
 
         /** @var oxUtilsUrl $util */
@@ -74,7 +73,6 @@ class wirecardCheckoutSeamlessFrontend
 
         $this->_client->setConfirmUrl($util->cleanUrlParams($sHomeUrl . 'cl=order&fnc=wirecardConfirm&stoken=' . '&' . oxRegistry::getSession()->sid(true) . '&rtoken=' . $sRtoken,
             '&'));
-        //$this->_client->setConfirmUrl($util->cleanUrlParams($sHomeUrl . 'cl=order&fnc=wirecardConfirm', '&'));
         $this->_client->setSuccessUrl($util->cleanUrlParams($sHomeUrl . 'cl=order&fnc=wirecardSuccess', '&'));
         $this->_client->setPendingUrl($util->cleanUrlParams($sHomeUrl . 'cl=order&fnc=wirecardPending', '&'));
         $this->_client->setCancelUrl($util->cleanUrlParams($sHomeUrl . 'cl=order&fnc=wirecardCancel', '&'));
