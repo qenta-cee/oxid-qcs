@@ -74,7 +74,7 @@ class wirecardCheckoutSeamlessDataStorage
                 $this->_client->setIframeCssUrl($config->getIframeCssUrl());
             }
 
-            $this->_client->setCreditCardCardholderNameField($config->getShowCreditcardCardholder());
+            $this->_client->setCreditCardShowCardholderNameField($config->getShowCreditcardCardholder());
             $this->_client->setCreditCardShowCvcField($config->getShowCreditcardCvc());
             $this->_client->setCreditCardShowIssueDateField($config->getShowCreditcardIssueDate());
             $this->_client->setCreditCardShowIssueNumberField($config->getShowCreditcardIssueNumber());
