@@ -510,7 +510,6 @@ class wirecardCheckoutSeamlessPayment extends wirecardCheckoutSeamlessPayment_pa
             case WirecardCEE_QMore_PaymentType::INVOICE . '_B2B':
             case WirecardCEE_QMore_PaymentType::INVOICE . '_B2C':
             case WirecardCEE_QMore_PaymentType::MONETA:
-            case WirecardCEE_QMore_PaymentType::MPASS:
             case WirecardCEE_QMore_PaymentType::P24:
             case WirecardCEE_QMore_PaymentType::PAYPAL:
             case WirecardCEE_QMore_PaymentType::PBX:
@@ -518,7 +517,6 @@ class wirecardCheckoutSeamlessPayment extends wirecardCheckoutSeamlessPayment_pa
             case WirecardCEE_QMore_PaymentType::PSC:
             case WirecardCEE_QMore_PaymentType::QUICK:
             case WirecardCEE_QMore_PaymentType::SEPADD:
-            case WirecardCEE_QMore_PaymentType::SKRILLDIRECT:
             case WirecardCEE_QMore_PaymentType::SKRILLWALLET:
             case WirecardCEE_QMore_PaymentType::SOFORTUEBERWEISUNG:
             case WirecardCEE_QMore_PaymentType::TATRAPAY:
@@ -541,59 +539,55 @@ class wirecardCheckoutSeamlessPayment extends wirecardCheckoutSeamlessPayment_pa
 
         switch ($sPaymenttype) {
             case WirecardCEE_QMore_PaymentType::BMC:
-                return '<img src="' . $imgPath . 'bancontact_mistercash.jpg" />';
+                return '<img src="' . $imgPath . 'bancontact_mistercash.png" />';
             case WirecardCEE_QMore_PaymentType::CCARD:
-                return '<img src="' . $imgPath . 'ccard.jpg" />';
+                return '<img src="' . $imgPath . 'ccard.png" />';
             case WirecardCEE_QMore_PaymentType::CCARD_MOTO:
-                return '<img src="' . $imgPath . 'ccard_moto.jpg" />';
+                return '<img src="' . $imgPath . 'ccard_moto.png" />';
             case WirecardCEE_QMore_PaymentType::EKONTO:
-                return '<img src="' . $imgPath . 'ekonto.jpg" />';
+                return '<img src="' . $imgPath . 'ekonto.png" />';
             case WirecardCEE_QMore_PaymentType::EPAYBG:
-                return '<img src="' . $imgPath . 'epay_bg.jpg" />';
+                return '<img src="' . $imgPath . 'epay_bg.png" />';
             case WirecardCEE_QMore_PaymentType::EPS:
-                return '<img src="' . $imgPath . 'eps.jpg" />';
+                return '<img src="' . $imgPath . 'eps.png" />';
             case WirecardCEE_QMore_PaymentType::GIROPAY:
-                return '<img src="' . $imgPath . 'giropay.jpg" />';
+                return '<img src="' . $imgPath . 'giropay.png" />';
             case WirecardCEE_QMore_PaymentType::IDL:
-                return '<img src="' . $imgPath . 'idl.jpg" />';
+                return '<img src="' . $imgPath . 'idl.png" />';
             case WirecardCEE_QMore_PaymentType::INSTALLMENT:
-                return '<img src="' . $imgPath . 'installment.jpg" />';
+                return '<img src="' . $imgPath . 'installment.png" />';
             case WirecardCEE_QMore_PaymentType::INVOICE . '_B2B':
-                return '<img src="' . $imgPath . 'invoice.jpg" />';
+                return '<img src="' . $imgPath . 'invoice.png" />';
             case WirecardCEE_QMore_PaymentType::INVOICE . '_B2C':
-                return '<img src="' . $imgPath . 'invoice.jpg" />';
+                return '<img src="' . $imgPath . 'invoice.png" />';
             case WirecardCEE_QMore_PaymentType::MONETA:
-                return '<img src="' . $imgPath . 'moneta.jpg" />';
-            case WirecardCEE_QMore_PaymentType::MPASS:
-                return '<img src="' . $imgPath . 'mpass.jpg" />';
+                return '<img src="' . $imgPath . 'moneta.png" />';
             case WirecardCEE_QMore_PaymentType::PAYPAL:
-                return '<img src="' . $imgPath . 'paypal.jpg" />';
+                return '<img src="' . $imgPath . 'paypal.png" />';
             case WirecardCEE_QMore_PaymentType::PBX:
-                return '<img src="' . $imgPath . 'pbx.jpg" />';
+                return '<img src="' . $imgPath . 'pbx.png" />';
             case WirecardCEE_QMore_PaymentType::POLI:
-                return '<img src="' . $imgPath . 'poli.jpg" />';
+                return '<img src="' . $imgPath . 'poli.png" />';
             case WirecardCEE_QMore_PaymentType::P24:
-                return '<img src="' . $imgPath . 'przelewy24.jpg" />';
+                return '<img src="' . $imgPath . 'przelewy24.png" />';
             case WirecardCEE_QMore_PaymentType::PSC:
-                return '<img src="' . $imgPath . 'psc.jpg" />';
+                return '<img src="' . $imgPath . 'psc.png" />';
             case WirecardCEE_QMore_PaymentType::QUICK:
-                return '<img src="' . $imgPath . 'quick.jpg" />';
+                return '<img src="' . $imgPath . 'quick.png" />';
             case WirecardCEE_QMore_PaymentType::SEPADD:
-                return '<img src="' . $imgPath . 'sepa-dd.jpg" />';
-            case WirecardCEE_QMore_PaymentType::SKRILLDIRECT:
-                return '<img src="' . $imgPath . 'skrilldirect.jpg" />';
+                return '<img src="' . $imgPath . 'sepa-dd.png" />';
             case WirecardCEE_QMore_PaymentType::SKRILLWALLET:
-                return '<img src="' . $imgPath . 'skrillwallet.jpg" />';
+                return '<img src="' . $imgPath . 'skrillwallet.png" />';
             case WirecardCEE_QMore_PaymentType::SOFORTUEBERWEISUNG:
-                return '<img src="' . $imgPath . 'sofortueberweisung.jpg" />';
+                return '<img src="' . $imgPath . 'sofortueberweisung.png" />';
             case WirecardCEE_QMore_PaymentType::TATRAPAY:
-                return '<img src="' . $imgPath . 'tatrapay.jpg" />';
+                return '<img src="' . $imgPath . 'tatrapay.png" />';
             case WirecardCEE_QMore_PaymentType::TRUSTLY:
-                return '<img src="' . $imgPath . 'trustly.jpg" />';
+                return '<img src="' . $imgPath . 'trustly.png" />';
             case WirecardCEE_QMore_PaymentType::VOUCHER:
-                return '<img src="' . $imgPath . 'voucher.jpg" />';
+                return '<img src="' . $imgPath . 'voucher.png" />';
             case WirecardCEE_QMore_PaymentType::TRUSTPAY:
-                return '<img src="' . $imgPath . 'trustpay.jpg" />';
+                return '<img src="' . $imgPath . 'trustpay.png" />';
             default:
                 return null;
         }
