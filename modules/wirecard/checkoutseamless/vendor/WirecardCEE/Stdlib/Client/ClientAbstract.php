@@ -230,19 +230,19 @@ abstract class WirecardCEE_Stdlib_Client_ClientAbstract
      */
     abstract public function __construct($aConfig = null);
 
-    /**
-     * setter for Zend_Http_Client.
-     * Use this if you need specific client-configuration.
-     * otherwise the clientlibrary instantiates the Zend_Http_Client on its own.
-     *
-     * @param Zend_Http_Client $httpClient
-     * @return WirecardCEE_Stdlib_Client_ClientAbstract
-     */
-    public function setZendHttpClient(Zend_Http_Client $httpClient)
-    {
-        $this->_httpClient = $httpClient;
-        return $this;
-    }
+	/**
+	 * setter for Zend_Http_Client.
+	 * Use this if you need specific client-configuration.
+	 * otherwise the clientlibrary instantiates the Zend_Http_Client on its own.
+	 *
+	 * @param Zend_Http_Client $httpClient
+	 * @return WirecardCEE_Stdlib_Client_ClientAbstract
+	 */
+	public function setZendHttpClient(Zend_Http_Client $httpClient)
+	{
+		$this->_httpClient = $httpClient;
+		return $this;
+	}
 
     /**
      * Returns the user configuration object
@@ -290,14 +290,6 @@ abstract class WirecardCEE_Stdlib_Client_ClientAbstract
     public function getRequestData()
     {
         return (array) $this->_requestData;
-    }
-
-    /**
-     * Destructor
-     */
-    public function __destruct()
-    {
-        unset( $this );
     }
 
     /**************************
@@ -376,22 +368,22 @@ abstract class WirecardCEE_Stdlib_Client_ClientAbstract
         return WirecardCEE_Stdlib_Fingerprint::generate($fingerprintFields, $oFingerprintOrder);
     }
 
-    /**
-     * Sends the request and returns the zend http response object instance
-     *
-     * @throws Zend_Http_Client_Exception
-     * @return Zend_Http_Response
-     */
-    protected function _sendRequest()
-    {
-        $httpClient = $this->_getZendHttpClient();
-        $httpClient->setParameterPost($this->_requestData);
-        $httpClient->setConfig(Array(
-            'useragent' => $this->getUserAgentString()
-        ));
+	/**
+	 * Sends the request and returns the zend http response object instance
+	 *
+	 * @throws Zend_Http_Client_Exception
+	 * @return Zend_Http_Response
+	 */
+	protected function _sendRequest()
+	{
+		$httpClient = $this->_getZendHttpClient();
+		$httpClient->setParameterPost($this->_requestData);
+		$httpClient->setConfig(Array(
+			'useragent' => $this->getUserAgentString()
+		));
 
-        return $httpClient->request(Zend_Http_Client::POST);
-    }
+		return $httpClient->request(Zend_Http_Client::POST);
+	}
 
     /**
      * Setter for requestfield.
@@ -421,24 +413,24 @@ abstract class WirecardCEE_Stdlib_Client_ClientAbstract
         return (bool) ( isset( $this->_requestData[$sFieldname] ) && !empty( $this->_requestData[$sFieldname] ) );
     }
 
-    /**
-     * private getter for the Zend_Http_Client
-     * if not set yet it will be instantiated
-     *
-     * @return Zend_Http_Client
-     */
-    protected function _getZendHttpClient()
-    {
-        if (is_null($this->_httpClient)) {
-            // @todo implement SSL check here
-            $this->_httpClient = new Zend_Http_Client($this->_getRequestUrl());
-        } else {
-            $this->_httpClient->resetParameters(true);
-            $this->_httpClient->setUri($this->_getRequestUrl());
-        }
+	/**
+	 * private getter for the Zend_Http_Client
+	 * if not set yet it will be instantiated
+	 *
+	 * @return Zend_Http_Client
+	 */
+	protected function _getZendHttpClient()
+	{
+		if (is_null($this->_httpClient)) {
+			// @todo implement SSL check here
+			$this->_httpClient = new Zend_Http_Client($this->_getRequestUrl());
+		} else {
+			$this->_httpClient->resetParameters(true);
+			$this->_httpClient->setUri($this->_getRequestUrl());
+		}
 
-        return $this->_httpClient;
-    }
+		return $this->_httpClient;
+	}
 
     /**
      * Sets shopping basket data to _requestData
