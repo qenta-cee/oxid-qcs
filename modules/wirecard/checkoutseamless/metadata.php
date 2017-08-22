@@ -115,12 +115,16 @@ $aModule = array(
         array('group' => 'wcs_plugin', 'name' => 'bUseIframe', 'type' => 'bool', 'value' => '1'),
         array('group' => 'wcs_plugin', 'name' => 'sDeleteFailedOrCanceledOrders', 'type' => 'bool', 'value' => '1'),
 
-        array('group' => 'wcs_installment_invoice_settings', 'name' => 'sInvoiceInstallmentProvider', 'type' => 'select', 'value' => 'PAYOLUTION', 'constraints' => 'PAYOLUTION|RATEPAY|WIRECARD'),
-        array('group' => 'wcs_installment_invoice_settings', 'name' => 'sPayolutionMId', 'type' => 'str', 'value' => ''),
-        array('group' => 'wcs_installment_invoice_settings', 'name' => 'bInstallmentTrustedShopsCheckbox', 'type' => 'bool', 'value' => ''),
-        array('group' => 'wcs_installment_invoice_settings', 'name' => 'bInvoiceb2bTrustedShopsCheckbox', 'type' => 'bool', 'value' => ''),
-        array('group' => 'wcs_installment_invoice_settings', 'name' => 'bInvoiceb2cTrustedShopsCheckbox', 'type' => 'bool', 'value' => ''),
-        array('group' => 'wcs_installment_invoice_settings', 'name' => 'bPayolutionAllowDifferingAddresses', 'type' => 'bool', 'value' => ''),
+        array('group' => 'wcs_invoice_settings', 'name' => 'sInvoiceProvider', 'type' => 'select', 'value' => 'PAYOLUTION', 'constraints' => 'PAYOLUTION|RATEPAY|WIRECARD'),
+        array('group' => 'wcs_invoice_settings', 'name' => 'sInvoicePayolutionMId', 'type' => 'str', 'value' => ''),
+        array('group' => 'wcs_invoice_settings', 'name' => 'bInvoiceb2bTrustedShopsCheckbox', 'type' => 'bool', 'value' => ''),
+        array('group' => 'wcs_invoice_settings', 'name' => 'bInvoiceb2cTrustedShopsCheckbox', 'type' => 'bool', 'value' => ''),
+        array('group' => 'wcs_invoice_settings', 'name' => 'bInvoiceAllowDifferingAddresses', 'type' => 'bool', 'value' => ''),
+
+	    array('group' => 'wcs_installment_settings', 'name' => 'sInstallmentProvider', 'type' => 'select', 'value' => 'PAYOLUTION', 'constraints' => 'PAYOLUTION|RATEPAY'),
+	    array('group' => 'wcs_installment_settings', 'name' => 'sInstallmentPayolutionMId', 'type' => 'str', 'value' => ''),
+	    array('group' => 'wcs_installment_settings', 'name' => 'bInstallmentTrustedShopsCheckbox', 'type' => 'bool', 'value' => ''),
+	    array('group' => 'wcs_installment_settings', 'name' => 'bInstallmentAllowDifferingAddresses', 'type' => 'bool', 'value' => ''),
 
         array('group' => 'wcs_pci_dss', 'name' => 'bDssSaqAEnable', 'type' => 'bool', 'value' => 'false'),
         array('group' => 'wcs_pci_dss', 'name' => 'bShowCreditcardCardholder', 'type' => 'bool', 'value' => 'true'),

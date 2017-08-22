@@ -223,8 +223,8 @@ class wirecardCheckoutSeamlessFrontend
                 $shippingAddressObj->setPhone($oOrder->getFieldData('oxbillfon'));
             }
             $consumerData->addAddressInformation($shippingAddressObj);
-        } elseif (in_array($paymentType, array('INVOICE_B2B', 'INVOICE_B2C', 'INSTALLMENT'))
-            && $config->getInvoiceInstallmentProvider() == 'PAYOLUTION'
+        } elseif ((in_array($paymentType, array('INVOICE_B2B', 'INVOICE_B2C'))
+            && $config->getInvoiceProvider() == 'PAYOLUTION') || ($paymentType == 'INSTALLMENT' && $config->getInstallmentProvider() == 'PAYOLUTION')
         ) {
             $oUser = $oOrder->getOrderUser();
 
@@ -261,8 +261,9 @@ class wirecardCheckoutSeamlessFrontend
             $billingAddressObj->setFax($oOrder->getFieldData('oxbillfax'));
             $billingAddressObj->setPhone($oOrder->getFieldData('oxbillfon'));
             $consumerData->addAddressInformation($billingAddressObj);
-        } elseif (in_array($paymentType, array('INVOICE_B2B', 'INVOICE_B2C', 'INSTALLMENT'))
-            && ($config->getInvoiceInstallmentProvider() == 'RATEPAY' || $config->getInvoiceInstallmentProvider() == 'WIRECARD')
+        } elseif ((in_array($paymentType, array('INVOICE_B2B', 'INVOICE_B2C'))
+            && ($config->getInvoiceProvider() == 'RATEPAY' || $config->getInvoiceProvider() == 'WIRECARD')
+                   || ($paymentType == 'INSTALLMENT' && $config->getInstallmentProvider() == 'RATEPAY'))
         ) {
 
             $oUser = $oOrder->getOrderUser();
@@ -300,8 +301,9 @@ class wirecardCheckoutSeamlessFrontend
         $config = wirecardCheckoutSeamlessConfig::getInstance();
 
         if ($config->getSendAdditionalBasketData()
-            || (in_array($paymentType, array('INVOICE_B2B', 'INVOICE_B2C', 'INSTALLMENT'))
-                && ($config->getInvoiceInstallmentProvider() == 'RATEPAY' || $config->getInvoiceInstallmentProvider() == 'WIRECARD'))
+            || ((in_array($paymentType, array('INVOICE_B2B', 'INVOICE_B2C'))
+                && $config->getInvoiceProvider() != 'PAYOLUTION')
+                || ($paymentType == 'INSTALLMENT' && $config->getInstallmentProvider() != 'PAYOLUTION'))
         ) {
             $oOrderArticles = $oOrder->getOrderArticles();
             $oLang = oxRegistry::get('oxLang');

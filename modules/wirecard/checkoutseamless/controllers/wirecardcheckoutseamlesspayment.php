@@ -93,7 +93,7 @@ class wirecardCheckoutSeamlessPayment extends wirecardCheckoutSeamlessPayment_pa
                 break;
 
             case WirecardCEE_QMore_PaymentType::INVOICE . '_B2B':
-                if ($config->getInvoiceInstallmentProvider() == 'PAYOLUTION') {
+                if ($config->getInvoiceProvider() == 'PAYOLUTION') {
                     $vatId = $oUser->oxuser__oxustid->value;
                     if ($this->hasWcsVatIdField($sPaymentId) && empty($vatId)) {
                         $sVatId = oxRegistry::getConfig()->getRequestParameter('sVatId');
@@ -121,7 +121,7 @@ class wirecardCheckoutSeamlessPayment extends wirecardCheckoutSeamlessPayment_pa
             case WirecardCEE_QMore_PaymentType::INVOICE . '_B2C':
 
             case WirecardCEE_QMore_PaymentType::INSTALLMENT:
-                if ($config->getInvoiceInstallmentProvider() == 'PAYOLUTION') {
+                if ($config->getInstallmentProvider() == 'PAYOLUTION') {
                     if ($this->hasWcsDobField($sPaymentId) && $oUser->oxuser__oxbirthdate == '0000-00-00') {
                         $iBirthdayYear = oxRegistry::getConfig()->getRequestParameter($sPaymentId . '_iBirthdayYear');
                         $iBirthdayDay = oxRegistry::getConfig()->getRequestParameter($sPaymentId . '_iBirthdayDay');
@@ -155,7 +155,7 @@ class wirecardCheckoutSeamlessPayment extends wirecardCheckoutSeamlessPayment_pa
                         return;
                     }
 
-                    if ($this->showWcsTrustedShopsCheckbox($sPaymentId)) {
+                    if ($this->showWcsInstallmentTrustedShopsCheckbox($sPaymentId)) {
                         if (!oxRegistry::getConfig()->getRequestParameter('payolutionTerms')) {
                             oxRegistry::getSession()->setVariable('wcs_payerrortext',
                                 $oLang->translateString('WIRECARD_CHECKOUT_SEAMLESS_CONFIRM_PAYOLUTION_TERMS',
@@ -612,7 +612,7 @@ class wirecardCheckoutSeamlessPayment extends wirecardCheckoutSeamlessPayment_pa
     {
         $config = wirecardCheckoutSeamlessConfig::getInstance();
 
-        if ($config->getInvoiceInstallmentProvider() == 'PAYOLUTION') {
+        if ($config->getInvoiceProvider() == 'PAYOLUTION') {
             if ($sPaymentId == 'wcs_invoice_b2b') {
                 return true;
             }
@@ -626,10 +626,8 @@ class wirecardCheckoutSeamlessPayment extends wirecardCheckoutSeamlessPayment_pa
     {
         $config = wirecardCheckoutSeamlessConfig::getInstance();
 
-        if ($config->getInvoiceInstallmentProvider() == 'PAYOLUTION') {
+        if ($config->getInvoiceProvider() == 'PAYOLUTION') {
             switch ($sPaymentId) {
-                case 'wcs_installment':
-                    return $config->getInstallmentTrustedShopsCheckbox();
                 case 'wcs_invoice_b2b':
                     return $config->getInvoiceb2bTrustedShopsCheckbox();
                 case 'wcs_invoice_b2c':
@@ -640,15 +638,35 @@ class wirecardCheckoutSeamlessPayment extends wirecardCheckoutSeamlessPayment_pa
         }
     }
 
-    function getWcsPayolutionTerms()
+	function showWcsInstallmentTrustedShopsCheckbox($sPaymentId)
+	{
+		$config = wirecardCheckoutSeamlessConfig::getInstance();
+
+		if ($config->getInstallmentProvider() == 'PAYOLUTION') {
+			return $config->getInstallmentTrustedShopsCheckbox();
+		}
+		return false;
+	}
+
+    function getWcsInvoicePayolutionTerms()
     {
         $oLang = oxRegistry::get('oxLang');
         $config = wirecardCheckoutSeamlessConfig::getInstance();
 
         return sprintf($oLang->translateString('WIRECARD_CHECKOUT_SEAMLESS_PAYOLUTION_TERMS',
             $oLang->getBaseLanguage()),
-            'https://payment.payolution.com/payolution-payment/infoport/dataprivacyconsent?mId=' . $config->getPayolutionMId());
+            'https://payment.payolution.com/payolution-payment/infoport/dataprivacyconsent?mId=' . $config->getInvoicePayolutionMId());
     }
+
+	function getWcsInstallmentPayolutionTerms()
+	{
+		$oLang = oxRegistry::get('oxLang');
+		$config = wirecardCheckoutSeamlessConfig::getInstance();
+
+		return sprintf($oLang->translateString('WIRECARD_CHECKOUT_SEAMLESS_PAYOLUTION_TERMS',
+			$oLang->getBaseLanguage()),
+			'https://payment.payolution.com/payolution-payment/infoport/dataprivacyconsent?mId=' . $config->getInstallmentPayolutionMId());
+	}
 
     /**
      * @return mixed

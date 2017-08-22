@@ -101,7 +101,7 @@
         [{/if}]
 
         [{if $oView->showWcsTrustedShopsCheckbox($sPaymentID)}]
-            <input id="payolutionTerms" class='js-oxValidate js-oxValidate_notEmpty' name='payolutionTerms' type="checkbox" value="1" autocomplete="off" />[{ $oView->getWcsPayolutionTerms() }]
+            <input id="payolutionTerms" class='js-oxValidate js-oxValidate_notEmpty' name='payolutionTerms' type="checkbox" value="1" autocomplete="off" />[{ $oView->getWcsInvoicePayolutionTerms() }]
         [{/if}]
     </dd>
 </dl>
