@@ -86,6 +86,10 @@ class wirecardCheckoutSeamlessFrontend
         $this->_client->setAutoDeposit($config->getAutoDeposit());
         $this->_client->setConfirmMail($config->getConfirmMail());
         $this->_client->createConsumerMerchantCrmId($oOrder->getFieldData('oxbillemail'));
+	    if(isset($_SESSION['wcs-consumerDeviceId'])){
+		    $this->_client->consumerDeviceId = $_SESSION['wcs-consumerDeviceId'];
+		    unset($_SESSION['wcs-consumerDeviceId']);
+	    }
     }
 
     public function initiate()
@@ -149,7 +153,7 @@ class wirecardCheckoutSeamlessFrontend
         $config = wirecardCheckoutSeamlessConfig::getInstance();
         $consumerData = new WirecardCEE_Stdlib_ConsumerData();
 
-        if ($config->getSendAdditionalCustomerData()) {
+        if ($config->getSendAdditionalCustomerData() || in_array($paymentType, array('INVOICE_B2B', 'INVOICE_B2C', 'INSTALLMENT'))) {
 
             $consumerData->setEmail($oOrder->getFieldData('oxbillemail'));
             $oUser = $oOrder->getOrderUser();
