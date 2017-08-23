@@ -110,7 +110,8 @@ $aModule = array(
         array('group' => 'wcs_params', 'name' => 'bDuplicateRequestCheck', 'type' => 'bool', 'value' => 'false'),
         array('group' => 'wcs_params', 'name' => 'sShopName', 'type' => 'str', 'value' => 'Web Shop'),
 
-        array('group' => 'wcs_plugin', 'name' => 'bSendAdditionalCustomerData', 'type' => 'bool', 'value' => '1'),
+        array('group' => 'wcs_plugin', 'name' => 'bSendAdditionalCustomerBilling', 'type' => 'bool', 'value' => '1'),
+	    array('group' => 'wcs_plugin', 'name' => 'bSendAdditionalCustomerShipping', 'type' => 'bool', 'value' => '1'),
         array('group' => 'wcs_plugin', 'name' => 'bSendAdditionalBasketData', 'type' => 'bool', 'value' => '1'),
         array('group' => 'wcs_plugin', 'name' => 'bUseIframe', 'type' => 'bool', 'value' => '1'),
         array('group' => 'wcs_plugin', 'name' => 'sDeleteFailedOrCanceledOrders', 'type' => 'bool', 'value' => '1'),

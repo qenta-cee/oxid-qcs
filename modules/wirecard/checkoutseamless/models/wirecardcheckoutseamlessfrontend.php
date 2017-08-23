@@ -153,48 +153,51 @@ class wirecardCheckoutSeamlessFrontend
         $config = wirecardCheckoutSeamlessConfig::getInstance();
         $consumerData = new WirecardCEE_Stdlib_ConsumerData();
 
-        if ($config->getSendAdditionalCustomerData() || in_array($paymentType, array('INVOICE_B2B', 'INVOICE_B2C', 'INSTALLMENT'))) {
+        if ($config->getSendBillingData() || in_array($paymentType, array('INVOICE_B2B', 'INVOICE_B2C', 'INSTALLMENT'))) {
 
-            $consumerData->setEmail($oOrder->getFieldData('oxbillemail'));
-            $oUser = $oOrder->getOrderUser();
-            $oUser->oxuser__oxustid->value;
+	        $consumerData->setEmail( $oOrder->getFieldData( 'oxbillemail' ) );
+	        $oUser = $oOrder->getOrderUser();
+	        $oUser->oxuser__oxustid->value;
 
-            if (!empty($oUser->oxuser__oxustid->value)) {
-                $consumerData->setCompanyVatId($oUser->oxuser__oxustid->value);
-            }
+	        if ( ! empty( $oUser->oxuser__oxustid->value ) ) {
+		        $consumerData->setCompanyVatId( $oUser->oxuser__oxustid->value );
+	        }
 
-            if (!empty($oUser->oxuser__oxcompany->value)) {
-                $consumerData->setCompanyName($oUser->oxuser__oxcompany->value);
-            }
+	        if ( ! empty( $oUser->oxuser__oxcompany->value ) ) {
+		        $consumerData->setCompanyName( $oUser->oxuser__oxcompany->value );
+	        }
 
 
-            // processing birth date which came from output as array
-            $consumerBirthDate = is_array($oUser->oxuser__oxbirthdate->value) ? $oUser->convertBirthday($oUser->oxuser__oxbirthdate->value) : $oUser->oxuser__oxbirthdate->value;
+	        // processing birth date which came from output as array
+	        $consumerBirthDate = is_array( $oUser->oxuser__oxbirthdate->value ) ? $oUser->convertBirthday( $oUser->oxuser__oxbirthdate->value ) : $oUser->oxuser__oxbirthdate->value;
 
-            if ($consumerBirthDate != '0000-00-00') {
-                $consumerData->setBirthDate(new DateTime($consumerBirthDate));
-            }
+	        if ( $consumerBirthDate != '0000-00-00' ) {
+		        $consumerData->setBirthDate( new DateTime( $consumerBirthDate ) );
+	        }
 
-            // billing Address
-            $billingAddressObj = new WirecardCEE_Stdlib_ConsumerData_Address(WirecardCEE_Stdlib_ConsumerData_Address::TYPE_BILLING);
-            $billingAddressObj->setFirstname($oOrder->getFieldData('oxbillfname'));
-            $billingAddressObj->setLastname($oOrder->getFieldData('oxbilllname'));
-            $billingAddressObj->setAddress1($oOrder->getFieldData('oxbillstreet'));
-            $billingAddressObj->setAddress2($oOrder->getFieldData('oxbillstreetnr'));
-            $billingAddressObj->setCity($oOrder->getFieldData('oxbillcity'));
+	        // billing Address
+	        $billingAddressObj = new WirecardCEE_Stdlib_ConsumerData_Address( WirecardCEE_Stdlib_ConsumerData_Address::TYPE_BILLING );
+	        $billingAddressObj->setFirstname( $oOrder->getFieldData( 'oxbillfname' ) );
+	        $billingAddressObj->setLastname( $oOrder->getFieldData( 'oxbilllname' ) );
+	        $billingAddressObj->setAddress1( $oOrder->getFieldData( 'oxbillstreet' ) );
+	        $billingAddressObj->setAddress2( $oOrder->getFieldData( 'oxbillstreetnr' ) );
+	        $billingAddressObj->setCity( $oOrder->getFieldData( 'oxbillcity' ) );
 
-            $sBillingCountryId = $oOrder->getFieldData('oxbillcountryid');
-            $oDB = oxDb::GetDB();
-            $sBillingCountry = $oDB->getOne("select oxisoalpha2 from oxcountry where oxid = '$sBillingCountryId'");
+	        $sBillingCountryId = $oOrder->getFieldData( 'oxbillcountryid' );
+	        $oDB               = oxDb::GetDB();
+	        $sBillingCountry   = $oDB->getOne( "select oxisoalpha2 from oxcountry where oxid = '$sBillingCountryId'" );
 
-            $billingAddressObj->setCountry($sBillingCountry);
-            $billingAddressObj->setState($oOrder->getFieldData('oxbillstateid'));
-            $billingAddressObj->setZipCode($oOrder->getFieldData('oxbillzip'));
-            $billingAddressObj->setFax($oOrder->getFieldData('oxbillfax'));
-            $billingAddressObj->setPhone($oOrder->getFieldData('oxbillfon'));
-            $consumerData->addAddressInformation($billingAddressObj);
-
+	        $billingAddressObj->setCountry( $sBillingCountry );
+	        $billingAddressObj->setState( $oOrder->getFieldData( 'oxbillstateid' ) );
+	        $billingAddressObj->setZipCode( $oOrder->getFieldData( 'oxbillzip' ) );
+	        $billingAddressObj->setFax( $oOrder->getFieldData( 'oxbillfax' ) );
+	        $billingAddressObj->setPhone( $oOrder->getFieldData( 'oxbillfon' ) );
+	        $consumerData->addAddressInformation( $billingAddressObj );
+        }
             // shipping address
+	    if ($config->getSendShippingData()
+	        || (in_array($paymentType, array('INVOICE_B2B', 'INVOICE_B2C')) && $config->getInvoiceProvider() != 'PAYOLUTION')
+	        || ($paymentType == 'INSTALLMENT' && $config->getInstallmentProvider() != 'PAYOLUTION')) {
             $shippingAddressObj = new WirecardCEE_Stdlib_ConsumerData_Address(WirecardCEE_Stdlib_ConsumerData_Address::TYPE_SHIPPING);
 
             $oShippingData = $oOrder->getDelAddressInfo();
@@ -227,56 +230,6 @@ class wirecardCheckoutSeamlessFrontend
                 $shippingAddressObj->setPhone($oOrder->getFieldData('oxbillfon'));
             }
             $consumerData->addAddressInformation($shippingAddressObj);
-        } elseif ((in_array($paymentType, array('INVOICE_B2B', 'INVOICE_B2C'))
-            && $config->getInvoiceProvider() == 'PAYOLUTION') || ($paymentType == 'INSTALLMENT' && $config->getInstallmentProvider() == 'PAYOLUTION')
-        ) {
-            $oUser = $oOrder->getOrderUser();
-
-            if (!empty($oUser->oxuser__oxustid->value) && $paymentType == 'INVOICE_B2B') {
-                $consumerData->setCompanyVatId($oUser->oxuser__oxustid->value);
-            }
-
-            if (!empty($oUser->oxuser__oxcompany->value) && $paymentType == 'INVOICE_B2B') {
-                $consumerData->setCompanyName($oUser->oxuser__oxcompany->value);
-            }
-
-            // processing birth date which came from output as array
-            $consumerBirthDate = is_array($oUser->oxuser__oxbirthdate->value) ? $oUser->convertBirthday($oUser->oxuser__oxbirthdate->value) : $oUser->oxuser__oxbirthdate->value;
-
-            if ($consumerBirthDate != '0000-00-00' && ($paymentType == 'INVOICE_B2C' || $paymentType == 'INSTALLMENT')) {
-                $consumerData->setBirthDate(new DateTime($consumerBirthDate));
-            }
-
-            // billing Address
-            $billingAddressObj = new WirecardCEE_Stdlib_ConsumerData_Address(WirecardCEE_Stdlib_ConsumerData_Address::TYPE_BILLING);
-            $billingAddressObj->setFirstname($oOrder->getFieldData('oxbillfname'));
-            $billingAddressObj->setLastname($oOrder->getFieldData('oxbilllname'));
-            $billingAddressObj->setAddress1($oOrder->getFieldData('oxbillstreet'));
-            $billingAddressObj->setAddress2($oOrder->getFieldData('oxbillstreetnr'));
-            $billingAddressObj->setCity($oOrder->getFieldData('oxbillcity'));
-
-            $sBillingCountryId = $oOrder->getFieldData('oxbillcountryid');
-            $oDB = oxDb::GetDB();
-            $sBillingCountry = $oDB->getOne("select oxisoalpha2 from oxcountry where oxid = '$sBillingCountryId'");
-
-            $billingAddressObj->setCountry($sBillingCountry);
-            $billingAddressObj->setState($oOrder->getFieldData('oxbillstateid'));
-            $billingAddressObj->setZipCode($oOrder->getFieldData('oxbillzip'));
-            $billingAddressObj->setFax($oOrder->getFieldData('oxbillfax'));
-            $billingAddressObj->setPhone($oOrder->getFieldData('oxbillfon'));
-            $consumerData->addAddressInformation($billingAddressObj);
-        } elseif ((in_array($paymentType, array('INVOICE_B2B', 'INVOICE_B2C'))
-            && ($config->getInvoiceProvider() == 'RATEPAY' || $config->getInvoiceProvider() == 'WIRECARD')
-                   || ($paymentType == 'INSTALLMENT' && $config->getInstallmentProvider() == 'RATEPAY'))
-        ) {
-
-            $oUser = $oOrder->getOrderUser();
-            // processing birth date which came from output as array
-            $consumerBirthDate = is_array($oUser->oxuser__oxbirthdate->value) ? $oUser->convertBirthday($oUser->oxuser__oxbirthdate->value) : $oUser->oxuser__oxbirthdate->value;
-
-            if ($consumerBirthDate != '0000-00-00') {
-                $consumerData->setBirthDate(new DateTime($consumerBirthDate));
-            }
         }
 
         if (isset($_SERVER['REMOTE_ADDR'])) {

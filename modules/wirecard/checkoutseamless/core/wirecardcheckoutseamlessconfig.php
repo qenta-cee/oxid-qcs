@@ -215,9 +215,14 @@ class wirecardCheckoutSeamlessConfig
         return $this->_getConfig()->getConfigParam('bSendAdditionalBasketData');
     }
 
-    public function getSendAdditionalCustomerData()
+    public function getSendShippingData()
     {
-        return $this->_getConfig()->getConfigParam('bSendAdditionalCustomerData');
+        return $this->_getConfig()->getConfigParam('bSendAdditionalCustomerShipping');
+    }
+
+    public function getSendBillingData()
+    {
+    	return $this->_getConfig()->getConfigParam('bSendAdditionalCustomerBilling');
     }
 
     public function getInvoiceProvider()
