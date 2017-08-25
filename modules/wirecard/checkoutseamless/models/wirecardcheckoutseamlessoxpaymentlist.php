@@ -49,7 +49,7 @@ class wirecardcheckoutseamlessoxpaymentlist extends wirecardcheckoutseamlessoxpa
                         $oOrder) || !empty($oUser->oxuser__oxcompany->value)
                 ) {
                     unset($paymentList['wcs_invoice_b2c']);
-                } elseif ($dob && $dob == '0000-00-00' && $config->getInvoiceInstallmentProvider() == 'PAYOLUTION') {
+                } elseif ($dob && $dob == '0000-00-00' && $config->getInvoiceProvider() == 'PAYOLUTION') {
                     $oSmarty = oxRegistry::get("oxUtilsView")->getSmarty();
                     $oSmarty->assign("bShowDobField", true);
 
@@ -67,7 +67,7 @@ class wirecardcheckoutseamlessoxpaymentlist extends wirecardcheckoutseamlessoxpa
                 ) {
                     unset($paymentList['wcs_invoice_b2b']);
                 }
-                if ($config->getInvoiceInstallmentProvider() == 'PAYOLUTION') {
+                if ($config->getInvoiceProvider() == 'PAYOLUTION') {
                     $sVatId = oxRegistry::getSession()->getVariable('wcs_vatId');
                     if (empty($vatId)) {
                         $oSmarty = oxRegistry::get("oxUtilsView")->getSmarty();
@@ -80,7 +80,7 @@ class wirecardcheckoutseamlessoxpaymentlist extends wirecardcheckoutseamlessoxpa
             if (array_key_exists('wcs_installment', $paymentList)) {
                 if (!$this->_isWCSInstallmentAvailable($oUser, $oBasket, $oOrder)) {
                     unset($paymentList['wcs_installment']);
-                } elseif ($dob && $dob == '0000-00-00' && $config->getInvoiceInstallmentProvider() == 'PAYOLUTION') {
+                } elseif ($dob && $dob == '0000-00-00' && $config->getInstallmentProvider() == 'PAYOLUTION') {
                     $oSmarty = oxRegistry::get("oxUtilsView")->getSmarty();
                     $oSmarty->assign("bShowDobField", true);
 
@@ -120,7 +120,7 @@ class wirecardcheckoutseamlessoxpaymentlist extends wirecardcheckoutseamlessoxpa
         if (!$oPayment->wcsValidateCustomerAge($oUser)) {
             return false;
         }
-        if (!($config->getPayolutionAllowDifferingAddresses() && $config->getInvoiceInstallmentProvider() == 'PAYOLUTION') && !$oPayment->wcsValidateAddresses($oUser,
+        if (!($config->getInvoiceAllowDifferingAddresses() && $config->getInvoiceProvider() == 'PAYOLUTION') && !$oPayment->wcsValidateAddresses($oUser,
                 $oOrder)
         ) {
             return false;
@@ -149,7 +149,7 @@ class wirecardcheckoutseamlessoxpaymentlist extends wirecardcheckoutseamlessoxpa
         if (!$oPayment->wcsValidateCustomerAge($oUser)) {
             return false;
         }
-        if (!($config->getPayolutionAllowDifferingAddresses() && $config->getInvoiceInstallmentProvider() == 'PAYOLUTION') && !$oPayment->wcsValidateAddresses($oUser,
+        if (!($config->getInstallmentAllowDifferingAddresses() && $config->getInstallmentProvider() == 'PAYOLUTION') && !$oPayment->wcsValidateAddresses($oUser,
                 $oOrder)
         ) {
             return false;

@@ -93,7 +93,7 @@ class wirecardCheckoutSeamlessPayment extends wirecardCheckoutSeamlessPayment_pa
                 break;
 
             case WirecardCEE_QMore_PaymentType::INVOICE . '_B2B':
-                if ($config->getInvoiceInstallmentProvider() == 'PAYOLUTION') {
+                if ($config->getInvoiceProvider() == 'PAYOLUTION') {
                     $vatId = $oUser->oxuser__oxustid->value;
                     if ($this->hasWcsVatIdField($sPaymentId) && empty($vatId)) {
                         $sVatId = oxRegistry::getConfig()->getRequestParameter('sVatId');
@@ -121,7 +121,7 @@ class wirecardCheckoutSeamlessPayment extends wirecardCheckoutSeamlessPayment_pa
             case WirecardCEE_QMore_PaymentType::INVOICE . '_B2C':
 
             case WirecardCEE_QMore_PaymentType::INSTALLMENT:
-                if ($config->getInvoiceInstallmentProvider() == 'PAYOLUTION') {
+                if ($config->getInstallmentProvider() == 'PAYOLUTION') {
                     if ($this->hasWcsDobField($sPaymentId) && $oUser->oxuser__oxbirthdate == '0000-00-00') {
                         $iBirthdayYear = oxRegistry::getConfig()->getRequestParameter($sPaymentId . '_iBirthdayYear');
                         $iBirthdayDay = oxRegistry::getConfig()->getRequestParameter($sPaymentId . '_iBirthdayDay');
@@ -155,7 +155,7 @@ class wirecardCheckoutSeamlessPayment extends wirecardCheckoutSeamlessPayment_pa
                         return;
                     }
 
-                    if ($this->showWcsTrustedShopsCheckbox($sPaymentId)) {
+                    if ($this->showWcsInstallmentTrustedShopsCheckbox($sPaymentId)) {
                         if (!oxRegistry::getConfig()->getRequestParameter('payolutionTerms')) {
                             oxRegistry::getSession()->setVariable('wcs_payerrortext',
                                 $oLang->translateString('WIRECARD_CHECKOUT_SEAMLESS_CONFIRM_PAYOLUTION_TERMS',
@@ -510,7 +510,6 @@ class wirecardCheckoutSeamlessPayment extends wirecardCheckoutSeamlessPayment_pa
             case WirecardCEE_QMore_PaymentType::INVOICE . '_B2B':
             case WirecardCEE_QMore_PaymentType::INVOICE . '_B2C':
             case WirecardCEE_QMore_PaymentType::MONETA:
-            case WirecardCEE_QMore_PaymentType::MPASS:
             case WirecardCEE_QMore_PaymentType::P24:
             case WirecardCEE_QMore_PaymentType::PAYPAL:
             case WirecardCEE_QMore_PaymentType::PBX:
@@ -518,7 +517,6 @@ class wirecardCheckoutSeamlessPayment extends wirecardCheckoutSeamlessPayment_pa
             case WirecardCEE_QMore_PaymentType::PSC:
             case WirecardCEE_QMore_PaymentType::QUICK:
             case WirecardCEE_QMore_PaymentType::SEPADD:
-            case WirecardCEE_QMore_PaymentType::SKRILLDIRECT:
             case WirecardCEE_QMore_PaymentType::SKRILLWALLET:
             case WirecardCEE_QMore_PaymentType::SOFORTUEBERWEISUNG:
             case WirecardCEE_QMore_PaymentType::TATRAPAY:
@@ -541,59 +539,55 @@ class wirecardCheckoutSeamlessPayment extends wirecardCheckoutSeamlessPayment_pa
 
         switch ($sPaymenttype) {
             case WirecardCEE_QMore_PaymentType::BMC:
-                return '<img src="' . $imgPath . 'bancontact_mistercash.jpg" />';
+                return '<img src="' . $imgPath . 'bancontact_mistercash.png" />';
             case WirecardCEE_QMore_PaymentType::CCARD:
-                return '<img src="' . $imgPath . 'ccard.jpg" />';
+                return '<img src="' . $imgPath . 'ccard.png" />';
             case WirecardCEE_QMore_PaymentType::CCARD_MOTO:
-                return '<img src="' . $imgPath . 'ccard_moto.jpg" />';
+                return '<img src="' . $imgPath . 'ccard_moto.png" />';
             case WirecardCEE_QMore_PaymentType::EKONTO:
-                return '<img src="' . $imgPath . 'ekonto.jpg" />';
+                return '<img src="' . $imgPath . 'ekonto.png" />';
             case WirecardCEE_QMore_PaymentType::EPAYBG:
-                return '<img src="' . $imgPath . 'epay_bg.jpg" />';
+                return '<img src="' . $imgPath . 'epay_bg.png" />';
             case WirecardCEE_QMore_PaymentType::EPS:
-                return '<img src="' . $imgPath . 'eps.jpg" />';
+                return '<img src="' . $imgPath . 'eps.png" />';
             case WirecardCEE_QMore_PaymentType::GIROPAY:
-                return '<img src="' . $imgPath . 'giropay.jpg" />';
+                return '<img src="' . $imgPath . 'giropay.png" />';
             case WirecardCEE_QMore_PaymentType::IDL:
-                return '<img src="' . $imgPath . 'idl.jpg" />';
+                return '<img src="' . $imgPath . 'idl.png" />';
             case WirecardCEE_QMore_PaymentType::INSTALLMENT:
-                return '<img src="' . $imgPath . 'installment.jpg" />';
+                return '<img src="' . $imgPath . 'installment.png" />';
             case WirecardCEE_QMore_PaymentType::INVOICE . '_B2B':
-                return '<img src="' . $imgPath . 'invoice.jpg" />';
+                return '<img src="' . $imgPath . 'invoice.png" />';
             case WirecardCEE_QMore_PaymentType::INVOICE . '_B2C':
-                return '<img src="' . $imgPath . 'invoice.jpg" />';
+                return '<img src="' . $imgPath . 'invoice.png" />';
             case WirecardCEE_QMore_PaymentType::MONETA:
-                return '<img src="' . $imgPath . 'moneta.jpg" />';
-            case WirecardCEE_QMore_PaymentType::MPASS:
-                return '<img src="' . $imgPath . 'mpass.jpg" />';
+                return '<img src="' . $imgPath . 'moneta.png" />';
             case WirecardCEE_QMore_PaymentType::PAYPAL:
-                return '<img src="' . $imgPath . 'paypal.jpg" />';
+                return '<img src="' . $imgPath . 'paypal.png" />';
             case WirecardCEE_QMore_PaymentType::PBX:
-                return '<img src="' . $imgPath . 'pbx.jpg" />';
+                return '<img src="' . $imgPath . 'pbx.png" />';
             case WirecardCEE_QMore_PaymentType::POLI:
-                return '<img src="' . $imgPath . 'poli.jpg" />';
+                return '<img src="' . $imgPath . 'poli.png" />';
             case WirecardCEE_QMore_PaymentType::P24:
-                return '<img src="' . $imgPath . 'przelewy24.jpg" />';
+                return '<img src="' . $imgPath . 'przelewy24.png" />';
             case WirecardCEE_QMore_PaymentType::PSC:
-                return '<img src="' . $imgPath . 'psc.jpg" />';
+                return '<img src="' . $imgPath . 'psc.png" />';
             case WirecardCEE_QMore_PaymentType::QUICK:
-                return '<img src="' . $imgPath . 'quick.jpg" />';
+                return '<img src="' . $imgPath . 'quick.png" />';
             case WirecardCEE_QMore_PaymentType::SEPADD:
-                return '<img src="' . $imgPath . 'sepa-dd.jpg" />';
-            case WirecardCEE_QMore_PaymentType::SKRILLDIRECT:
-                return '<img src="' . $imgPath . 'skrilldirect.jpg" />';
+                return '<img src="' . $imgPath . 'sepa-dd.png" />';
             case WirecardCEE_QMore_PaymentType::SKRILLWALLET:
-                return '<img src="' . $imgPath . 'skrillwallet.jpg" />';
+                return '<img src="' . $imgPath . 'skrillwallet.png" />';
             case WirecardCEE_QMore_PaymentType::SOFORTUEBERWEISUNG:
-                return '<img src="' . $imgPath . 'sofortueberweisung.jpg" />';
+                return '<img src="' . $imgPath . 'sofortueberweisung.png" />';
             case WirecardCEE_QMore_PaymentType::TATRAPAY:
-                return '<img src="' . $imgPath . 'tatrapay.jpg" />';
+                return '<img src="' . $imgPath . 'tatrapay.png" />';
             case WirecardCEE_QMore_PaymentType::TRUSTLY:
-                return '<img src="' . $imgPath . 'trustly.jpg" />';
+                return '<img src="' . $imgPath . 'trustly.png" />';
             case WirecardCEE_QMore_PaymentType::VOUCHER:
-                return '<img src="' . $imgPath . 'voucher.jpg" />';
+                return '<img src="' . $imgPath . 'voucher.png" />';
             case WirecardCEE_QMore_PaymentType::TRUSTPAY:
-                return '<img src="' . $imgPath . 'trustpay.jpg" />';
+                return '<img src="' . $imgPath . 'trustpay.png" />';
             default:
                 return null;
         }
@@ -612,7 +606,7 @@ class wirecardCheckoutSeamlessPayment extends wirecardCheckoutSeamlessPayment_pa
     {
         $config = wirecardCheckoutSeamlessConfig::getInstance();
 
-        if ($config->getInvoiceInstallmentProvider() == 'PAYOLUTION') {
+        if ($config->getInvoiceProvider() == 'PAYOLUTION') {
             if ($sPaymentId == 'wcs_invoice_b2b') {
                 return true;
             }
@@ -626,10 +620,8 @@ class wirecardCheckoutSeamlessPayment extends wirecardCheckoutSeamlessPayment_pa
     {
         $config = wirecardCheckoutSeamlessConfig::getInstance();
 
-        if ($config->getInvoiceInstallmentProvider() == 'PAYOLUTION') {
+        if ($config->getInvoiceProvider() == 'PAYOLUTION') {
             switch ($sPaymentId) {
-                case 'wcs_installment':
-                    return $config->getInstallmentTrustedShopsCheckbox();
                 case 'wcs_invoice_b2b':
                     return $config->getInvoiceb2bTrustedShopsCheckbox();
                 case 'wcs_invoice_b2c':
@@ -640,15 +632,55 @@ class wirecardCheckoutSeamlessPayment extends wirecardCheckoutSeamlessPayment_pa
         }
     }
 
-    function getWcsPayolutionTerms()
+	function showWcsInstallmentTrustedShopsCheckbox($sPaymentId)
+	{
+		$config = wirecardCheckoutSeamlessConfig::getInstance();
+
+		if ($config->getInstallmentProvider() == 'PAYOLUTION') {
+			return $config->getInstallmentTrustedShopsCheckbox();
+		}
+		return false;
+	}
+
+    function getWcsInvoicePayolutionTerms()
     {
         $oLang = oxRegistry::get('oxLang');
         $config = wirecardCheckoutSeamlessConfig::getInstance();
 
         return sprintf($oLang->translateString('WIRECARD_CHECKOUT_SEAMLESS_PAYOLUTION_TERMS',
             $oLang->getBaseLanguage()),
-            'https://payment.payolution.com/payolution-payment/infoport/dataprivacyconsent?mId=' . $config->getPayolutionMId());
+            'https://payment.payolution.com/payolution-payment/infoport/dataprivacyconsent?mId=' . $config->getInvoicePayolutionMId());
     }
+
+	function getWcsInstallmentPayolutionTerms()
+	{
+		$oLang = oxRegistry::get('oxLang');
+		$config = wirecardCheckoutSeamlessConfig::getInstance();
+
+		return sprintf($oLang->translateString('WIRECARD_CHECKOUT_SEAMLESS_PAYOLUTION_TERMS',
+			$oLang->getBaseLanguage()),
+			'https://payment.payolution.com/payolution-payment/infoport/dataprivacyconsent?mId=' . $config->getInstallmentPayolutionMId());
+	}
+
+	function getWcsRatePayConsumerDeviceId()
+	{
+		$config = wirecardCheckoutSeamlessConfig::getInstance();
+
+		if(isset($_SESSION['wcs-consumerDeviceId'])) {
+			$consumerDeviceId = $_SESSION['wcs-consumerDeviceId'];
+		} else {
+			$timestamp = microtime();
+			$customerId = $config->getCustomerId();
+			$consumerDeviceId = md5($customerId . "_" . $timestamp);
+			$_SESSION['wcs-consumerDeviceId'] = $consumerDeviceId;
+		}
+		$ratepay = '<script language="JavaScript">var di = {t:"'.$consumerDeviceId.'",v:"WDWL",l:"Checkout"};</script>';
+		$ratepay .= '<script type="text/javascript" src="//d.ratepay.com/'.$consumerDeviceId.'/di.js"></script>';
+		$ratepay .= '<noscript><link rel="stylesheet" type="text/css" href="//d.ratepay.com/di.css?t='.$consumerDeviceId.'&v=WDWL&l=Checkout"></noscript>';
+		$ratepay .= '<object type="application/x-shockwave-flash" data="//d.ratepay.com/WDWL/c.swf" width="0" height="0"><param name="movie" value="//d.ratepay.com/WDWL/c.swf" /><param name="flashvars" value="t='.$consumerDeviceId.'&v=WDWL"/><param name="AllowScriptAccess" value="always"/></object>';
+
+		return $ratepay;
+	}
 
     /**
      * @return mixed

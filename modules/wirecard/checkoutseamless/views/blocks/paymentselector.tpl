@@ -1,3 +1,7 @@
+[{if !isset($wcsPaymentCount)}]
+    [{$oView->getWcsRatePayConsumerDeviceId()}]
+    [{ assign var="wcsPaymentCount" value="1"}]
+[{/if}]
 [{if $sPaymentID == "wcs_ccard" || $sPaymentID == "wcs_ccard-moto"}]
     [{include file="wcs_payment_ccard.tpl"}]
 [{elseif $sPaymentID == "wcs_eps"}]

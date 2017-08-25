@@ -75,11 +75,6 @@
                     <input id="[{$sPaymentID}]_oxYear" class='oxYear js-oxValidate' name='[{$sPaymentID}]_iBirthdayYear' type="text" data-fieldsize="small" maxlength="4" autocomplete="off" value="[{if $iBirthdayYear }][{$iBirthdayYear }][{/if}]" />
                     [{oxscript include="js/widgets/oxinnerlabel.js" priority=10 }]
                     [{oxscript add="$( '#`$sPaymentID`_oxYear' ).oxInnerLabel({sReloadElement:'#payment'});"}]
-                    <p class="oxValidateError">
-                        <span class="js-oxError_notEmpty">[{ oxmultilang ident="ERROR_MESSAGE_INPUT_NOTALLFIELDS" }]</span>
-                        <span class="js-oxError_incorrectDate">[{ oxmultilang ident="ERROR_MESSAGE_INCORRECT_DATE" }]</span>
-                        [{include file="message/inputvalidation.tpl" aErrors=$aErrors.oxuser__oxbirthdate}]
-                    </p>
                 </li>
             </ul>
         </div>
@@ -101,7 +96,7 @@
         [{/if}]
 
         [{if $oView->showWcsTrustedShopsCheckbox($sPaymentID)}]
-            <input id="payolutionTerms" class='js-oxValidate js-oxValidate_notEmpty' name='payolutionTerms' type="checkbox" value="1" autocomplete="off" />[{ $oView->getWcsPayolutionTerms() }]
+            <input id="payolutionTerms" class='js-oxValidate js-oxValidate_notEmpty' name='payolutionTerms' type="checkbox" value="1" autocomplete="off" />[{ $oView->getWcsInvoicePayolutionTerms() }]
         [{/if}]
     </dd>
 </dl>

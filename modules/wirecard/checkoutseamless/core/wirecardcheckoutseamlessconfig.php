@@ -215,20 +215,35 @@ class wirecardCheckoutSeamlessConfig
         return $this->_getConfig()->getConfigParam('bSendAdditionalBasketData');
     }
 
-    public function getSendAdditionalCustomerData()
+    public function getSendShippingData()
     {
-        return $this->_getConfig()->getConfigParam('bSendAdditionalCustomerData');
+        return $this->_getConfig()->getConfigParam('bSendAdditionalCustomerShipping');
     }
 
-    public function getInvoiceInstallmentProvider()
+    public function getSendBillingData()
     {
-        return $this->_getConfig()->getConfigParam('sInvoiceInstallmentProvider');
+    	return $this->_getConfig()->getConfigParam('bSendAdditionalCustomerBilling');
     }
 
-    public function getPayolutionMId()
+    public function getInvoiceProvider()
     {
-        return $this->_getConfig()->getConfigParam('sPayolutionMId');
+        return $this->_getConfig()->getConfigParam('sInvoiceProvider');
     }
+
+	public function getInstallmentProvider()
+	{
+		return $this->_getConfig()->getConfigParam('sInstallmentProvider');
+	}
+
+    public function getInstallmentPayolutionMId()
+    {
+        return $this->_getConfig()->getConfigParam('sInstallmentPayolutionMId');
+    }
+
+	public function getInvoicePayolutionMId()
+	{
+		return $this->_getConfig()->getConfigParam('sInvoicePayolutionMId');
+	}
 
     public function getInstallmentTrustedShopsCheckbox()
     {
@@ -255,10 +270,15 @@ class wirecardCheckoutSeamlessConfig
         return $this->_getConfig()->getConfigParam('sRiskConfigAlias');
     }
 
-    public function getPayolutionAllowDifferingAddresses()
+    public function getInvoiceAllowDifferingAddresses()
     {
-        return $this->_getConfig()->getConfigParam('bPayolutionAllowDifferingAddresses');
+        return $this->_getConfig()->getConfigParam('bInvoiceAllowDifferingAddresses');
     }
+
+	public function getInstallmentAllowDifferingAddresses()
+	{
+		return $this->_getConfig()->getConfigParam('bInstallmentAllowDifferingAddresses');
+	}
 
     public function getFinancialInstitutionsLastModifiedTimer()
     {

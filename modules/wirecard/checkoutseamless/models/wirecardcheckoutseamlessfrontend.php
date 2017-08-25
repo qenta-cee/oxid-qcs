@@ -86,6 +86,10 @@ class wirecardCheckoutSeamlessFrontend
         $this->_client->setAutoDeposit($config->getAutoDeposit());
         $this->_client->setConfirmMail($config->getConfirmMail());
         $this->_client->createConsumerMerchantCrmId($oOrder->getFieldData('oxbillemail'));
+	    if(isset($_SESSION['wcs-consumerDeviceId'])){
+		    $this->_client->consumerDeviceId = $_SESSION['wcs-consumerDeviceId'];
+		    unset($_SESSION['wcs-consumerDeviceId']);
+	    }
     }
 
     public function initiate()
@@ -149,48 +153,51 @@ class wirecardCheckoutSeamlessFrontend
         $config = wirecardCheckoutSeamlessConfig::getInstance();
         $consumerData = new WirecardCEE_Stdlib_ConsumerData();
 
-        if ($config->getSendAdditionalCustomerData()) {
+        if ($config->getSendBillingData() || in_array($paymentType, array('INVOICE_B2B', 'INVOICE_B2C', 'INSTALLMENT'))) {
 
-            $consumerData->setEmail($oOrder->getFieldData('oxbillemail'));
-            $oUser = $oOrder->getOrderUser();
-            $oUser->oxuser__oxustid->value;
+	        $consumerData->setEmail( $oOrder->getFieldData( 'oxbillemail' ) );
+	        $oUser = $oOrder->getOrderUser();
+	        $oUser->oxuser__oxustid->value;
 
-            if (!empty($oUser->oxuser__oxustid->value)) {
-                $consumerData->setCompanyVatId($oUser->oxuser__oxustid->value);
-            }
+	        if ( ! empty( $oUser->oxuser__oxustid->value ) ) {
+		        $consumerData->setCompanyVatId( $oUser->oxuser__oxustid->value );
+	        }
 
-            if (!empty($oUser->oxuser__oxcompany->value)) {
-                $consumerData->setCompanyName($oUser->oxuser__oxcompany->value);
-            }
+	        if ( ! empty( $oUser->oxuser__oxcompany->value ) ) {
+		        $consumerData->setCompanyName( $oUser->oxuser__oxcompany->value );
+	        }
 
 
-            // processing birth date which came from output as array
-            $consumerBirthDate = is_array($oUser->oxuser__oxbirthdate->value) ? $oUser->convertBirthday($oUser->oxuser__oxbirthdate->value) : $oUser->oxuser__oxbirthdate->value;
+	        // processing birth date which came from output as array
+	        $consumerBirthDate = is_array( $oUser->oxuser__oxbirthdate->value ) ? $oUser->convertBirthday( $oUser->oxuser__oxbirthdate->value ) : $oUser->oxuser__oxbirthdate->value;
 
-            if ($consumerBirthDate != '0000-00-00') {
-                $consumerData->setBirthDate(new DateTime($consumerBirthDate));
-            }
+	        if ( $consumerBirthDate != '0000-00-00' ) {
+		        $consumerData->setBirthDate( new DateTime( $consumerBirthDate ) );
+	        }
 
-            // billing Address
-            $billingAddressObj = new WirecardCEE_Stdlib_ConsumerData_Address(WirecardCEE_Stdlib_ConsumerData_Address::TYPE_BILLING);
-            $billingAddressObj->setFirstname($oOrder->getFieldData('oxbillfname'));
-            $billingAddressObj->setLastname($oOrder->getFieldData('oxbilllname'));
-            $billingAddressObj->setAddress1($oOrder->getFieldData('oxbillstreet'));
-            $billingAddressObj->setAddress2($oOrder->getFieldData('oxbillstreetnr'));
-            $billingAddressObj->setCity($oOrder->getFieldData('oxbillcity'));
+	        // billing Address
+	        $billingAddressObj = new WirecardCEE_Stdlib_ConsumerData_Address( WirecardCEE_Stdlib_ConsumerData_Address::TYPE_BILLING );
+	        $billingAddressObj->setFirstname( $oOrder->getFieldData( 'oxbillfname' ) );
+	        $billingAddressObj->setLastname( $oOrder->getFieldData( 'oxbilllname' ) );
+	        $billingAddressObj->setAddress1( $oOrder->getFieldData( 'oxbillstreet' ) );
+	        $billingAddressObj->setAddress2( $oOrder->getFieldData( 'oxbillstreetnr' ) );
+	        $billingAddressObj->setCity( $oOrder->getFieldData( 'oxbillcity' ) );
 
-            $sBillingCountryId = $oOrder->getFieldData('oxbillcountryid');
-            $oDB = oxDb::GetDB();
-            $sBillingCountry = $oDB->getOne("select oxisoalpha2 from oxcountry where oxid = '$sBillingCountryId'");
+	        $sBillingCountryId = $oOrder->getFieldData( 'oxbillcountryid' );
+	        $oDB               = oxDb::GetDB();
+	        $sBillingCountry   = $oDB->getOne( "select oxisoalpha2 from oxcountry where oxid = '$sBillingCountryId'" );
 
-            $billingAddressObj->setCountry($sBillingCountry);
-            $billingAddressObj->setState($oOrder->getFieldData('oxbillstateid'));
-            $billingAddressObj->setZipCode($oOrder->getFieldData('oxbillzip'));
-            $billingAddressObj->setFax($oOrder->getFieldData('oxbillfax'));
-            $billingAddressObj->setPhone($oOrder->getFieldData('oxbillfon'));
-            $consumerData->addAddressInformation($billingAddressObj);
-
+	        $billingAddressObj->setCountry( $sBillingCountry );
+	        $billingAddressObj->setState( $oOrder->getFieldData( 'oxbillstateid' ) );
+	        $billingAddressObj->setZipCode( $oOrder->getFieldData( 'oxbillzip' ) );
+	        $billingAddressObj->setFax( $oOrder->getFieldData( 'oxbillfax' ) );
+	        $billingAddressObj->setPhone( $oOrder->getFieldData( 'oxbillfon' ) );
+	        $consumerData->addAddressInformation( $billingAddressObj );
+        }
             // shipping address
+	    if ($config->getSendShippingData()
+	        || (in_array($paymentType, array('INVOICE_B2B', 'INVOICE_B2C')) && $config->getInvoiceProvider() != 'PAYOLUTION')
+	        || ($paymentType == 'INSTALLMENT' && $config->getInstallmentProvider() != 'PAYOLUTION')) {
             $shippingAddressObj = new WirecardCEE_Stdlib_ConsumerData_Address(WirecardCEE_Stdlib_ConsumerData_Address::TYPE_SHIPPING);
 
             $oShippingData = $oOrder->getDelAddressInfo();
@@ -223,55 +230,6 @@ class wirecardCheckoutSeamlessFrontend
                 $shippingAddressObj->setPhone($oOrder->getFieldData('oxbillfon'));
             }
             $consumerData->addAddressInformation($shippingAddressObj);
-        } elseif (in_array($paymentType, array('INVOICE_B2B', 'INVOICE_B2C', 'INSTALLMENT'))
-            && $config->getInvoiceInstallmentProvider() == 'PAYOLUTION'
-        ) {
-            $oUser = $oOrder->getOrderUser();
-
-            if (!empty($oUser->oxuser__oxustid->value) && $paymentType == 'INVOICE_B2B') {
-                $consumerData->setCompanyVatId($oUser->oxuser__oxustid->value);
-            }
-
-            if (!empty($oUser->oxuser__oxcompany->value) && $paymentType == 'INVOICE_B2B') {
-                $consumerData->setCompanyName($oUser->oxuser__oxcompany->value);
-            }
-
-            // processing birth date which came from output as array
-            $consumerBirthDate = is_array($oUser->oxuser__oxbirthdate->value) ? $oUser->convertBirthday($oUser->oxuser__oxbirthdate->value) : $oUser->oxuser__oxbirthdate->value;
-
-            if ($consumerBirthDate != '0000-00-00' && ($paymentType == 'INVOICE_B2C' || $paymentType == 'INSTALLMENT')) {
-                $consumerData->setBirthDate(new DateTime($consumerBirthDate));
-            }
-
-            // billing Address
-            $billingAddressObj = new WirecardCEE_Stdlib_ConsumerData_Address(WirecardCEE_Stdlib_ConsumerData_Address::TYPE_BILLING);
-            $billingAddressObj->setFirstname($oOrder->getFieldData('oxbillfname'));
-            $billingAddressObj->setLastname($oOrder->getFieldData('oxbilllname'));
-            $billingAddressObj->setAddress1($oOrder->getFieldData('oxbillstreet'));
-            $billingAddressObj->setAddress2($oOrder->getFieldData('oxbillstreetnr'));
-            $billingAddressObj->setCity($oOrder->getFieldData('oxbillcity'));
-
-            $sBillingCountryId = $oOrder->getFieldData('oxbillcountryid');
-            $oDB = oxDb::GetDB();
-            $sBillingCountry = $oDB->getOne("select oxisoalpha2 from oxcountry where oxid = '$sBillingCountryId'");
-
-            $billingAddressObj->setCountry($sBillingCountry);
-            $billingAddressObj->setState($oOrder->getFieldData('oxbillstateid'));
-            $billingAddressObj->setZipCode($oOrder->getFieldData('oxbillzip'));
-            $billingAddressObj->setFax($oOrder->getFieldData('oxbillfax'));
-            $billingAddressObj->setPhone($oOrder->getFieldData('oxbillfon'));
-            $consumerData->addAddressInformation($billingAddressObj);
-        } elseif (in_array($paymentType, array('INVOICE_B2B', 'INVOICE_B2C', 'INSTALLMENT'))
-            && ($config->getInvoiceInstallmentProvider() == 'RATEPAY' || $config->getInvoiceInstallmentProvider() == 'WIRECARD')
-        ) {
-
-            $oUser = $oOrder->getOrderUser();
-            // processing birth date which came from output as array
-            $consumerBirthDate = is_array($oUser->oxuser__oxbirthdate->value) ? $oUser->convertBirthday($oUser->oxuser__oxbirthdate->value) : $oUser->oxuser__oxbirthdate->value;
-
-            if ($consumerBirthDate != '0000-00-00') {
-                $consumerData->setBirthDate(new DateTime($consumerBirthDate));
-            }
         }
 
         if (isset($_SERVER['REMOTE_ADDR'])) {
@@ -294,95 +252,95 @@ class wirecardCheckoutSeamlessFrontend
      *
      * @return wirecardCheckoutSeamlessFrontend
      */
-    public function setBasket(oxOrder $oOrder, $paymentType)
-    {
-        /** @var wirecardCheckoutSeamlessConfig $config */
-        $config = wirecardCheckoutSeamlessConfig::getInstance();
+	public function setBasket(oxOrder $oOrder, $paymentType)
+	{
+		/** @var wirecardCheckoutSeamlessConfig $config */
+		$config = wirecardCheckoutSeamlessConfig::getInstance();
 
-        if ($config->getSendAdditionalBasketData()
-            || (in_array($paymentType, array('INVOICE_B2B', 'INVOICE_B2C', 'INSTALLMENT'))
-                && ($config->getInvoiceInstallmentProvider() == 'RATEPAY' || $config->getInvoiceInstallmentProvider() == 'WIRECARD'))
-        ) {
-            $oOrderArticles = $oOrder->getOrderArticles();
-            $oLang = oxRegistry::get('oxLang');
-            $iLangId = $oLang->getBaseLanguage();
+		if ($config->getSendAdditionalBasketData()
+		    || ((in_array($paymentType, array('INVOICE_B2B', 'INVOICE_B2C'))
+		         && $config->getInvoiceProvider() != 'PAYOLUTION')
+		        || ($paymentType == 'INSTALLMENT' && $config->getInstallmentProvider() != 'PAYOLUTION'))
+		) {
+			$oOrderArticles = $oOrder->getOrderArticles();
+			$oLang = oxRegistry::get('oxLang');
+			$iLangId = $oLang->getBaseLanguage();
 
-            $basketAmount = 0;
-            $basketCurrency = oxRegistry::getConfig()->getActShopCurrencyObject()->name;
-            $basketItemsCount = 0;
+			$basketItemsCount = 0;
+			$basket = new WirecardCEE_Stdlib_Basket();
 
-            foreach ($oOrderArticles as $oOrderArticle) {
-                $netPrice = number_format($oOrderArticle->oxorderarticles__oxnprice->rawValue, 2);
-                $netTax = number_format($oOrderArticle->oxorderarticles__oxbprice->rawValue - $oOrderArticle->oxorderarticles__oxnprice->rawValue,
-                    2);
-                $amount = $oOrderArticle->oxorderarticles__oxamount->rawValue;
-                $basketItemsCount++;
+			foreach ($oOrderArticles as $oOrderArticle) {
+				$netPrice = number_format($oOrderArticle->oxorderarticles__oxnprice->rawValue, 2);
+				$netTax = number_format($oOrderArticle->oxorderarticles__oxbprice->rawValue - $oOrderArticle->oxorderarticles__oxnprice->rawValue,
+					2);
+				$amount = $oOrderArticle->oxorderarticles__oxamount->rawValue;
+				$item = new WirecardCEE_Stdlib_Basket_Item($oOrderArticle->oxorderarticles__oxartnum->rawValue);
 
-                $this->_client->__set('basketItem' . $basketItemsCount . 'ArticleNumber',
-                    $oOrderArticle->oxorderarticles__oxartnum->rawValue);
-                $this->_client->__set('basketItem' . $basketItemsCount . 'Description',
-                    utf8_decode($oOrderArticle->oxarticles__oxshortdesc->rawValue));
-                $this->_client->__set('basketItem' . $basketItemsCount . 'Quantity', $amount);
-                $this->_client->__set('basketItem' . $basketItemsCount . 'Tax',
-                    number_format($netTax * $amount, 2, '.', ''));
-                $this->_client->__set('basketItem' . $basketItemsCount . 'UnitPrice',
-                    number_format($netPrice, 2, '.', ''));
-                $basketAmount += $amount * $oOrderArticle->oxorderarticles__oxbprice->rawValue;
-            }
+				$item->setUnitGrossAmount(number_format($oOrderArticle->oxorderarticles__oxbprice->rawValue, 2, '.', ''))
+				     ->setUnitNetAmount(number_format($netPrice, 2, '.', ''))
+				     ->setUnitTaxAmount(number_format($netTax, 2, '.', ''))
+				     ->setUnitTaxRate(number_format($oOrderArticle->oxarticles__oxvat->rawValue, 3, '.', ''))
+				     ->setDescription(strip_tags($oOrderArticle->oxarticles__oxshortdesc->rawValue))
+				     ->setName($oOrderArticle->oxarticles__oxtitle->rawValue);
 
-            //add possible additional costs as articles to basket
-            $aAdditionalCosts = array(
-                'shipping cost' => array(
-                    'description' => $oLang->translateString('SHIPPING_COST', $iLangId),
-                    'vat' => $oOrder->oxorder__oxdelvat->rawValue,
-                    'price' => $oOrder->oxorder__oxdelcost->rawValue
-                ),
-                'paymethod cost' => array(
-                    'description' => $oLang->translateString('SURCHARGE',
-                            $iLangId) . ' ' . $oLang->translateString('PAYMENT_METHOD', $iLangId),
-                    'vat' => $oOrder->oxorder__oxpayvat->rawValue,
-                    'price' => $oOrder->oxorder__oxpaycost->rawValue
-                ),
-                'wrapping cost' => array(
-                    'description' => $oLang->translateString('GIFT_WRAPPING', $iLangId),
-                    'vat' => $oOrder->oxorder__oxwrapvat->rawValue,
-                    'price' => $oOrder->oxorder__oxwrapcost->rawValue
-                ),
-                'gift card cost' => array(
-                    'description' => $oLang->translateString('GREETING_CARD', $iLangId),
-                    'vat' => $oOrder->oxorder__oxgiftcardvat->rawValue,
-                    'price' => $oOrder->oxorder__oxgiftcardcost->rawValue
-                ),
-                'discount' => array(
-                    'description' => $oLang->translateString('DISCOUNT', $iLangId),
-                    'vat' => 0,
-                    'price' => $oOrder->oxorder__oxdiscount->rawValue * -1
-                ),
-            );
+				if (strlen($oOrderArticle->oxorderarticles__oxurlimg->rawValue)) {
+					$item->setImageUrl($oOrderArticle->oxorderarticles__oxurlimg->rawValue);
+				}
 
-            foreach ($aAdditionalCosts as $type => $data) {
-                if ($data['price'] != 0) {
-                    $basketItemsCount++;
-                    $netTaxAdditional = number_format($data['price'] * ($data['vat'] / 100), 2);
-                    $netPriceAdditional = number_format($data['price'] - $netTaxAdditional, 2);
-                    $this->_client->__set('basketItem' . $basketItemsCount . 'ArticleNumber', $type);
-                    $this->_client->__set('basketItem' . $basketItemsCount . 'Description', $data['description']);
-                    $this->_client->__set('basketItem' . $basketItemsCount . 'Quantity', 1);
-                    $this->_client->__set('basketItem' . $basketItemsCount . 'Tax',
-                        number_format($netTaxAdditional, 2, '.', ''));
-                    $this->_client->__set('basketItem' . $basketItemsCount . 'UnitPrice',
-                        number_format($netPriceAdditional, 2, '.', ''));
-                    $basketAmount += $data['price'];
-                }
-            }
+				$basket->addItem($item, $amount);
+			}
+			//add possible additional costs as articles to basket
+			$aAdditionalCosts = array(
+				'shipping cost' => array(
+					'description' => $oLang->translateString('SHIPPING_COST', $iLangId),
+					'vat' => $oOrder->oxorder__oxdelvat->rawValue,
+					'price' => $oOrder->oxorder__oxdelcost->rawValue
+				),
+				'paymethod cost' => array(
+					'description' => $oLang->translateString('SURCHARGE',
+							$iLangId) . ' ' . $oLang->translateString('PAYMENT_METHOD', $iLangId),
+					'vat' => $oOrder->oxorder__oxpayvat->rawValue,
+					'price' => $oOrder->oxorder__oxpaycost->rawValue
+				),
+				'wrapping cost' => array(
+					'description' => $oLang->translateString('GIFT_WRAPPING', $iLangId),
+					'vat' => $oOrder->oxorder__oxwrapvat->rawValue,
+					'price' => $oOrder->oxorder__oxwrapcost->rawValue
+				),
+				'gift card cost' => array(
+					'description' => $oLang->translateString('GREETING_CARD', $iLangId),
+					'vat' => $oOrder->oxorder__oxgiftcardvat->rawValue,
+					'price' => $oOrder->oxorder__oxgiftcardcost->rawValue
+				),
+				'discount' => array(
+					'description' => $oLang->translateString('DISCOUNT', $iLangId),
+					'vat' => 0,
+					'price' => $oOrder->oxorder__oxdiscount->rawValue * -1
+				),
+			);
 
-            $this->_client->__set('basketAmount', number_format($basketAmount, 2, '.', ''));
-            $this->_client->__set('basketCurrency', $basketCurrency);
-            $this->_client->__set('basketItems', $basketItemsCount);
-        }
+			foreach ($aAdditionalCosts as $type => $data) {
+				if ($data['price'] != 0) {
+					$basketItemsCount++;
+					$netTaxAdditional = number_format($data['price'] * ($data['vat'] / 100), 2);
+					$netPriceAdditional = number_format($data['price'] - $netTaxAdditional, 2);
+					$item = new WirecardCEE_Stdlib_Basket_Item($type);
 
-        return $this;
-    }
+					$item->setUnitGrossAmount(number_format($data['price'], 2, '.', ''))
+					     ->setUnitNetAmount(number_format($netPriceAdditional, 2, '.', ''))
+					     ->setUnitTaxAmount(number_format($netTaxAdditional, 2, '.', ''))
+					     ->setUnitTaxRate(number_format($data['vat'], 3, '.', ''))
+					     ->setDescription(strip_tags($data['description']))
+					     ->setName(strip_tags($data['description']));
+
+					$basket->addItem($item, 1);
+				}
+			}
+			$this->_client->setBasket($basket);
+		}
+
+		return $this;
+	}
 
     /**
      * @return wirecardCheckoutSeamlessFrontend

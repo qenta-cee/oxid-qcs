@@ -32,14 +32,14 @@
 
 return Array(
     'MODULE_NAME'    => 'WirecardCEE_Stdlib',
-    'MODULE_VERSION' => '3.0.2',
-    'DEPENDENCIES' => array(
-        'FRAMEWORK_NAME' => 'Zend_Framework',
-        'FRAMEWORK_VERSION' => Array(
-            'MINIMUM' => '1.11.10',
-            'CURRENT' => Zend_Version::VERSION
-        ),
-        'SCRIPTING_LANG' => 'PHP',
+    'MODULE_VERSION' => '3.0.3',
+    'DEPENDENCIES'   => array(
+	    'FRAMEWORK_NAME' => 'Zend_Framework',
+	    'FRAMEWORK_VERSION' => Array(
+		    'MINIMUM' => '1.11.10',
+		    'CURRENT' => Zend_Version::VERSION
+	    ),
+        'SCRIPTING_LANG'         => 'PHP',
         'SCRIPTING_LANG_VERSION' => '5.2'
     ),
     'USE_DEBUG'      => false
