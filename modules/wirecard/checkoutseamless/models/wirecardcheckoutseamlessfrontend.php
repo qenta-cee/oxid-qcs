@@ -283,8 +283,8 @@ class wirecardCheckoutSeamlessFrontend
 				     ->setDescription(strip_tags($oOrderArticle->oxarticles__oxshortdesc->rawValue))
 				     ->setName($oOrderArticle->oxarticles__oxtitle->rawValue);
 
-				if (strlen($oOrderArticle->oxorderarticles__oxurlimg)) {
-					$item->setImageUrl($oOrderArticle->oxorderarticles__oxurlimg);
+				if (strlen($oOrderArticle->oxorderarticles__oxurlimg->rawValue)) {
+					$item->setImageUrl($oOrderArticle->oxorderarticles__oxurlimg->rawValue);
 				}
 
 				$basket->addItem($item, $amount);
