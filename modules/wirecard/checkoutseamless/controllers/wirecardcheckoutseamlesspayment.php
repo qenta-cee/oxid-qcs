@@ -515,7 +515,6 @@ class wirecardCheckoutSeamlessPayment extends wirecardCheckoutSeamlessPayment_pa
             case WirecardCEE_QMore_PaymentType::PBX:
             case WirecardCEE_QMore_PaymentType::POLI:
             case WirecardCEE_QMore_PaymentType::PSC:
-            case WirecardCEE_QMore_PaymentType::QUICK:
             case WirecardCEE_QMore_PaymentType::SEPADD:
             case WirecardCEE_QMore_PaymentType::SKRILLWALLET:
             case WirecardCEE_QMore_PaymentType::SOFORTUEBERWEISUNG:
@@ -572,8 +571,6 @@ class wirecardCheckoutSeamlessPayment extends wirecardCheckoutSeamlessPayment_pa
                 return '<img src="' . $imgPath . 'przelewy24.png" />';
             case WirecardCEE_QMore_PaymentType::PSC:
                 return '<img src="' . $imgPath . 'psc.png" />';
-            case WirecardCEE_QMore_PaymentType::QUICK:
-                return '<img src="' . $imgPath . 'quick.png" />';
             case WirecardCEE_QMore_PaymentType::SEPADD:
                 return '<img src="' . $imgPath . 'sepa-dd.png" />';
             case WirecardCEE_QMore_PaymentType::SKRILLWALLET:
