@@ -105,7 +105,7 @@ class wirecardCheckoutSeamlessOrder extends wirecardCheckoutSeamlessOrder_parent
                     return parent::_getNextStep(implode("<br/>\n", $aFormattedErrors));
                 }
 
-                if ($config->getUseIframe()) {
+                if ($config->getUseIframe() && $sWirecardPaymentType != WirecardCEE_QMore_PaymentType::SOFORTUEBERWEISUNG) {
                     $sStoken = oxRegistry::getSession()->getSessionChallengeToken();
                     $sHomeUrl = oxRegistry::getSession()->processUrl($config->getOxConfig()->getShopSecureHomeUrl());
                     oxRegistry::getSession()->setVariable('wirecardCheckoutIframeUrl', $oResponse->getRedirectUrl());
