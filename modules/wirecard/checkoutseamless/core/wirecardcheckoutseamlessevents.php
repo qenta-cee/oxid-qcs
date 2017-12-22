@@ -152,12 +152,6 @@ class wirecardCheckoutSeamlessEvents
                 'toamount' => 100000,
                 'activatePaymethod' => 0
             ),
-            WirecardCEE_QMore_PaymentType::QUICK => array(
-                'weight' => 21,
-                'fromamount' => 0,
-                'toamount' => 100000,
-                'activatePaymethod' => 0
-            ),
             WirecardCEE_QMore_PaymentType::PAYPAL => array(
                 'weight' => 22,
                 'fromamount' => 0,
