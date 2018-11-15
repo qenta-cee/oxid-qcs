@@ -78,6 +78,7 @@ class wirecardCheckoutSeamlessPayment extends wirecardCheckoutSeamlessPayment_pa
         $config = wirecardCheckoutSeamlessConfig::getInstance();
         $oUser = $this->getUser();
         $oLang = oxRegistry::get('oxLang');
+        $provider = null;
 
         switch ($sPaymenttype) {
             case WirecardCEE_QMore_PaymentType::IDL:
@@ -119,9 +120,15 @@ class wirecardCheckoutSeamlessPayment extends wirecardCheckoutSeamlessPayment_pa
                 break;
 
             case WirecardCEE_QMore_PaymentType::INVOICE . '_B2C':
+                $provider = $config->getInvoiceProvider();
 
             case WirecardCEE_QMore_PaymentType::INSTALLMENT:
-                if ($config->getInstallmentProvider() == 'PAYOLUTION') {
+
+                if ($provider === null) {
+                    $provider = $config->getInstallmentProvider();
+                }
+
+                if ($provider == 'PAYOLUTION') {
                     if ($this->hasWcsDobField($sPaymentId) && $oUser->oxuser__oxbirthdate == '0000-00-00') {
                         $iBirthdayYear = oxRegistry::getConfig()->getRequestParameter($sPaymentId . '_iBirthdayYear');
                         $iBirthdayDay = oxRegistry::getConfig()->getRequestParameter($sPaymentId . '_iBirthdayDay');
@@ -155,7 +162,9 @@ class wirecardCheckoutSeamlessPayment extends wirecardCheckoutSeamlessPayment_pa
                         return;
                     }
 
-                    if ($this->showWcsInstallmentTrustedShopsCheckbox($sPaymentId)) {
+                }
+
+                if ($this->showWcsTrustedShopsCheckbox($sPaymentId)) {
                         if (!oxRegistry::getConfig()->getRequestParameter('payolutionTerms')) {
                             oxRegistry::getSession()->setVariable('wcs_payerrortext',
                                 $oLang->translateString('WIRECARD_CHECKOUT_SEAMLESS_CONFIRM_PAYOLUTION_TERMS',
@@ -166,7 +175,6 @@ class wirecardCheckoutSeamlessPayment extends wirecardCheckoutSeamlessPayment_pa
                             return;
                         }
                     }
-                }
                 break;
         }
 
@@ -612,32 +620,23 @@ class wirecardCheckoutSeamlessPayment extends wirecardCheckoutSeamlessPayment_pa
         return false;
     }
 
-
     function showWcsTrustedShopsCheckbox($sPaymentId)
     {
         $config = wirecardCheckoutSeamlessConfig::getInstance();
 
-        if ($config->getInvoiceProvider() == 'PAYOLUTION') {
+        $installmentPayolution = $config->getInstallmentProvider() == 'PAYOLUTION';
+        $invoicePayolution = $config->getInvoiceProvider() == 'PAYOLUTION';
             switch ($sPaymentId) {
+                case 'wcs_installment':
+            return $installmentPayolution ? $config->getInstallmentTrustedShopsCheckbox() : false;
                 case 'wcs_invoice_b2b':
-                    return $config->getInvoiceb2bTrustedShopsCheckbox();
+            return $invoicePayolution ? $config->getInvoiceb2bTrustedShopsCheckbox() : false;
                 case 'wcs_invoice_b2c':
-                    return $config->getInvoiceb2cTrustedShopsCheckbox();
+            return $invoicePayolution ? $config->getInvoiceb2cTrustedShopsCheckbox() : false;
                 default:
                     return false;
             }
-        }
     }
-
-	function showWcsInstallmentTrustedShopsCheckbox($sPaymentId)
-	{
-		$config = wirecardCheckoutSeamlessConfig::getInstance();
-
-		if ($config->getInstallmentProvider() == 'PAYOLUTION') {
-			return $config->getInstallmentTrustedShopsCheckbox();
-		}
-		return false;
-	}
 
     function getWcsInvoicePayolutionTerms()
     {
