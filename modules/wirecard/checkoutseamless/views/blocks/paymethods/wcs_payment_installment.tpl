@@ -81,7 +81,7 @@
         </div>
         [{/if}]
 
-        [{if $oView->showWcsInstallmentTrustedShopsCheckbox($sPaymentID)}]
+        [{if $oView->showWcsTrustedShopsCheckbox($sPaymentID)}]
              <input id="payolutionTerms" class='js-oxValidate js-oxValidate_notEmpty' name='payolutionTerms' type="checkbox" value="1" autocomplete="off" />[{ $oView->getWcsInstallmentPayolutionTerms() }]
         [{/if}]
     </dd>
