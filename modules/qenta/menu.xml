@@ -2,7 +2,7 @@
 <OX>
     <OXMENU id="NAVIGATION_ESHOPADMIN">
         <MAINMENU id="mxshopsett">
-             <SUBMENU id="WCS_SUBMIT_CONFIG" cl="qmorecheckoutseamlessSubmitConfig">
+             <SUBMENU id="QCS_SUBMIT_CONFIG" cl="qmorecheckoutseamlessSubmitConfig">
 
              </SUBMENU>
         </MAINMENU>

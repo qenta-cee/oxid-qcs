@@ -220,15 +220,15 @@ class qmoreCheckoutSeamlessPayment extends qmoreCheckoutSeamlessPayment_parent
             return $aResponse;
         }
 
-        $sWirecardPaymentType = qmoreCheckoutSeamlessUtils::getInstance()->convertPaymenttype($sPaymenttype);
-        if ($this->_oWirecardDataStorageReadResponse->hasPaymentInformation($sWirecardPaymentType)) {
-            $aResponse = $this->_oWirecardDataStorageReadResponse->getPaymentInformation($sWirecardPaymentType);
+        $sQentaPaymentType = qmoreCheckoutSeamlessUtils::getInstance()->convertPaymenttype($sPaymenttype);
+        if ($this->_oWirecardDataStorageReadResponse->hasPaymentInformation($sQentaPaymentType)) {
+            $aResponse = $this->_oWirecardDataStorageReadResponse->getPaymentInformation($sQentaPaymentType);
         }
 
         return $aResponse;
     }
 
-    public function getWirecardCheckoutSeamlessPaymentData($sPaymenttype)
+    public function getQMoreCheckoutSeamlessPaymentData($sPaymenttype)
     {
         $aResponse = array();
 
@@ -318,7 +318,7 @@ class qmoreCheckoutSeamlessPayment extends qmoreCheckoutSeamlessPayment_parent
      *
      * @return Array
      */
-    public function getWirecardCheckoutSeamlessFinancialInstitutions($sPaymentID)
+    public function getQMoreCheckoutSeamlessFinancialInstitutions($sPaymentID)
     {
         $sPaymentType = qmoreCheckoutSeamlessUtils::getInstance()->convertPaymenttype($sPaymentID);
 
@@ -385,9 +385,9 @@ class qmoreCheckoutSeamlessPayment extends qmoreCheckoutSeamlessPayment_parent
         if (!is_object($this->_oWirecardDataStorageReadResponse)) {
             return false;
         }
-        $sWirecardPaymentType = qmoreCheckoutSeamlessUtils::getInstance()->convertPaymenttype($sPaymenttype);
+        $sQentaPaymentType = qmoreCheckoutSeamlessUtils::getInstance()->convertPaymenttype($sPaymenttype);
 
-        return $this->_oWirecardDataStorageReadResponse->hasPaymentInformation($sWirecardPaymentType);
+        return $this->_oWirecardDataStorageReadResponse->hasPaymentInformation($sQentaPaymentType);
     }
 
     /**
@@ -672,7 +672,7 @@ class qmoreCheckoutSeamlessPayment extends qmoreCheckoutSeamlessPayment_parent
             $qcs_payment_error = oxRegistry::getSession()->getVariable('qcs_payerrortext');
             oxRegistry::getSession()->deleteVariable('qcs_payerrortext');
             oxRegistry::getSession()->deleteVariable('sess_challenge');
-            oxRegistry::getSession()->deleteVariable('wcpPaymentState');
+            oxRegistry::getSession()->deleteVariable('qcpPaymentState');
         }
 
         return $qcs_payment_error;

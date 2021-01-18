@@ -26,7 +26,7 @@ class qmoreCheckoutSeamlessOxOrder extends qmoreCheckoutSeamlessOxOrder_parent
     }
 
     // will be send by confirm
-    public function sendWirecardCheckoutSeamlessOrderByEmail($oBasket, $oUserPayment = null)
+    public function sendQMoreCheckoutSeamlessOrderByEmail($oBasket, $oUserPayment = null)
     {
         $sUserId = $this->oxorder__oxuserid;
         /** @var oxUser $oUser */

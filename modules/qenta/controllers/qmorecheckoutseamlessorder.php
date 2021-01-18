@@ -17,7 +17,7 @@ require_once getShopBasePath() . 'modules/qenta/checkoutseamless/autoloader.php'
 class qmoreCheckoutSeamlessOrder extends qmoreCheckoutSeamlessOrder_parent
 {
     /**
-     * Checks if order payment is a Wirecard payment and redirect
+     * Checks if order payment is a QENTA payment and redirect
      *
      * @param int $iSuccess order state
      *
@@ -27,9 +27,9 @@ class qmoreCheckoutSeamlessOrder extends qmoreCheckoutSeamlessOrder_parent
     {
         $sPaymentID = $this->getSession()->getVariable("paymentid");
 
-        $isWirecard = qmoreCheckoutSeamlessUtils::getInstance()->isOwnPayment($sPaymentID);
+        $isQenta = qmoreCheckoutSeamlessUtils::getInstance()->isOwnPayment($sPaymentID);
 
-        if ($isWirecard && is_numeric($iSuccess) && ($iSuccess == oxOrder::ORDER_STATE_OK || $iSuccess == oxOrder::ORDER_STATE_ORDEREXISTS)) {
+        if ($isQenta && is_numeric($iSuccess) && ($iSuccess == oxOrder::ORDER_STATE_OK || $iSuccess == oxOrder::ORDER_STATE_ORDEREXISTS)) {
 
             /** @var oxUtils $utils */
             $utils = oxRegistry::get('oxUtils');
@@ -44,7 +44,7 @@ class qmoreCheckoutSeamlessOrder extends qmoreCheckoutSeamlessOrder_parent
             );
             $oDbOrder->insert($aOrderData);
 
-            $sWirecardPaymentType = qmoreCheckoutSeamlessUtils::getInstance()->convertPaymenttype($sPaymentID);
+            $sQentaPaymentType = qmoreCheckoutSeamlessUtils::getInstance()->convertPaymenttype($sPaymentID);
 
             $config = qmoreCheckoutSeamlessConfig::getInstance();
 
@@ -52,9 +52,9 @@ class qmoreCheckoutSeamlessOrder extends qmoreCheckoutSeamlessOrder_parent
 
             try {
                 $frontend = qmoreCheckoutSeamlessFrontend::getInstance();
-                $frontend->setConsumerData($oOrder, $sWirecardPaymentType);
-                $frontend->setOrderData($oOrder, $sWirecardPaymentType);
-                $frontend->setBasket($oOrder, $sWirecardPaymentType);
+                $frontend->setConsumerData($oOrder, $sQentaPaymentType);
+                $frontend->setOrderData($oOrder, $sQentaPaymentType);
+                $frontend->setBasket($oOrder, $sQentaPaymentType);
 
                 $aValues = oxRegistry::getSession()->getVariable('qmoreCheckoutSeamlessValues');
                 if (isset($aValues['financialInstitution'])) {
@@ -82,7 +82,7 @@ class qmoreCheckoutSeamlessOrder extends qmoreCheckoutSeamlessOrder_parent
                     return parent::_getNextStep(implode("<br/>\n", $aFormattedErrors));
                 }
 
-                if ($config->getUseIframe() && $sWirecardPaymentType != QentaCEE\Qmore\PaymentType::SOFORTUEBERWEISUNG) {
+                if ($config->getUseIframe() && $sQentaPaymentType != QentaCEE\Qmore\PaymentType::SOFORTUEBERWEISUNG) {
                     $sStoken = oxRegistry::getSession()->getSessionChallengeToken();
                     $sHomeUrl = oxRegistry::getSession()->processUrl($config->getOxConfig()->getShopSecureHomeUrl());
                     oxRegistry::getSession()->setVariable('qmoreCheckoutIframeUrl', $oResponse->getRedirectUrl());
@@ -210,7 +210,7 @@ EOT
         $oDbOrder = oxNew('qmoreCheckoutSeamlessOrderDbGateway');
         $aOrderData = $oDbOrder->loadByOrderId($sOXID);
         if (!count($aOrderData)) {
-            print QentaCEE\Qmore\ReturnFactory::generateConfirmResponseString('Wirecard Order not found.');
+            print QentaCEE\Qmore\ReturnFactory::generateConfirmResponseString('QENTA Order not found.');
 
             return;
         }
@@ -257,7 +257,7 @@ EOT
                     // cast oxBasket to qmoreCheckoutSeamlessOxBasket
                     $sClass = "qmoreCheckoutSeamlessBasket";
                     $oBasket = unserialize(preg_replace('/^O:\d+:"[^"]++"/', 'O:' . strlen($sClass) . ':"' . $sClass . '"', $aOrderData['BASKET']));
-                    $oOrder->sendWirecardCheckoutSeamlessOrderByEmail($oBasket, $oOxUserPayment);
+                    $oOrder->sendQMoreCheckoutSeamlessOrderByEmail($oBasket, $oOxUserPayment);
                     $oDbOrder->delete($aOrderData['OXID']);
                     break;
 
@@ -279,7 +279,7 @@ EOT
                     $oBasket = unserialize(preg_replace('/^O:\d+:"[^"]++"/', 'O:' . strlen($sClass) . ':"' . $sClass . '"', $aOrderData['BASKET']));
 
                     if($sendEmail) {
-                        $oOrder->sendWirecardCheckoutSeamlessOrderByEmail($oBasket, $oOxUserPayment);
+                        $oOrder->sendQMoreCheckoutSeamlessOrderByEmail($oBasket, $oOxUserPayment);
                     }
 
                     break;

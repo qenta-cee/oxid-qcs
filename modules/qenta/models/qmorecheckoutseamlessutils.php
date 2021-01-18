@@ -13,9 +13,9 @@ class qmoreCheckoutSeamlessUtils
 
     public function convertPaymenttype($sPaymentID)
     {
-        $sWirecardPaymentType = str_replace('qcs_', '', $sPaymentID);
+        $sQentaPaymentType = str_replace('qcs_', '', $sPaymentID);
 
-        return strtoupper($sWirecardPaymentType);
+        return strtoupper($sQentaPaymentType);
     }
 
 

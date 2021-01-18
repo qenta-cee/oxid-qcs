@@ -10,7 +10,7 @@
 class qmoreCheckoutSeamlessOxViewConfig extends qmoreCheckoutSeamlessOxViewConfig_parent
 {
     /** @var qmoreCheckoutSeamlessConfig */
-    protected $_oWirecardCheckoutSeamlesConfig = null;
+    protected $_oQMoreCheckoutSeamlessConfig = null;
 
     /**
      * array of country elv codes
@@ -21,82 +21,82 @@ class qmoreCheckoutSeamlessOxViewConfig extends qmoreCheckoutSeamlessOxViewConfi
 
     public function getCustomerId()
     {
-        return $this->_getWirecardCheckoutSeamlesConfig()->getCustomerId();
+        return $this->_getQMoreCheckoutSeamlessConfig()->getCustomerId();
     }
 
     public function getShopId()
     {
-        return $this->_getWirecardCheckoutSeamlesConfig()->getShopId();
+        return $this->_getQMoreCheckoutSeamlessConfig()->getShopId();
     }
 
     public function getSecret()
     {
-        return $this->_getWirecardCheckoutSeamlesConfig()->getSecret();
+        return $this->_getQMoreCheckoutSeamlessConfig()->getSecret();
     }
 
     public function getServiceUrl()
     {
-        return $this->_getWirecardCheckoutSeamlesConfig()->getServiceUrl();
+        return $this->_getQMoreCheckoutSeamlessConfig()->getServiceUrl();
     }
 
     public function getCustomerStatement()
     {
-        return $this->_getWirecardCheckoutSeamlesConfig()->getCustomerStatement();
+        return $this->_getQMoreCheckoutSeamlessConfig()->getCustomerStatement();
     }
 
     public function getAutoDeposit()
     {
-        return $this->_getWirecardCheckoutSeamlesConfig()->getAutoDeposit();
+        return $this->_getQMoreCheckoutSeamlessConfig()->getAutoDeposit();
     }
 
     public function getUseIframe()
     {
-        return $this->_getWirecardCheckoutSeamlesConfig()->getUseIframe();
+        return $this->_getQMoreCheckoutSeamlessConfig()->getUseIframe();
     }
 
     public function getLogConfirmations()
     {
-        return $this->_getWirecardCheckoutSeamlesConfig()->getLogConfirmations();
+        return $this->_getQMoreCheckoutSeamlessConfig()->getLogConfirmations();
     }
 
     public function getMailShopOwner()
     {
-        return $this->_getWirecardCheckoutSeamlesConfig()->getMailShopOwner();
+        return $this->_getQMoreCheckoutSeamlessConfig()->getMailShopOwner();
     }
 
     public function getDssSaqAEnable()
     {
-        return $this->_getWirecardCheckoutSeamlesConfig()->getDssSaqAEnable();
+        return $this->_getQMoreCheckoutSeamlessConfig()->getDssSaqAEnable();
     }
 
     public function getIframeCssUrl()
     {
-        return $this->_getWirecardCheckoutSeamlesConfig()->getIframeCssUrl();
+        return $this->_getQMoreCheckoutSeamlessConfig()->getIframeCssUrl();
     }
 
     public function getShowCreditcardCardholder()
     {
-        return $this->_getWirecardCheckoutSeamlesConfig()->getShowCreditcardCardholder();
+        return $this->_getQMoreCheckoutSeamlessConfig()->getShowCreditcardCardholder();
     }
 
     public function getShowCreditcardCvc()
     {
-        return $this->_getWirecardCheckoutSeamlesConfig()->getShowCreditcardCvc();
+        return $this->_getQMoreCheckoutSeamlessConfig()->getShowCreditcardCvc();
     }
 
     public function getShowCreditcardIssueDate()
     {
-        return $this->_getWirecardCheckoutSeamlesConfig()->getShowCreditcardIssueDate();
+        return $this->_getQMoreCheckoutSeamlessConfig()->getShowCreditcardIssueDate();
     }
 
     public function getShowCreditcardIssueNumber()
     {
-        return $this->_getWirecardCheckoutSeamlesConfig()->getShowCreditcardIssueNumber();
+        return $this->_getQMoreCheckoutSeamlessConfig()->getShowCreditcardIssueNumber();
     }
 
     public function getDirectDebitNoSepa()
     {
-        return $this->_getWirecardCheckoutSeamlesConfig()->getDirectDebitNoSepa();
+        return $this->_getQMoreCheckoutSeamlessConfig()->getDirectDebitNoSepa();
     }
 
     /**
@@ -145,18 +145,18 @@ class qmoreCheckoutSeamlessOxViewConfig extends qmoreCheckoutSeamlessOxViewConfi
     }
 
     /**
-     * Returns Wirecard Checkout Seamles config.
+     * Returns QMORE Checkout Seamless config.
      *
      * @return qmoreCheckoutSeamlessConfig
      */
-    protected function _getWirecardCheckoutSeamlesConfig()
+    protected function _getQMoreCheckoutSeamlessConfig()
     {
 
-        if (is_null($this->_oWirecardCheckoutSeamlesConfig)) {
-            $this->_oWirecardCheckoutSeamlesConfig = qmoreCheckoutSeamlessConfig::getInstance();
+        if (is_null($this->_oQMoreCheckoutSeamlessConfig)) {
+            $this->_oQMoreCheckoutSeamlessConfig = qmoreCheckoutSeamlessConfig::getInstance();
         }
 
-        return $this->_oWirecardCheckoutSeamlesConfig;
+        return $this->_oQMoreCheckoutSeamlessConfig;
     }
 
 

@@ -118,7 +118,7 @@ class qmoreCheckoutSeamlessFrontend
     }
 
     /**
-     * Set Wirecard Consumer Data Objects
+     * Set QENTA Consumer Data Objects
      *
      * @param oxOrder $oOrder
      *
@@ -223,7 +223,7 @@ class qmoreCheckoutSeamlessFrontend
 
 
     /**
-     * Set Wirecard Basket Data to Frontend Client
+     * Set QENTA Basket Data to Frontend Client
      *
      * @param oxOrder $oOrder
      *

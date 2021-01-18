@@ -13,7 +13,7 @@
 
     <label
             for="qcs_config_export_recipient"
-            style="display:block"><strong>[{ oxmultilang ident="MODULE_PAYMENT_WCS_EXPORT_CONFIG_RECEIVER"
+            style="display:block"><strong>[{ oxmultilang ident="MODULE_PAYMENT_QCS_EXPORT_CONFIG_RECEIVER"
             }]</strong></label>
     <select name="qcs_config_export_recipient">
         [{foreach from=$aSupportMails item=mailAddress}]
@@ -28,7 +28,7 @@
     <br/>
     <label
             for="qcs_config_export_config_string"
-            style="display:block"><strong>[{ oxmultilang ident="MODULE_PAYMENT_WCS_EXPORT_CONFIG_CONFIG_STRING"
+            style="display:block"><strong>[{ oxmultilang ident="MODULE_PAYMENT_QCS_EXPORT_CONFIG_CONFIG_STRING"
             }]</strong></label>
                                     <textarea name="qcs_config_export_config_string"
                                               cols="80"
@@ -41,7 +41,7 @@
     <br/>
     <label
             for="qcs_config_export_description_text"
-            style="display:block"><strong>[{ oxmultilang ident="MODULE_PAYMENT_WCS_EXPORT_CONFIG_DESC_TEXT" }]</strong></label>
+            style="display:block"><strong>[{ oxmultilang ident="MODULE_PAYMENT_QCS_EXPORT_CONFIG_DESC_TEXT" }]</strong></label>
                                     <textarea name="qcs_config_export_description_text"
                                               cols="80"
                                               rows="20"
@@ -52,7 +52,7 @@
     <br/>
     <label
             for="qcs_config_export_reply_to_mail"
-            style="display:block"><strong>[{ oxmultilang ident="MODULE_PAYMENT_WCS_EXPORT_CONFIG_RETURN_MAIL"
+            style="display:block"><strong>[{ oxmultilang ident="MODULE_PAYMENT_QCS_EXPORT_CONFIG_RETURN_MAIL"
             }]</strong></label>
     <input type="text"
            value="[{$sReplyTo}]"
@@ -62,7 +62,7 @@
     <br/>
     <input class="submitButton largeButton"
            type="submit"
-           value="[{ oxmultilang ident="WCS_SUBMIT" }]"
+           value="[{ oxmultilang ident="QCS_SUBMIT" }]"
     name="submit">
 
 </form>

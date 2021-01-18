@@ -248,7 +248,7 @@ class qmoreCheckoutSeamlessEvents
               `BASKET` TEXT NULL,
               `TIMESTAMP` timestamp NOT NULL default CURRENT_TIMESTAMP on update CURRENT_TIMESTAMP,
               PRIMARY KEY (`OXID`),
-              KEY `WIRECARDCHECKOUTSEAMLESS_ORDER_OXORDERID` (`OXORDERID`)
+              KEY `QMORECHECKOUTSEAMLESS_ORDER_OXORDERID` (`OXORDERID`)
             ) COLLATE='utf8_general_ci'";
 
         oxDb::getDb()->execute($sSql);

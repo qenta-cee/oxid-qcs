@@ -1,6 +1,6 @@
 [{if $sPaymentID == "qcs_idl"}]
 [{ assign var="qmoreCheckoutSeamless_paymentdata_stored" value=$oView->hasQMoreCheckoutSeamlessPaymentData($sPaymentID) }]
-[{ assign var="qmoreCheckoutSeamless_paymentdata" value=$oView->getWirecardCheckoutSeamlessPaymentData($sPaymentID) }]
+[{ assign var="qmoreCheckoutSeamless_paymentdata" value=$oView->getQMoreCheckoutSeamlessPaymentData($sPaymentID) }]
 [{oxscript include=$oView->getWirecardStorageJsUrl() priority=1)}]
 [{oxscript include=$oViewConf->getModuleUrl('qmorecheckoutseamless','out/src/qenta.js') priority=10}]
 <dl>
@@ -24,8 +24,8 @@
     <dd class="[{if $oView->getCheckedPaymentId() == $paymentmethod->oxpayments__oxid->value}]activePayment[{/if}]">
         <ul class="form">
             <li>
-                <span>[{ oxmultilang ident="WIRECARDCHECKOUTSEAMLESS_CHOOSE_FINANCIAL_INSTITUTION" }]</span>
-                [{html_options name=ideal_financialInstitution options=$oView->getWirecardCheckoutSeamlessFinancialInstitutions($sPaymentID)}]
+                <span>[{ oxmultilang ident="QMORECHECKOUTSEAMLESS_CHOOSE_FINANCIAL_INSTITUTION" }]</span>
+                [{html_options name=ideal_financialInstitution options=$oView->getQMoreCheckoutSeamlessFinancialInstitutions($sPaymentID)}]
             </li>
         </ul>
 

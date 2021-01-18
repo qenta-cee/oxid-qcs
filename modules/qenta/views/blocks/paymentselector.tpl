@@ -1,6 +1,6 @@
-[{if !isset($wcsPaymentCount)}]
+[{if !isset($qcsPaymentCount)}]
     [{$oView->getQcsRatePayConsumerDeviceId()}]
-    [{ assign var="wcsPaymentCount" value="1"}]
+    [{ assign var="qcsPaymentCount" value="1"}]
 [{/if}]
 [{if $sPaymentID == "qcs_ccard" || $sPaymentID == "qcs_ccard-moto"}]
     [{include file="qcs_payment_ccard.tpl"}]
