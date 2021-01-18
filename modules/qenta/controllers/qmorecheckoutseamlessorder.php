@@ -236,7 +236,7 @@ EOT
                     $oOrder->save();
 
                     //create info data
-                    $prefix = 'WIRECARD_CHECKOUT_SEAMLESS_';
+                    $prefix = 'QMORE_CHECKOUT_SEAMLESS_';
                     $returned = $return->getReturned();
 
                     unset($returned['paymentType']);
@@ -364,13 +364,13 @@ EOT
         return $bSuccess ? $oOrder : null;
     }
 
-    public function isWcsPaymethod($sPaymentID)
+    public function isQcsPaymethod($sPaymentID)
     {
-        return qmoreCheckoutSeamlessPayment::isWcsPaymethod($sPaymentID);
+        return qmoreCheckoutSeamlessPayment::isQcsPaymethod($sPaymentID);
     }
 
-    public function getWcsRawPaymentDesc($paymethodNameWithPrefix)
+    public function getQcsRawPaymentDesc($paymethodNameWithPrefix)
     {
-        return qmoreCheckoutSeamlessPayment::getWcsRawPaymentDesc($paymethodNameWithPrefix);
+        return qmoreCheckoutSeamlessPayment::getQcsRawPaymentDesc($paymethodNameWithPrefix);
     }
 }

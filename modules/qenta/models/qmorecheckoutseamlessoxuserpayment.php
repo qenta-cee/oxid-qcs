@@ -9,13 +9,13 @@
 
 class qmorecheckoutseamlessoxuserpayment extends qmorecheckoutseamlessoxuserpayment_parent
 {
-    public function isWcsPaymethod($sPaymentID)
+    public function isQcsPaymethod($sPaymentID)
     {
-        return qmoreCheckoutSeamlessPayment::isWcsPaymethod($sPaymentID);
+        return qmoreCheckoutSeamlessPayment::isQcsPaymethod($sPaymentID);
     }
 
-    public function getWcsRawPaymentDesc($paymethodNameWithPrefix)
+    public function getQcsRawPaymentDesc($paymethodNameWithPrefix)
     {
-        return qmoreCheckoutSeamlessPayment::getWcsRawPaymentDesc($paymethodNameWithPrefix);
+        return qmoreCheckoutSeamlessPayment::getQcsRawPaymentDesc($paymethodNameWithPrefix);
     }
 }

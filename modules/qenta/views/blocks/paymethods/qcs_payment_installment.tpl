@@ -19,7 +19,7 @@
 <dl>
     <dt>
         <input id="payment_[{$sPaymentID}]" type="radio" name="paymentid" value="[{$sPaymentID}]" [{if $oView->getCheckedPaymentId() == $paymentmethod->oxpayments__oxid->value}]checked[{/if}]>
-        <label for="payment_[{$sPaymentID}]">[{$oView->getWcsPaymentLogo($sPaymentID)}]<b>[{ $oView->getWcsRawPaymentDesc($paymentmethod->oxpayments__oxdesc->value)}]
+        <label for="payment_[{$sPaymentID}]">[{$oView->getQcsPaymentLogo($sPaymentID)}]<b>[{ $oView->getQcsRawPaymentDesc($paymentmethod->oxpayments__oxdesc->value)}]
             [{if $paymentmethod->getPrice()}]
                 [{assign var="oPaymentPrice" value=$paymentmethod->getPrice() }]
                 [{if $oViewConf->isFunctionalityEnabled('blShowVATForPayCharge') }]
@@ -40,7 +40,7 @@
         <ul>
             [{foreach from=$aDynValues item=value name=PaymentDynValues}]
             <li>
-                <label>[{$oView->getWcsPaymentLogo($sPaymentID)}] [{ $value->name}]</label>
+                <label>[{$oView->getQcsPaymentLogo($sPaymentID)}] [{ $value->name}]</label>
                 <input id="[{$sPaymentID}]_[{$smarty.foreach.PaymentDynValues.iteration}]" type="text" class="textbox" size="20" maxlength="64" name="dynvalue[[{$value->name}]]" autocomplete="off" value="[{ $value->value}]">
             </li>
             [{/foreach}]
@@ -55,7 +55,7 @@
         [{/if}]
         [{/block}]
 
-        [{if $bShowDobField && $oView->hasWcsDobField($sPaymentID)}]
+        [{if $bShowDobField && $oView->hasQcsDobField($sPaymentID)}]
         <div class="desc">
             <ul class="form clear" style="">
                 <li class="oxDate[{if $aErrors.oxuser__oxbirthdate}] oxInValid[{/if}]">
@@ -81,8 +81,8 @@
         </div>
         [{/if}]
 
-        [{if $oView->showWcsInstallmentTrustedShopsCheckbox($sPaymentID)}]
-             <input id="payolutionTerms" class='js-oxValidate js-oxValidate_notEmpty' name='payolutionTerms' type="checkbox" value="1" autocomplete="off" />[{ $oView->getWcsInstallmentPayolutionTerms() }]
+        [{if $oView->showQcsInstallmentTrustedShopsCheckbox($sPaymentID)}]
+             <input id="payolutionTerms" class='js-oxValidate js-oxValidate_notEmpty' name='payolutionTerms' type="checkbox" value="1" autocomplete="off" />[{ $oView->getQcsInstallmentPayolutionTerms() }]
         [{/if}]
     </dd>
 </dl>

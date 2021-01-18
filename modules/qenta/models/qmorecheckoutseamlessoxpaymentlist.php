@@ -94,15 +94,15 @@ class qmorecheckoutseamlessoxpaymentlist extends qmorecheckoutseamlessoxpaymentl
         $oPayment = oxNew("qmoreCheckoutSeamlessPayment");
         $config = qmoreCheckoutSeamlessConfig::getInstance();
 
-        if (!$oPayment->wcsValidateCustomerAge($oUser)) {
+        if (!$oPayment->qcsValidateCustomerAge($oUser)) {
             return false;
         }
-        if (!($config->getInvoiceAllowDifferingAddresses() && $config->getInvoiceProvider() == 'PAYOLUTION') && !$oPayment->wcsValidateAddresses($oUser,
+        if (!($config->getInvoiceAllowDifferingAddresses() && $config->getInvoiceProvider() == 'PAYOLUTION') && !$oPayment->qcsValidateAddresses($oUser,
                 $oOrder)
         ) {
             return false;
         }
-        if (!$oPayment->wcsValidateCurrency($oBasket)) {
+        if (!$oPayment->qcsValidateCurrency($oBasket)) {
             return false;
         }
 
@@ -123,15 +123,15 @@ class qmorecheckoutseamlessoxpaymentlist extends qmorecheckoutseamlessoxpaymentl
         $oPayment = oxNew("qmoreCheckoutSeamlessPayment");
         $config = qmoreCheckoutSeamlessConfig::getInstance();
 
-        if (!$oPayment->wcsValidateCustomerAge($oUser)) {
+        if (!$oPayment->qcsValidateCustomerAge($oUser)) {
             return false;
         }
-        if (!($config->getInstallmentAllowDifferingAddresses() && $config->getInstallmentProvider() == 'PAYOLUTION') && !$oPayment->wcsValidateAddresses($oUser,
+        if (!($config->getInstallmentAllowDifferingAddresses() && $config->getInstallmentProvider() == 'PAYOLUTION') && !$oPayment->qcsValidateAddresses($oUser,
                 $oOrder)
         ) {
             return false;
         }
-        if (!$oPayment->wcsValidateCurrency($oBasket)) {
+        if (!$oPayment->qcsValidateCurrency($oBasket)) {
             return false;
         }
 

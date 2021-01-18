@@ -63,9 +63,9 @@ class qmoreCheckoutSeamlessFrontend
         $this->_client->setAutoDeposit($config->getAutoDeposit());
         $this->_client->setConfirmMail($config->getConfirmMail());
         $this->_client->createConsumerMerchantCrmId($oOrder->getFieldData('oxbillemail'));
-	    if(isset($_SESSION['wcs-consumerDeviceId'])){
-		    $this->_client->consumerDeviceId = $_SESSION['wcs-consumerDeviceId'];
-		    unset($_SESSION['wcs-consumerDeviceId']);
+	    if(isset($_SESSION['qcs-consumerDeviceId'])){
+		    $this->_client->consumerDeviceId = $_SESSION['qcs-consumerDeviceId'];
+		    unset($_SESSION['qcs-consumerDeviceId']);
 	    }
     }
 

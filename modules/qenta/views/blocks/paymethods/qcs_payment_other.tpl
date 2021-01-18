@@ -1,10 +1,10 @@
-[{if $oView->isWcsPaymethod($sPaymentID)}]
+[{if $oView->isQcsPaymethod($sPaymentID)}]
 <dl>
     <dt>
         <input id="payment_[{$sPaymentID}]" type="radio" name="paymentid" value="[{$sPaymentID}]"
             [{if $oView->getCheckedPaymentId() == $paymentmethod->oxpayments__oxid->value}]checked[{/if}]>
-        <label for="payment_[{$sPaymentID}]">[{$oView->getWcsPaymentLogo($sPaymentID)}]<b>[{
-            $oView->getWcsRawPaymentDesc($paymentmethod->oxpayments__oxdesc->value)}]
+        <label for="payment_[{$sPaymentID}]">[{$oView->getQcsPaymentLogo($sPaymentID)}]<b>[{
+            $oView->getQcsRawPaymentDesc($paymentmethod->oxpayments__oxdesc->value)}]
             [{if $paymentmethod->getPrice()}]
                 [{assign var="oPaymentPrice" value=$paymentmethod->getPrice() }]
                 [{if $oViewConf->isFunctionalityEnabled('blShowVATForPayCharge') }]
@@ -25,7 +25,7 @@
         <ul>
             [{foreach from=$aDynValues item=value name=PaymentDynValues}]
             <li>
-                <label>[{$oView->getWcsPaymentLogo($sPaymentID)}] [{ $value->name}]</label>
+                <label>[{$oView->getQcsPaymentLogo($sPaymentID)}] [{ $value->name}]</label>
                 <input id="[{$sPaymentID}]_[{$smarty.foreach.PaymentDynValues.iteration}]" type="text" class="textbox"
                        size="20" maxlength="64" name="dynvalue[[{$value->name}]]" value="[{ $value->value}]">
             </li>

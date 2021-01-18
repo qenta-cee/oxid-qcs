@@ -72,7 +72,7 @@ class qmoreCheckoutSeamlessPayment extends qmoreCheckoutSeamlessPayment_parent
             case QentaCEE\Qmore\PaymentType::INVOICE . '_B2B':
                 if ($config->getInvoiceProvider() == 'PAYOLUTION') {
                     $vatId = $oUser->oxuser__oxustid->value;
-                    if ($this->hasWcsVatIdField($sPaymentId) && empty($vatId)) {
+                    if ($this->hasQcsVatIdField($sPaymentId) && empty($vatId)) {
                         $sVatId = oxRegistry::getConfig()->getRequestParameter('sVatId');
 
                         if (!empty($sVatId)) {
@@ -81,10 +81,10 @@ class qmoreCheckoutSeamlessPayment extends qmoreCheckoutSeamlessPayment_parent
                         }
                     }
 
-                    if ($this->showWcsTrustedShopsCheckbox($sPaymentId)) {
+                    if ($this->showQcsTrustedShopsCheckbox($sPaymentId)) {
                         if (!oxRegistry::getConfig()->getRequestParameter('payolutionTerms')) {
                             oxRegistry::getSession()->setVariable('qcs_payerrortext',
-                                $oLang->translateString('WIRECARD_CHECKOUT_SEAMLESS_CONFIRM_PAYOLUTION_TERMS',
+                                $oLang->translateString('QMORE_CHECKOUT_SEAMLESS_CONFIRM_PAYOLUTION_TERMS',
                                     $oLang->getBaseLanguage()));
                             $oSmarty = oxRegistry::get("oxUtilsView")->getSmarty();
                             $oSmarty->assign("aErrors", array('payolutionTerms' => 1));
@@ -99,14 +99,14 @@ class qmoreCheckoutSeamlessPayment extends qmoreCheckoutSeamlessPayment_parent
 
             case QentaCEE\Qmore\PaymentType::INSTALLMENT:
                 if ($config->getInstallmentProvider() == 'PAYOLUTION') {
-                    if ($this->hasWcsDobField($sPaymentId) && $oUser->oxuser__oxbirthdate == '0000-00-00') {
+                    if ($this->hasQcsDobField($sPaymentId) && $oUser->oxuser__oxbirthdate == '0000-00-00') {
                         $iBirthdayYear = oxRegistry::getConfig()->getRequestParameter($sPaymentId . '_iBirthdayYear');
                         $iBirthdayDay = oxRegistry::getConfig()->getRequestParameter($sPaymentId . '_iBirthdayDay');
                         $iBirthdayMonth = oxRegistry::getConfig()->getRequestParameter($sPaymentId . '_iBirthdayMonth');
 
                         if (empty($iBirthdayYear) || empty($iBirthdayDay) || empty($iBirthdayMonth)) {
                             oxRegistry::getSession()->setVariable('qcs_payerrortext',
-                                $oLang->translateString('WIRECARD_CHECKOUT_SEAMLESS_PLEASE_FILL_IN_DOB',
+                                $oLang->translateString('QMORE_CHECKOUT_SEAMLESS_PLEASE_FILL_IN_DOB',
                                     $oLang->getBaseLanguage()));
 
                             return;
@@ -124,18 +124,18 @@ class qmoreCheckoutSeamlessPayment extends qmoreCheckoutSeamlessPayment_parent
                     }
 
                     //validate paymethod
-                    if (!$this->wcsValidateCustomerAge($oUser, 18)) {
+                    if (!$this->qcsValidateCustomerAge($oUser, 18)) {
                         oxRegistry::getSession()->setVariable('qcs_payerrortext',
-                            sprintf($oLang->translateString('WIRECARD_CHECKOUT_SEAMLESS_DOB_TOO_YOUNG',
+                            sprintf($oLang->translateString('QMORE_CHECKOUT_SEAMLESS_DOB_TOO_YOUNG',
                                 $oLang->getBaseLanguage()), 18));
 
                         return;
                     }
 
-                    if ($this->showWcsInstallmentTrustedShopsCheckbox($sPaymentId)) {
+                    if ($this->showQcsInstallmentTrustedShopsCheckbox($sPaymentId)) {
                         if (!oxRegistry::getConfig()->getRequestParameter('payolutionTerms')) {
                             oxRegistry::getSession()->setVariable('qcs_payerrortext',
-                                $oLang->translateString('WIRECARD_CHECKOUT_SEAMLESS_CONFIRM_PAYOLUTION_TERMS',
+                                $oLang->translateString('QMORE_CHECKOUT_SEAMLESS_CONFIRM_PAYOLUTION_TERMS',
                                     $oLang->getBaseLanguage()));
                             $oSmarty = oxRegistry::get("oxUtilsView")->getSmarty();
                             $oSmarty->assign("aErrors", array('payolutionTerms' => 1));
@@ -377,7 +377,7 @@ class qmoreCheckoutSeamlessPayment extends qmoreCheckoutSeamlessPayment_parent
      *
      * @return string $bResponse
      */
-    public function hasWirecardCheckoutSeamlessPaymentData($sPaymenttype = null)
+    public function hasQMoreCheckoutSeamlessPaymentData($sPaymenttype = null)
     {
         if (!$sPaymenttype) {
             return false;
@@ -396,7 +396,7 @@ class qmoreCheckoutSeamlessPayment extends qmoreCheckoutSeamlessPayment_parent
      * @param integer $iMinAge
      * @return boolean
      */
-    public function wcsValidateCustomerAge($oUser, $iMinAge = 18)
+    public function qcsValidateCustomerAge($oUser, $iMinAge = 18)
     {
         $dob = $oUser->oxuser__oxbirthdate->value;
         if ($dob && $dob != '0000-00-00') {
@@ -416,7 +416,7 @@ class qmoreCheckoutSeamlessPayment extends qmoreCheckoutSeamlessPayment_parent
         return true;
     }
 
-    public function wcsValidateAddresses($oUser, $oOrder)
+    public function qcsValidateAddresses($oUser, $oOrder)
     {
         //if delivery Address is not set it's the same as billing
         $oDelAddress = $oOrder->getDelAddressInfo();
@@ -448,7 +448,7 @@ class qmoreCheckoutSeamlessPayment extends qmoreCheckoutSeamlessPayment_parent
      * @param Array $aAllowedCurrencies
      * @return boolean
      */
-    public function wcsValidateCurrency($oBasket, $aAllowedCurrencies = Array('EUR'))
+    public function qcsValidateCurrency($oBasket, $aAllowedCurrencies = Array('EUR'))
     {
         $currency = $oBasket->getBasketCurrency();
         if (!in_array($currency->name, $aAllowedCurrencies)) {
@@ -505,7 +505,7 @@ class qmoreCheckoutSeamlessPayment extends qmoreCheckoutSeamlessPayment_parent
         return false;
     }
 
-    public function getWcsPaymentLogo($sPaymentId)
+    public function getQcsPaymentLogo($sPaymentId)
     {
         $sPaymenttype = qmoreCheckoutSeamlessUtils::getInstance()->convertPaymenttype($sPaymentId);
 
@@ -567,7 +567,7 @@ class qmoreCheckoutSeamlessPayment extends qmoreCheckoutSeamlessPayment_parent
         }
     }
 
-    public function hasWcsDobField($sPaymentId)
+    public function hasQcsDobField($sPaymentId)
     {
         if (in_array($sPaymentId, array('qcs_invoice_b2c', 'qcs_installment'))) {
             return true;
@@ -576,7 +576,7 @@ class qmoreCheckoutSeamlessPayment extends qmoreCheckoutSeamlessPayment_parent
         return false;
     }
 
-    public function hasWcsVatIdField($sPaymentId)
+    public function hasQcsVatIdField($sPaymentId)
     {
         $config = qmoreCheckoutSeamlessConfig::getInstance();
 
@@ -590,7 +590,7 @@ class qmoreCheckoutSeamlessPayment extends qmoreCheckoutSeamlessPayment_parent
     }
 
 
-    function showWcsTrustedShopsCheckbox($sPaymentId)
+    function showQcsTrustedShopsCheckbox($sPaymentId)
     {
         $config = qmoreCheckoutSeamlessConfig::getInstance();
 
@@ -606,7 +606,7 @@ class qmoreCheckoutSeamlessPayment extends qmoreCheckoutSeamlessPayment_parent
         }
     }
 
-	function showWcsInstallmentTrustedShopsCheckbox($sPaymentId)
+	function showQcsInstallmentTrustedShopsCheckbox($sPaymentId)
 	{
 		$config = qmoreCheckoutSeamlessConfig::getInstance();
 
@@ -616,37 +616,37 @@ class qmoreCheckoutSeamlessPayment extends qmoreCheckoutSeamlessPayment_parent
 		return false;
 	}
 
-    function getWcsInvoicePayolutionTerms()
+    function getQcsInvoicePayolutionTerms()
     {
         $oLang = oxRegistry::get('oxLang');
         $config = qmoreCheckoutSeamlessConfig::getInstance();
 
-        return sprintf($oLang->translateString('WIRECARD_CHECKOUT_SEAMLESS_PAYOLUTION_TERMS',
+        return sprintf($oLang->translateString('QMORE_CHECKOUT_SEAMLESS_PAYOLUTION_TERMS',
             $oLang->getBaseLanguage()),
             'https://payment.payolution.com/payolution-payment/infoport/dataprivacyconsent?mId=' . $config->getInvoicePayolutionMId());
     }
 
-	function getWcsInstallmentPayolutionTerms()
+	function getQcsInstallmentPayolutionTerms()
 	{
 		$oLang = oxRegistry::get('oxLang');
 		$config = qmoreCheckoutSeamlessConfig::getInstance();
 
-		return sprintf($oLang->translateString('WIRECARD_CHECKOUT_SEAMLESS_PAYOLUTION_TERMS',
+		return sprintf($oLang->translateString('QMORE_CHECKOUT_SEAMLESS_PAYOLUTION_TERMS',
 			$oLang->getBaseLanguage()),
 			'https://payment.payolution.com/payolution-payment/infoport/dataprivacyconsent?mId=' . $config->getInstallmentPayolutionMId());
 	}
 
-	function getWcsRatePayConsumerDeviceId()
+	function getQcsRatePayConsumerDeviceId()
 	{
 		$config = qmoreCheckoutSeamlessConfig::getInstance();
 
-		if(isset($_SESSION['wcs-consumerDeviceId'])) {
-			$consumerDeviceId = $_SESSION['wcs-consumerDeviceId'];
+		if(isset($_SESSION['qcs-consumerDeviceId'])) {
+			$consumerDeviceId = $_SESSION['qcs-consumerDeviceId'];
 		} else {
 			$timestamp = microtime();
 			$customerId = $config->getCustomerId();
 			$consumerDeviceId = md5($customerId . "_" . $timestamp);
-			$_SESSION['wcs-consumerDeviceId'] = $consumerDeviceId;
+			$_SESSION['qcs-consumerDeviceId'] = $consumerDeviceId;
 		}
 
 		if($config->getInvoiceProvider() == 'RATEPAY' || $config->getInstallmentProvider() == 'RATEPAY')
@@ -664,7 +664,7 @@ class qmoreCheckoutSeamlessPayment extends qmoreCheckoutSeamlessPayment_parent
     /**
      * @return mixed
      */
-    public function getWcsPaymentError()
+    public function getQcsPaymentError()
     {
         $qcs_payment_error = '';
 
@@ -681,7 +681,7 @@ class qmoreCheckoutSeamlessPayment extends qmoreCheckoutSeamlessPayment_parent
     /**
      * @return bool
      */
-    public function isWcsPaymentError()
+    public function isQcsPaymentError()
     {
         if (oxRegistry::getSession()->hasVariable('qcs_payerrortext')) {
             return true;

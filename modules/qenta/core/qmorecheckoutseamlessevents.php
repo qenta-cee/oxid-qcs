@@ -181,8 +181,8 @@ class qmoreCheckoutSeamlessEvents
         $aLanguages = $oLang->getLanguageIds();
 
         foreach (self::getAvailablePaymenttypes() as $wpt => $configValues) {
-            $trkey = sprintf('WIRECARD_CHECKOUT_SEAMLESS_%s', strtoupper($wpt));
-            $pt = sprintf('%s_%s', 'wcs', strtolower($wpt));
+            $trkey = sprintf('QMORE_CHECKOUT_SEAMLESS_%s', strtoupper($wpt));
+            $pt = sprintf('%s_%s', '', strtolower($wpt));
 
             /** @var oxPayment $oPayment */
             $oPayment = oxNew('oxPayment');
@@ -212,7 +212,7 @@ class qmoreCheckoutSeamlessEvents
     public static function disablePaymenttypes()
     {
         foreach (self::getAvailablePaymenttypes() as $pt => $configData) {
-            $pt = sprintf('%s_%s', 'wcs', strtolower($pt));
+            $pt = sprintf('%s_%s', '', strtolower($pt));
             /** @var oxPayment $oPayment */
             $oPayment = oxNew('oxpayment');
             $oPayment->load($pt);
@@ -226,7 +226,7 @@ class qmoreCheckoutSeamlessEvents
      */
     public static function onActivate()
     {
-        self::addWirecardCheckoutSeamlessOrderTable();
+        self::addQentaCheckoutSeamlessOrderTable();
         self::addPaymentTypes();
     }
 
@@ -240,7 +240,7 @@ class qmoreCheckoutSeamlessEvents
         self::disablePaymenttypes();
     }
 
-    public static function addWirecardCheckoutSeamlessOrderTable()
+    public static function addQentaCheckoutSeamlessOrderTable()
     {
         $sSql = "CREATE TABLE IF NOT EXISTS `qmorecheckoutseamless_order` (
               `OXID` char(32) NOT NULL COLLATE 'latin1_general_ci',
