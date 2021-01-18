@@ -9,7 +9,7 @@
 
 
 /**
- * Order class wrapper for Wirecard Checkout seamless
+ * Order class wrapper for QMORE Checkout Seamless
  */
 class wirecardCheckoutSeamlessThankyou extends wirecardCheckoutSeamlessThankyou_parent
 {

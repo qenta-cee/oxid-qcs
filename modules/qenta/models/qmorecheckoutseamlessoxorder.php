@@ -9,7 +9,7 @@
 
 
 /**
- * Wirecard Checkout Seamless oxOrder class
+ * QMORE Checkout Seamless oxOrder class
  *
  * @see oxOrder
  */

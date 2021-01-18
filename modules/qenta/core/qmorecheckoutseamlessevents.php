@@ -7,7 +7,7 @@
  * https://github.com/qenta-cee/oxid-qcs/blob/master/LICENSE
 */
 
-require_once getShopBasePath() . 'modules/wirecard/checkoutseamless/autoloader.php';
+require_once getShopBasePath() . 'modules/qenta/checkoutseamless/autoloader.php';
 
 class wirecardCheckoutSeamlessEvents
 {

@@ -8,7 +8,7 @@
 */
 
 /**
- * Wirecard Checkout Seamless config class
+ * QMORE Checkout Seamless config class
  */
 class wirecardCheckoutSeamlessConfig
 {
@@ -30,7 +30,7 @@ class wirecardCheckoutSeamlessConfig
     protected $_oModule;
 
     /**
-     * Return Wirecard Checkout Seamless module id.
+     * Return QMORE Checkout Seamless module id.
      *
      * @return string
      */
