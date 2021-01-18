@@ -13,39 +13,39 @@ class wirecardcheckoutseamlessoxpaymentlist extends wirecardcheckoutseamlessoxpa
     {
         $paymentList = parent::getPaymentList($sShipSetId, $dPrice, $oUser);
 
-        if (array_key_exists('wcs_invoice_b2b', $paymentList) || array_key_exists('wcs_invoice_b2c',
-                $paymentList) || array_key_exists('wcs_installment', $paymentList)
+        if (array_key_exists('qcs_invoice_b2b', $paymentList) || array_key_exists('qcs_invoice_b2c',
+                $paymentList) || array_key_exists('qcs_installment', $paymentList)
         ) {
             $dob = $oUser->oxuser__oxbirthdate->value;
             $oBasket = $this->getSession()->getBasket();
             $oOrder = oxNew('oxorder');
             $config = wirecardCheckoutSeamlessConfig::getInstance();
 
-            if (array_key_exists('wcs_invoice_b2c', $paymentList)) {
+            if (array_key_exists('qcs_invoice_b2c', $paymentList)) {
                 if (!$this->_isWCSInvoiceAvailable($oUser, $oBasket,
                         $oOrder) || !empty($oUser->oxuser__oxcompany->value)
                 ) {
-                    unset($paymentList['wcs_invoice_b2c']);
+                    unset($paymentList['qcs_invoice_b2c']);
                 } elseif ($dob && $dob == '0000-00-00' && $config->getInvoiceProvider() == 'PAYOLUTION') {
                     $oSmarty = oxRegistry::get("oxUtilsView")->getSmarty();
                     $oSmarty->assign("bShowDobField", true);
 
-                    $dobData = oxRegistry::getSession()->getVariable('wcs_dobData');
+                    $dobData = oxRegistry::getSession()->getVariable('qcs_dobData');
                     if (!empty($dobData)) {
-                        $oSmarty->assign("dobData", oxRegistry::getSession()->getVariable('wcs_dobData'));
+                        $oSmarty->assign("dobData", oxRegistry::getSession()->getVariable('qcs_dobData'));
                     }
                 }
             }
-            if (array_key_exists('wcs_invoice_b2b', $paymentList)) {
+            if (array_key_exists('qcs_invoice_b2b', $paymentList)) {
                 $vatId = $oUser->oxuser__oxustid->value;
 
                 if (!$this->_isWCSInvoiceAvailable($oUser, $oBasket,
                         $oOrder) || empty($oUser->oxuser__oxcompany->value)
                 ) {
-                    unset($paymentList['wcs_invoice_b2b']);
+                    unset($paymentList['qcs_invoice_b2b']);
                 }
                 if ($config->getInvoiceProvider() == 'PAYOLUTION') {
-                    $sVatId = oxRegistry::getSession()->getVariable('wcs_vatId');
+                    $sVatId = oxRegistry::getSession()->getVariable('qcs_vatId');
                     if (empty($vatId)) {
                         $oSmarty = oxRegistry::get("oxUtilsView")->getSmarty();
                         $oSmarty->assign("sVatId", $sVatId);
@@ -54,24 +54,24 @@ class wirecardcheckoutseamlessoxpaymentlist extends wirecardcheckoutseamlessoxpa
                 }
             }
 
-            if (array_key_exists('wcs_installment', $paymentList)) {
+            if (array_key_exists('qcs_installment', $paymentList)) {
                 if (!$this->_isWCSInstallmentAvailable($oUser, $oBasket, $oOrder)) {
-                    unset($paymentList['wcs_installment']);
+                    unset($paymentList['qcs_installment']);
                 } elseif ($dob && $dob == '0000-00-00' && $config->getInstallmentProvider() == 'PAYOLUTION') {
                     $oSmarty = oxRegistry::get("oxUtilsView")->getSmarty();
                     $oSmarty->assign("bShowDobField", true);
 
-                    $dobData = oxRegistry::getSession()->getVariable('wcs_dobData');
+                    $dobData = oxRegistry::getSession()->getVariable('qcs_dobData');
                     if (!empty($dobData)) {
-                        $oSmarty->assign("dobData", oxRegistry::getSession()->getVariable('wcs_dobData'));
+                        $oSmarty->assign("dobData", oxRegistry::getSession()->getVariable('qcs_dobData'));
                     }
                 }
             }
         }
 
-        if (array_key_exists('wcs_ccard-moto', $paymentList)) {
+        if (array_key_exists('qcs_ccard-moto', $paymentList)) {
             if (!$this->getUser()->inGroup('oxidadmin')) {
-                unset($paymentList['wcs_ccard-moto']);
+                unset($paymentList['qcs_ccard-moto']);
             }
         }
 

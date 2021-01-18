@@ -82,7 +82,7 @@ class wirecardCheckoutSeamlessFrontend
         /** @var wirecardCheckoutSeamlessConfig $config */
         $config = wirecardCheckoutSeamlessConfig::getInstance();
 
-        $paymentTypeShop = strtoupper(str_replace('wcs_', '', $oOrder->oxorder__oxpaymenttype->value));
+        $paymentTypeShop = strtoupper(str_replace('qcs_', '', $oOrder->oxorder__oxpaymenttype->value));
         $paymentType = $paymentTypeShop;
 
         //change invoice and installment paymenttypes
