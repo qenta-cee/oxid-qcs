@@ -8,10 +8,10 @@
 
 (function ($) {
 
-    var ddWirecardPayment = {
+    var ddQentaPayment = {
         //field mapping. define which input field belongs to which ds parametername
         paymentTypes: {
-            wcs_ccard: {
+            qcs_ccard: {
                 paymentType: 'CCARD',
                 iframe: null,
                 fields: {
@@ -25,7 +25,7 @@
                     ccard_issueNumber: 'issueNumber'
                 }
             },
-            "wcs_ccard-moto": {
+            "qcs_ccard-moto": {
                 paymentType: 'CCARD',
                 iframe: null,
                 fields: {
@@ -39,7 +39,7 @@
                     "ccard-moto_issueNumber": 'issueNumber'
                 }
             },
-            "wcs_sepa-dd": {
+            "qcs_sepa-dd": {
                 paymentType: 'SEPA-DD',
                 iframe: null,
                 fields: {
@@ -48,7 +48,7 @@
                     sepadd_accountOwner: 'accountOwner'
                 }
             },
-            "wcs_elv": {
+            "qcs_elv": {
                 paymentType: 'ELV',
                 iframe: null,
                 fields: {
@@ -59,7 +59,7 @@
                     elv_bankAccount: 'bankAccount'
                 }
             },
-            wcs_giropay: {
+            qcs_giropay: {
                 paymentType: 'GIROPAY',
                 iframe: null,
                 fields: {
@@ -68,12 +68,12 @@
                     giropay_accountOwner: 'accountOwner'
                 }
             },
-            wcs_pbx: {
+            qcs_pbx: {
                 paymentType: 'PBX',
                 iframe: null,
                 fields: {pbx_payerPayboxNumber: 'payerPayboxNumber'}
             },
-            wcs_voucher: {
+            qcs_voucher: {
                 paymentType: 'VOUCHER',
                 iframe: null,
                 fields: {voucher_voucherId: 'voucherId'}
@@ -92,11 +92,11 @@
                 el = self.element;
 
             var wdcee = new WirecardCEE_DataStorage();
-            if ($('#wirecardCheckoutSeamless_ccardIframeContainer').length > 0) {
-                this.paymentTypes['wcs_ccard'].iframe = wdcee.buildIframeCreditCard('wirecardCheckoutSeamless_ccardIframeContainer', '100%', '160px');
+            if ($('#qmoreCheckoutSeamless_ccardIframeContainer').length > 0) {
+                this.paymentTypes['qcs_ccard'].iframe = wdcee.buildIframeCreditCard('qmoreCheckoutSeamless_ccardIframeContainer', '100%', '160px');
             }
-            if ($('#wirecardCheckoutSeamless_ccard-motoIframeContainer').length > 0) {
-                this.paymentTypes['wcs_ccard-moto'].iframe = wdcee.buildIframeCreditCard('wirecardCheckoutSeamless_ccard-motoIframeContainer', '100%', '160px');
+            if ($('#qmoreCheckoutSeamless_ccard-motoIframeContainer').length > 0) {
+                this.paymentTypes['qcs_ccard-moto'].iframe = wdcee.buildIframeCreditCard('qmoreCheckoutSeamless_ccard-motoIframeContainer', '100%', '160px');
             }
 
             var elEvents = $(el).data('events');
@@ -109,7 +109,7 @@
                 oldSubmit = jQuery.extend(true, {}, elEvents.submit);
                 if (oldSubmit) {
                     $.each(oldSubmit, function (i, handler) {
-                        $(el).bind('wirecardOldsubmit', handler['handler']);
+                        $(el).bind('qentaOldsubmit', handler['handler']);
                     });
                 }
                 el.unbind("submit");
@@ -118,7 +118,7 @@
                 var parentReturn = true;
 
                 if (oldSubmit) {
-                    parentReturn = $(el).triggerHandler('wirecardOldsubmit');
+                    parentReturn = $(el).triggerHandler('qentaOldsubmit');
                     if (parentReturn === false) return false;
                 }
 
@@ -174,7 +174,7 @@
         },
 
         /**
-         * Check if  Paymentid is a wirecard payment and use seamless if necessary,
+         * Check if  Paymentid is a Qenta payment and use seamless if necessary,
          * return bool to maybe stop paymentforms submit
          *
          * @return bool
@@ -289,7 +289,7 @@
          * Reset _stored hidden field if a textinput was changed,
          */
         resetStored: function (changedEl) {
-            // ddWirecardPayment object is transmitted in data Map
+            // ddQentaPayment object is transmitted in data Map
             var self = changedEl.data[0];
             var sPaymentType = $('input[name=paymentid]:checked', self.element).val();
             self.setStored(sPaymentType, false);
@@ -313,14 +313,14 @@
          */
         showError: function (message, type) {
             var actPaymentRadio = $('input[name=paymentid]:checked', self.element);
-            var actPaymentErrorList = $('#wirecardErrorList', actPaymentRadio.parents('dl'));
+            var actPaymentErrorList = $('#qentaErrorList', actPaymentRadio.parents('dl'));
 
             if (actPaymentErrorList.length) {
                 var errorList = actPaymentErrorList.get(0);
             }
             else {
                 var errorList = document.createElement('div');
-                errorList.id = 'wirecardErrorList';
+                errorList.id = 'qentaErrorList';
                 var errorDiv = $('dd', actPaymentRadio.parents('dl'));
                 errorDiv.prepend(errorList);
             }
@@ -349,8 +349,8 @@
     /**
      * Form crosssite submit
      */
-    $.widget("ui.ddWirecardPayment", ddWirecardPayment);
+    $.widget("ui.ddQentaPayment", ddQentaPayment);
 
-    $('form#payment').ddWirecardPayment();
+    $('form#payment').ddQentaPayment();
 
 })(jQuery);

@@ -1,4 +1,4 @@
-[{if $sPaymentID == "wcs_invoice_b2b" || $sPaymentID == "wcs_invoice_b2c"}]
+[{if $sPaymentID == "qcs_invoice_b2b" || $sPaymentID == "qcs_invoice_b2c"}]
     [{if isset( $dobData.month ) }]
         [{assign var="iBirthdayMonth" value=$dobData.month }]
     [{else}]

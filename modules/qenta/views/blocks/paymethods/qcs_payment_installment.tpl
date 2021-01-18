@@ -1,4 +1,4 @@
-[{if $sPaymentID == "wcs_installment"}]
+[{if $sPaymentID == "qcs_installment"}]
 
     [{if isset( $dobData.month ) }]
         [{assign var="iBirthdayMonth" value=$dobData.month }]

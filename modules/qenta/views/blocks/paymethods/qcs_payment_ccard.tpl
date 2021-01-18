@@ -1,13 +1,13 @@
-[{if $sPaymentID == "wcs_ccard" || $sPaymentID == "wcs_ccard-moto"}]
-[{if $sPaymentID == "wcs_ccard"}]
+[{if $sPaymentID == "qcs_ccard" || $sPaymentID == "qcs_ccard-moto"}]
+[{if $sPaymentID == "qcs_ccard"}]
     [{ assign var="prefix" value="ccard"}]
     [{else}]
     [{ assign var="prefix" value="ccard-moto"}]
     [{/if}]
-[{ assign var="qmoreCheckoutSeamless_paymentdata_stored" value=$oView->hasWirecardCheckoutSeamlessPaymentData($sPaymentID) }]
+[{ assign var="qmoreCheckoutSeamless_paymentdata_stored" value=$oView->hasQMoreCheckoutSeamlessPaymentData($sPaymentID) }]
 [{ assign var="qmoreCheckoutSeamless_paymentdata" value=$oView->getWirecardCheckoutSeamlessPaymentData($sPaymentID) }]
 [{oxscript include=$oView->getWirecardStorageJsUrl() priority=1)}]
-[{oxscript include=$oViewConf->getModuleUrl('qmorecheckoutseamless','out/src/wirecard.js') priority=10}]
+[{oxscript include=$oViewConf->getModuleUrl('qmorecheckoutseamless','out/src/qenta.js') priority=10}]
 <dl>
     <dt>
         <input type="hidden" id="[{$sPaymentID}]_stored" value="[{ $qmoreCheckoutSeamless_paymentdata_stored|intval }]" />

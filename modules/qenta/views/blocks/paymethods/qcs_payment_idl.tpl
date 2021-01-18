@@ -1,8 +1,8 @@
-[{if $sPaymentID == "wcs_idl"}]
-[{ assign var="qmoreCheckoutSeamless_paymentdata_stored" value=$oView->hasWirecardCheckoutSeamlessPaymentData($sPaymentID) }]
+[{if $sPaymentID == "qcs_idl"}]
+[{ assign var="qmoreCheckoutSeamless_paymentdata_stored" value=$oView->hasQMoreCheckoutSeamlessPaymentData($sPaymentID) }]
 [{ assign var="qmoreCheckoutSeamless_paymentdata" value=$oView->getWirecardCheckoutSeamlessPaymentData($sPaymentID) }]
 [{oxscript include=$oView->getWirecardStorageJsUrl() priority=1)}]
-[{oxscript include=$oViewConf->getModuleUrl('qmorecheckoutseamless','out/src/wirecard.js') priority=10}]
+[{oxscript include=$oViewConf->getModuleUrl('qmorecheckoutseamless','out/src/qenta.js') priority=10}]
 <dl>
     <dt>
         <input type="hidden" id="[{$sPaymentID}]_stored" value="[{ $qmoreCheckoutSeamless_paymentdata_stored|intval }]" />
