@@ -1,1 +1,3 @@
 .idea/
+.dccache
+modules/qenta/checkoutseamless/vendor
