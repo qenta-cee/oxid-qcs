@@ -14,7 +14,7 @@ require_once getShopBasePath() . 'modules/qenta/checkoutseamless/autoloader.php'
  *
  * @see order
  */
-class wirecardCheckoutSeamlessOrder extends wirecardCheckoutSeamlessOrder_parent
+class qmoreCheckoutSeamlessOrder extends qmoreCheckoutSeamlessOrder_parent
 {
     /**
      * Checks if order payment is a Wirecard payment and redirect
@@ -27,7 +27,7 @@ class wirecardCheckoutSeamlessOrder extends wirecardCheckoutSeamlessOrder_parent
     {
         $sPaymentID = $this->getSession()->getVariable("paymentid");
 
-        $isWirecard = wirecardCheckoutSeamlessUtils::getInstance()->isOwnPayment($sPaymentID);
+        $isWirecard = qmoreCheckoutSeamlessUtils::getInstance()->isOwnPayment($sPaymentID);
 
         if ($isWirecard && is_numeric($iSuccess) && ($iSuccess == oxOrder::ORDER_STATE_OK || $iSuccess == oxOrder::ORDER_STATE_ORDEREXISTS)) {
 
@@ -36,27 +36,27 @@ class wirecardCheckoutSeamlessOrder extends wirecardCheckoutSeamlessOrder_parent
 
             $oOrder = $this->_getOrder();
 
-            /** @var wirecardCheckoutSeamlessOrderDbGateway $oDbOrder */
-            $oDbOrder = oxNew('wirecardCheckoutSeamlessOrderDbGateway');
+            /** @var qmoreCheckoutSeamlessOrderDbGateway $oDbOrder */
+            $oDbOrder = oxNew('qmoreCheckoutSeamlessOrderDbGateway');
             $aOrderData = Array(
                 'BASKET' => serialize(oxRegistry::getSession()->getBasket()),
                 'OXORDERID' => $oOrder->getId()
             );
             $oDbOrder->insert($aOrderData);
 
-            $sWirecardPaymentType = wirecardCheckoutSeamlessUtils::getInstance()->convertPaymenttype($sPaymentID);
+            $sWirecardPaymentType = qmoreCheckoutSeamlessUtils::getInstance()->convertPaymenttype($sPaymentID);
 
-            $config = wirecardCheckoutSeamlessConfig::getInstance();
+            $config = qmoreCheckoutSeamlessConfig::getInstance();
 
             $redirectErrorUrl = $config->getOxConfig()->getShopSecureHomeUrl() . 'cl=payment';
 
             try {
-                $frontend = wirecardCheckoutSeamlessFrontend::getInstance();
+                $frontend = qmoreCheckoutSeamlessFrontend::getInstance();
                 $frontend->setConsumerData($oOrder, $sWirecardPaymentType);
                 $frontend->setOrderData($oOrder, $sWirecardPaymentType);
                 $frontend->setBasket($oOrder, $sWirecardPaymentType);
 
-                $aValues = oxRegistry::getSession()->getVariable('wirecardCheckoutSeamlessValues');
+                $aValues = oxRegistry::getSession()->getVariable('qmoreCheckoutSeamlessValues');
                 if (isset($aValues['financialInstitution'])) {
                     $frontend->setFinancialInstitution($aValues['financialInstitution']);
                 }
@@ -78,15 +78,15 @@ class wirecardCheckoutSeamlessOrder extends wirecardCheckoutSeamlessOrder_parent
                         $oOrder->save();
                     }
 
-                    wirecardCheckoutSeamlessUtils::getInstance()->log(__METHOD__ . ':ERROR:' . print_r($aFormattedErrors, true));
+                    qmoreCheckoutSeamlessUtils::getInstance()->log(__METHOD__ . ':ERROR:' . print_r($aFormattedErrors, true));
                     return parent::_getNextStep(implode("<br/>\n", $aFormattedErrors));
                 }
 
                 if ($config->getUseIframe() && $sWirecardPaymentType != QentaCEE\Qmore\PaymentType::SOFORTUEBERWEISUNG) {
                     $sStoken = oxRegistry::getSession()->getSessionChallengeToken();
                     $sHomeUrl = oxRegistry::getSession()->processUrl($config->getOxConfig()->getShopSecureHomeUrl());
-                    oxRegistry::getSession()->setVariable('wirecardCheckoutIframeUrl', $oResponse->getRedirectUrl());
-                    $utils->redirect($sHomeUrl . 'cl=order&fnc=wirecardCheckoutIframe&stoken=' . $sStoken);
+                    oxRegistry::getSession()->setVariable('qmoreCheckoutIframeUrl', $oResponse->getRedirectUrl());
+                    $utils->redirect($sHomeUrl . 'cl=order&fnc=qmoreCheckoutIframe&stoken=' . $sStoken);
                 } else {
                     $utils->redirect($oResponse->getRedirectUrl());
                 }
@@ -94,7 +94,7 @@ class wirecardCheckoutSeamlessOrder extends wirecardCheckoutSeamlessOrder_parent
             } catch (Exception $e) {
                 oxRegistry::getSession()->setVariable('payerror', -1);
                 oxRegistry::getSession()->setVariable('payerrortext', $e->getMessage());
-                wirecardCheckoutSeamlessUtils::getInstance()->log(__METHOD__ . ':ERROR:' . $e->getMessage());
+                qmoreCheckoutSeamlessUtils::getInstance()->log(__METHOD__ . ':ERROR:' . $e->getMessage());
                 $utils->redirect($redirectErrorUrl);
             }
 
@@ -103,47 +103,47 @@ class wirecardCheckoutSeamlessOrder extends wirecardCheckoutSeamlessOrder_parent
         }
     }
 
-    public function wirecardPending()
+    public function qentaPending()
     {
-        $this->wirecardIframeBreakout();
+        $this->qentaIframeBreakout();
 
         return parent::_getNextStep(oxOrder::ORDER_STATE_OK);
     }
 
-    public function wirecardSuccess()
+    public function qentaSuccess()
     {
-        $this->wirecardIframeBreakout();
+        $this->qentaIframeBreakout();
 
         return parent::_getNextStep(oxOrder::ORDER_STATE_OK);
     }
 
-    public function wirecardCancel()
+    public function qentaCancel()
     {
-        $this->wirecardIframeBreakout();
-        $consumerMessage = oxRegistry::getSession()->getVariable('wirecardCheckoutSeamlessConsumerMessage');
+        $this->qentaIframeBreakout();
+        $consumerMessage = oxRegistry::getSession()->getVariable('qmoreCheckoutSeamlessConsumerMessage');
         oxRegistry::getSession()->setVariable('qcs_payerrortext', $consumerMessage);
 
         return parent::_getNextStep(oxOrder::ORDER_STATE_PAYMENTERROR);
     }
 
-    public function wirecardFailure()
+    public function qentaFailure()
     {
-        $this->wirecardIframeBreakout();
+        $this->qentaIframeBreakout();
 
-        $consumerMessage = oxRegistry::getSession()->getVariable('wirecardCheckoutSeamlessConsumerMessage');
+        $consumerMessage = oxRegistry::getSession()->getVariable('qmoreCheckoutSeamlessConsumerMessage');
         oxRegistry::getSession()->setVariable('qcs_payerrortext', $consumerMessage);
 
         return parent::_getNextStep(oxOrder::ORDER_STATE_PAYMENTERROR);
     }
 
-    public function wirecardIframeBreakout()
+    public function qentaIframeBreakout()
     {
         /** @var oxUtilsUrl $urlUtils */
         $urlUtils = oxRegistry::get('oxUtilsUrl');
         $sRedirectUrl = $urlUtils->getCurrentUrl();
 
         $redirected = (string)oxRegistry::getConfig()->getRequestParameter('iframebreakout');
-        if (!$redirected && wirecardCheckoutSeamlessConfig::getInstance()->getUseIframe()) {
+        if (!$redirected && qmoreCheckoutSeamlessConfig::getInstance()->getUseIframe()) {
             $sRedirectUrl .= '&iframebreakout=1';
             $sRedirectUrl = json_encode($sRedirectUrl);
             /** @var oxUtils $utils */
@@ -167,20 +167,20 @@ EOT
         }
     }
 
-    public function wirecardCheckoutIframe()
+    public function qmoreCheckoutIframe()
     {
         $this->addGlobalParams();
 
-        $this->_aViewData['wirecardCheckoutIframeUrl'] = oxRegistry::getSession()->getVariable('wirecardCheckoutIframeUrl');
+        $this->_aViewData['qmoreCheckoutIframeUrl'] = oxRegistry::getSession()->getVariable('qmoreCheckoutIframeUrl');
 
-        $this->_sThisTemplate = 'wirecardcheckoutseamlessiframecheckout.tpl';
+        $this->_sThisTemplate = 'qmorecheckoutseamlessiframecheckout.tpl';
     }
 
-    public function wirecardConfirm()
+    public function qentaConfirm()
     {
-        wirecardCheckoutSeamlessUtils::getInstance()->log(__METHOD__ . ':' . print_r($_POST, true));
+        qmoreCheckoutSeamlessUtils::getInstance()->log(__METHOD__ . ':' . print_r($_POST, true));
 
-        $config = wirecardCheckoutSeamlessConfig::getInstance();
+        $config = qmoreCheckoutSeamlessConfig::getInstance();
 
         $out = QentaCEE\Qmore\ReturnFactory::generateConfirmResponseString();
 
@@ -200,14 +200,14 @@ EOT
         }
 
         if(in_array($oOrder->oxorder__oxtransstatus, array('PAID'))) {
-            wirecardCheckoutSeamlessUtils::getInstance()->log(__METHOD__ . ':ORDER: can\'t update order state, since it is already in a final state: ' . $oOrder->oxorder__oxtransstatus);
+            qmoreCheckoutSeamlessUtils::getInstance()->log(__METHOD__ . ':ORDER: can\'t update order state, since it is already in a final state: ' . $oOrder->oxorder__oxtransstatus);
             print QentaCEE\Qmore\ReturnFactory::generateConfirmResponseString('Can\'t update order state, since it is already in a final state.');
 
             return;
         }
 
-        /** @var wirecardCheckoutSeamlessOrderDbGateway $oDbOrder */
-        $oDbOrder = oxNew('wirecardCheckoutSeamlessOrderDbGateway');
+        /** @var qmoreCheckoutSeamlessOrderDbGateway $oDbOrder */
+        $oDbOrder = oxNew('qmoreCheckoutSeamlessOrderDbGateway');
         $aOrderData = $oDbOrder->loadByOrderId($sOXID);
         if (!count($aOrderData)) {
             print QentaCEE\Qmore\ReturnFactory::generateConfirmResponseString('Wirecard Order not found.');
@@ -217,9 +217,9 @@ EOT
 
         try {
             /** @var $return QentaCEE\Stdlib\Return\ReturnAbstract */
-            $return = QentaCEE\Qmore\ReturnFactory::getInstance($_POST, wirecardCheckoutSeamlessConfig::getInstance()->getSecret());
+            $return = QentaCEE\Qmore\ReturnFactory::getInstance($_POST, qmoreCheckoutSeamlessConfig::getInstance()->getSecret());
             if (!$return->validate()) {
-                wirecardCheckoutSeamlessUtils::getInstance()->log(__METHOD__ . ':Validation error: invalid response');
+                qmoreCheckoutSeamlessUtils::getInstance()->log(__METHOD__ . ':Validation error: invalid response');
                 print QentaCEE\Qmore\ReturnFactory::generateConfirmResponseString('Validation error: invalid response');
                 return;
             }
@@ -227,7 +227,7 @@ EOT
             switch ($return->getPaymentState()) {
                 case QentaCEE\Qmore\ReturnFactory::STATE_SUCCESS:
                     /** @var $return QentaCEE\Qmore\Return_Success */
-                    wirecardCheckoutSeamlessUtils::getInstance()->log(__METHOD__ . ':SUCCESS:' . $return->getOrderNumber() . ':' . $return->getGatewayReferenceNumber());
+                    qmoreCheckoutSeamlessUtils::getInstance()->log(__METHOD__ . ':SUCCESS:' . $return->getOrderNumber() . ':' . $return->getGatewayReferenceNumber());
                     $oOrder->oxorder__oxtransstatus = new oxField('PAID');
                     $oOrder->oxorder__oxpaid = new oxField(date('Y-m-d H:i:s'));
                     $oOrder->oxorder__oxtransid = new oxField($return->getOrderNumber());
@@ -253,9 +253,9 @@ EOT
                     $oOxUserPayment->setDynValues($aInfo);
                     $oOxUserPayment->save();
 
-                    /** @var wirecardCheckoutSeamlessOxOrder $oOrder */
-                    // cast oxBasket to wirecardCheckoutSeamlessOxBasket
-                    $sClass = "wirecardCheckoutSeamlessBasket";
+                    /** @var qmoreCheckoutSeamlessOxOrder $oOrder */
+                    // cast oxBasket to qmoreCheckoutSeamlessOxBasket
+                    $sClass = "qmoreCheckoutSeamlessBasket";
                     $oBasket = unserialize(preg_replace('/^O:\d+:"[^"]++"/', 'O:' . strlen($sClass) . ':"' . $sClass . '"', $aOrderData['BASKET']));
                     $oOrder->sendWirecardCheckoutSeamlessOrderByEmail($oBasket, $oOxUserPayment);
                     $oDbOrder->delete($aOrderData['OXID']);
@@ -265,7 +265,7 @@ EOT
                     $sendEmail = !in_array($oOrder->oxorder__oxtransstatus, array('PENDING'));
 
                     /** @var $return QentaCEE\Qmore\Return_Pending */
-                    wirecardCheckoutSeamlessUtils::getInstance()->log(__METHOD__ . ':PENDING');
+                    qmoreCheckoutSeamlessUtils::getInstance()->log(__METHOD__ . ':PENDING');
                     $oOrder->oxorder__oxtransstatus = new oxField('PENDING');
                     $oOrder->oxorder__oxtransid = new oxField($return->getOrderNumber());
                     $oOrder->save();
@@ -273,9 +273,9 @@ EOT
                     $oOxUserPayment = oxNew("oxUserPayment");
                     $oOxUserPayment->load($oOrder->oxorder__oxpaymentid->value);
 
-                    /** @var wirecardCheckoutSeamlessOxOrder $oOrder */
-                    // cast oxBasket to wirecardCheckoutSeamlessOxBasket
-                    $sClass = "wirecardCheckoutSeamlessBasket";
+                    /** @var qmoreCheckoutSeamlessOxOrder $oOrder */
+                    // cast oxBasket to qmoreCheckoutSeamlessOxBasket
+                    $sClass = "qmoreCheckoutSeamlessBasket";
                     $oBasket = unserialize(preg_replace('/^O:\d+:"[^"]++"/', 'O:' . strlen($sClass) . ':"' . $sClass . '"', $aOrderData['BASKET']));
 
                     if($sendEmail) {
@@ -286,7 +286,7 @@ EOT
 
                 case QentaCEE\Qmore\ReturnFactory::STATE_CANCEL:
                     /** @var $return QentaCEE\Qmore\Return_Cancel */
-                    wirecardCheckoutSeamlessUtils::getInstance()->log(__METHOD__ . ':CANCEL');
+                    qmoreCheckoutSeamlessUtils::getInstance()->log(__METHOD__ . ':CANCEL');
 
                     $oDbOrder->delete($aOrderData['OXID']);
 
@@ -302,7 +302,7 @@ EOT
 
                 case QentaCEE\Qmore\ReturnFactory::STATE_FAILURE:
                     /** @var $return QentaCEE\Qmore\Return_Failure */
-                    wirecardCheckoutSeamlessUtils::getInstance()->log(__METHOD__ . ':FAILURE:' . print_r($return->getErrors(),
+                    qmoreCheckoutSeamlessUtils::getInstance()->log(__METHOD__ . ':FAILURE:' . print_r($return->getErrors(),
                             true));
 
                     $oDbOrder->delete($aOrderData['OXID']);
@@ -320,18 +320,18 @@ EOT
                     foreach ($return->getErrors() as $e) {
                         $consumerMessage .= ' ' . $e->getConsumerMessage();
                     }
-                    oxRegistry::getSession()->setVariable('wirecardCheckoutSeamlessConsumerMessage', $consumerMessage);
+                    oxRegistry::getSession()->setVariable('qmoreCheckoutSeamlessConsumerMessage', $consumerMessage);
                     break;
 
                 default:
                     break;
             }
         } catch (Exception $e) {
-            wirecardCheckoutSeamlessUtils::getInstance()->log(__METHOD__ . ':EXCEPTION:' . $e->getMessage() . $e->getTraceAsString());
+            qmoreCheckoutSeamlessUtils::getInstance()->log(__METHOD__ . ':EXCEPTION:' . $e->getMessage() . $e->getTraceAsString());
             $out = QentaCEE\Qmore\ReturnFactory::generateConfirmResponseString($e->getMessage());
         }
 
-        wirecardCheckoutSeamlessUtils::getInstance()->log(__METHOD__ . ':' . print_r($out, true));
+        qmoreCheckoutSeamlessUtils::getInstance()->log(__METHOD__ . ':' . print_r($out, true));
         print $out;
         die;
     }
@@ -353,12 +353,12 @@ EOT
     /**
      * @param $sOXID
      *
-     * @return null|wirecardCheckoutSeamlessOxOrder
+     * @return null|qmoreCheckoutSeamlessOxOrder
      */
     protected function _getOrderById($sOXID)
     {
         /** @var oxOrder $oOrder */
-        $oOrder = oxNew("wirecardCheckoutSeamlessOxOrder");
+        $oOrder = oxNew("qmoreCheckoutSeamlessOxOrder");
         $bSuccess = $oOrder->load($sOXID);
 
         return $bSuccess ? $oOrder : null;
@@ -366,11 +366,11 @@ EOT
 
     public function isWcsPaymethod($sPaymentID)
     {
-        return wirecardCheckoutSeamlessPayment::isWcsPaymethod($sPaymentID);
+        return qmoreCheckoutSeamlessPayment::isWcsPaymethod($sPaymentID);
     }
 
     public function getWcsRawPaymentDesc($paymethodNameWithPrefix)
     {
-        return wirecardCheckoutSeamlessPayment::getWcsRawPaymentDesc($paymethodNameWithPrefix);
+        return qmoreCheckoutSeamlessPayment::getWcsRawPaymentDesc($paymethodNameWithPrefix);
     }
 }

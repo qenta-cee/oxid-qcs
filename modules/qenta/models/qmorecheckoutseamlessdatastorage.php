@@ -9,7 +9,7 @@
 
 require_once getShopBasePath() . 'modules/qenta/checkoutseamless/autoloader.php';
 
-class wirecardCheckoutSeamlessDataStorage
+class qmoreCheckoutSeamlessDataStorage
 {
     /**
      * @var QentaCEE\Qmore\DataStorageClient
@@ -18,8 +18,8 @@ class wirecardCheckoutSeamlessDataStorage
 
     public function __construct()
     {
-        /** @var wirecardCheckoutSeamlessConfig $config */
-        $config = wirecardCheckoutSeamlessConfig::getInstance();
+        /** @var qmoreCheckoutSeamlessConfig $config */
+        $config = qmoreCheckoutSeamlessConfig::getInstance();
 
         /** @var oxLang $oLang */
         $oLang = oxRegistry::get('oxLang');
@@ -40,7 +40,7 @@ class wirecardCheckoutSeamlessDataStorage
 
     public function initiate()
     {
-        $config = wirecardCheckoutSeamlessConfig::getInstance();
+        $config = qmoreCheckoutSeamlessConfig::getInstance();
 
         $this->_client->setOrderIdent(oxRegistry::getSession()->getId());
 
@@ -76,24 +76,24 @@ class wirecardCheckoutSeamlessDataStorage
 
     public function setStorageId($storageId)
     {
-        oxRegistry::getSession()->setVariable('wirecardcheckoutseamlessStorageId', $storageId);
+        oxRegistry::getSession()->setVariable('qmorecheckoutseamlessStorageId', $storageId);
     }
 
     public function getStorageId()
     {
-        return oxRegistry::getSession()->getVariable('wirecardcheckoutseamlessStorageId');
+        return oxRegistry::getSession()->getVariable('qmorecheckoutseamlessStorageId');
     }
 
     /**
-     * @return wirecardCheckoutSeamlessDataStorage
+     * @return qmoreCheckoutSeamlessDataStorage
      */
     public static function getInstance()
     {
-        if (is_object(oxRegistry::get('wirecardCheckoutSeamlessDataStorage'))) {
-            return oxRegistry::get('wirecardCheckoutSeamlessDataStorage');
+        if (is_object(oxRegistry::get('qmoreCheckoutSeamlessDataStorage'))) {
+            return oxRegistry::get('qmoreCheckoutSeamlessDataStorage');
         }
 
-        oxRegistry::set('wirecardCheckoutSeamlessDataStorage', new self());
+        oxRegistry::set('qmoreCheckoutSeamlessDataStorage', new self());
     }
 
 }

@@ -7,15 +7,15 @@
  * https://github.com/qenta-cee/oxid-qcs/blob/master/LICENSE
 */
 
-class wirecardcheckoutseamlessSubmitConfig extends oxAdminView
+class qmorecheckoutseamlessSubmitConfig extends oxAdminView
 {
-    protected $_sThisTemplate = 'wirecardcheckoutseamlesssubmitconfig.tpl';
+    protected $_sThisTemplate = 'qmorecheckoutseamlesssubmitconfig.tpl';
 
-    protected $_aSupportMails = array('support.at@wirecard.com', 'support@wirecard.com');
+    protected $_aSupportMails = array('support@qenta.com');
 
     /**
      * Executes parent method parent::render() and returns name of template
-     * file "wirecardcheckoutseamlesssubmitconfig.tpl".
+     * file "qmorecheckoutseamlesssubmitconfig.tpl".
      *
      * @return string
      */
@@ -61,7 +61,7 @@ class wirecardcheckoutseamlessSubmitConfig extends oxAdminView
         $oConfig = oxRegistry::getConfig();
         $aModules = $oConfig->getConfigParam('aModulePaths');
 
-        include('../modules/' . $aModules['wirecardcheckoutseamless'] . '/metadata.php');
+        include('../modules/' . $aModules['qmorecheckoutseamless'] . '/metadata.php');
 
         foreach ($aModule['settings'] as $k => $aParams) {
             if ($aParams['name'] !== 'sWcpSecret') {

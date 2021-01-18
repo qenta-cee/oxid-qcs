@@ -11,7 +11,7 @@
  * Payment gateway manager.
  * Checks and sets payment method data, executes payment.
  */
-class wirecardCheckoutSeamlessOxPaymentGateway extends wirecardCheckoutSeamlessOxPaymentGateway_parent
+class qmoreCheckoutSeamlessOxPaymentGateway extends qmoreCheckoutSeamlessOxPaymentGateway_parent
 {
     /**
      * Executes payment, returns true on success.

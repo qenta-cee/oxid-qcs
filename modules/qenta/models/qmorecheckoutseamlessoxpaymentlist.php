@@ -7,7 +7,7 @@
  * https://github.com/qenta-cee/oxid-qcs/blob/master/LICENSE
 */
 
-class wirecardcheckoutseamlessoxpaymentlist extends wirecardcheckoutseamlessoxpaymentlist_parent
+class qmorecheckoutseamlessoxpaymentlist extends qmorecheckoutseamlessoxpaymentlist_parent
 {
     public function getPaymentList($sShipSetId, $dPrice, $oUser = null)
     {
@@ -19,7 +19,7 @@ class wirecardcheckoutseamlessoxpaymentlist extends wirecardcheckoutseamlessoxpa
             $dob = $oUser->oxuser__oxbirthdate->value;
             $oBasket = $this->getSession()->getBasket();
             $oOrder = oxNew('oxorder');
-            $config = wirecardCheckoutSeamlessConfig::getInstance();
+            $config = qmoreCheckoutSeamlessConfig::getInstance();
 
             if (array_key_exists('qcs_invoice_b2c', $paymentList)) {
                 if (!$this->_isWCSInvoiceAvailable($oUser, $oBasket,
@@ -91,8 +91,8 @@ class wirecardcheckoutseamlessoxpaymentlist extends wirecardcheckoutseamlessoxpa
             return false;
         }
 
-        $oPayment = oxNew("wirecardCheckoutSeamlessPayment");
-        $config = wirecardCheckoutSeamlessConfig::getInstance();
+        $oPayment = oxNew("qmoreCheckoutSeamlessPayment");
+        $config = qmoreCheckoutSeamlessConfig::getInstance();
 
         if (!$oPayment->wcsValidateCustomerAge($oUser)) {
             return false;
@@ -120,8 +120,8 @@ class wirecardcheckoutseamlessoxpaymentlist extends wirecardcheckoutseamlessoxpa
             return false;
         }
 
-        $oPayment = oxNew("wirecardCheckoutSeamlessPayment");
-        $config = wirecardCheckoutSeamlessConfig::getInstance();
+        $oPayment = oxNew("qmoreCheckoutSeamlessPayment");
+        $config = qmoreCheckoutSeamlessConfig::getInstance();
 
         if (!$oPayment->wcsValidateCustomerAge($oUser)) {
             return false;

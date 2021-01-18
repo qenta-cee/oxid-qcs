@@ -10,7 +10,7 @@
 /**
  * Order db gateway class
  */
-class wirecardCheckoutSeamlessOrderDbGateway
+class qmoreCheckoutSeamlessOrderDbGateway
 {
     /**
      * Save order to database
@@ -28,7 +28,7 @@ class wirecardCheckoutSeamlessOrderDbGateway
             $aSql[] = '`' . $sField . '` = ' . $oDb->quote($sData);
         }
 
-        $sSql = 'INSERT INTO `wirecardcheckoutseamless_order` SET ';
+        $sSql = 'INSERT INTO `qmorecheckoutseamless_order` SET ';
         $sSql .= implode(', ', $aSql);
 
         $oDb->execute($sSql);
@@ -45,7 +45,7 @@ class wirecardCheckoutSeamlessOrderDbGateway
     public function loadByOrderId($sOrderId)
     {
         $oDb = $this->_getDb();
-        $aData = $oDb->getRow('SELECT * FROM `wirecardcheckoutseamless_order` WHERE `OXORDERID` = ' . $oDb->quote($sOrderId));
+        $aData = $oDb->getRow('SELECT * FROM `qmorecheckoutseamless_order` WHERE `OXORDERID` = ' . $oDb->quote($sOrderId));
 
         return $aData;
     }
@@ -59,7 +59,7 @@ class wirecardCheckoutSeamlessOrderDbGateway
     {
         $oDb = $this->_getDb();
 
-        $blResult = $oDb->execute('DELETE FROM `wirecardcheckoutseamless_order` WHERE `OXID` = ' . $oDb->quote($sOxid));
+        $blResult = $oDb->execute('DELETE FROM `qmorecheckoutseamless_order` WHERE `OXID` = ' . $oDb->quote($sOxid));
 
         return $blResult;
     }

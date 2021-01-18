@@ -8,7 +8,7 @@
 <form method="post" action="[{ $oViewConf->getSelfLink() }]" name="qcs_config_export_form">
     [{ $oViewConf->getHiddenSid() }]
     <input type="hidden" name="oxid" value="[{ $oxid }]">
-    <input type="hidden" name="cl" value="wirecardCheckoutSeamlessSubmitConfig">
+    <input type="hidden" name="cl" value="qmoreCheckoutSeamlessSubmitConfig">
     <input type="hidden" name="fnc" value="submit">
 
     <label

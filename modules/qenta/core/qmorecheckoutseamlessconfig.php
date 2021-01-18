@@ -10,7 +10,7 @@
 /**
  * QMORE Checkout Seamless config class
  */
-class wirecardCheckoutSeamlessConfig
+class qmoreCheckoutSeamlessConfig
 {
 
     private static $_CUSTOMER_ID_DEMO_MODE = 'D200001';
@@ -308,7 +308,7 @@ class wirecardCheckoutSeamlessConfig
         if ($this->_oModule === null) {
             /** @var oxModule $module */
             $this->_oModule = oxNew('oxModule');
-            $this->_oModule->load('wirecardcheckoutseamless');
+            $this->_oModule->load('qmorecheckoutseamless');
         }
 
         return $this->_oModule;
@@ -316,14 +316,14 @@ class wirecardCheckoutSeamlessConfig
 
 
     /**
-     * @return wirecardCheckoutSeamlessConfig
+     * @return qmoreCheckoutSeamlessConfig
      */
     public static function getInstance()
     {
-        if (is_object(oxRegistry::get('wirecardCheckoutSeamlessConfig'))) {
-            return oxRegistry::get('wirecardCheckoutSeamlessConfig');
+        if (is_object(oxRegistry::get('qmoreCheckoutSeamlessConfig'))) {
+            return oxRegistry::get('qmoreCheckoutSeamlessConfig');
         }
 
-        oxRegistry::set('wirecardCheckoutSeamlessConfig', new self());
+        oxRegistry::set('qmoreCheckoutSeamlessConfig', new self());
     }
 }

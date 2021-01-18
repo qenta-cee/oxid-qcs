@@ -14,7 +14,7 @@ require_once getShopBasePath() . 'modules/qenta/checkoutseamless/autoloader.php'
  *
  * @see oxBasket
  */
-class wirecardCheckoutSeamlessBasket extends oxBasket
+class qmoreCheckoutSeamlessBasket extends oxBasket
 {
     /**
      * Returns array of basket oxarticle objects
@@ -23,7 +23,7 @@ class wirecardCheckoutSeamlessBasket extends oxBasket
      */
     public function getBasketArticles()
     {
-        wirecardCheckoutSeamlessUtils::getInstance()->log(__METHOD__ . ':has been called');
+        qmoreCheckoutSeamlessUtils::getInstance()->log(__METHOD__ . ':has been called');
         $aBasketArticles = array();
 
 

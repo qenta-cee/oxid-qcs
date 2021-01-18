@@ -1,11 +1,11 @@
 [{if $sPaymentID == "wcs_eps"}]
-[{ assign var="wirecardCheckoutSeamless_paymentdata_stored" value=$oView->hasWirecardCheckoutSeamlessPaymentData($sPaymentID) }]
-[{ assign var="wirecardCheckoutSeamless_paymentdata" value=$oView->getWirecardCheckoutSeamlessPaymentData($sPaymentID) }]
+[{ assign var="qmoreCheckoutSeamless_paymentdata_stored" value=$oView->hasWirecardCheckoutSeamlessPaymentData($sPaymentID) }]
+[{ assign var="qmoreCheckoutSeamless_paymentdata" value=$oView->getWirecardCheckoutSeamlessPaymentData($sPaymentID) }]
 [{oxscript include=$oView->getWirecardStorageJsUrl() priority=1)}]
-[{oxscript include=$oViewConf->getModuleUrl('wirecardcheckoutseamless','out/src/wirecard.js') priority=10}]
+[{oxscript include=$oViewConf->getModuleUrl('qmorecheckoutseamless','out/src/wirecard.js') priority=10}]
 <dl>
     <dt>
-        <input type="hidden" id="[{$sPaymentID}]_stored" value="[{ $wirecardCheckoutSeamless_paymentdata_stored|intval }]" />
+        <input type="hidden" id="[{$sPaymentID}]_stored" value="[{ $qmoreCheckoutSeamless_paymentdata_stored|intval }]" />
         <input id="payment_[{$sPaymentID}]" type="radio" name="paymentid" value="[{$sPaymentID}]" [{if $oView->getCheckedPaymentId() == $paymentmethod->oxpayments__oxid->value}]checked[{/if}]>
         <label for="payment_[{$sPaymentID}]">[{$oView->getWcsPaymentLogo($sPaymentID)}]<b>[{ $oView->getWcsRawPaymentDesc($paymentmethod->oxpayments__oxdesc->value)}]</b></label>
         [{if $paymentmethod->getPrice()}]

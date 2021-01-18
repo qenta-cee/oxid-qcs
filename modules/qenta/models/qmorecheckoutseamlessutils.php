@@ -7,9 +7,9 @@
  * https://github.com/qenta-cee/oxid-qcs/blob/master/LICENSE
 */
 
-class wirecardCheckoutSeamlessUtils
+class qmoreCheckoutSeamlessUtils
 {
-    protected $_logFilename = 'wirecardcheckoutseamless.log';
+    protected $_logFilename = 'qmorecheckoutseamless.log';
 
     public function convertPaymenttype($sPaymentID)
     {
@@ -31,15 +31,15 @@ class wirecardCheckoutSeamlessUtils
     }
 
     /**
-     * @return wirecardCheckoutSeamlessUtils
+     * @return qmoreCheckoutSeamlessUtils
      */
     public static function getInstance()
     {
-        if (is_object(oxRegistry::get('wirecardCheckoutSeamlessUtils'))) {
-            return oxRegistry::get('wirecardCheckoutSeamlessUtils');
+        if (is_object(oxRegistry::get('qmoreCheckoutSeamlessUtils'))) {
+            return oxRegistry::get('qmoreCheckoutSeamlessUtils');
         }
 
-        oxRegistry::set('wirecardCheckoutSeamlessUtils', new self());
+        oxRegistry::set('qmoreCheckoutSeamlessUtils', new self());
     }
 
 }

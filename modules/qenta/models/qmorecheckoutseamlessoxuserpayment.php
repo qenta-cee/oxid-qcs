@@ -7,15 +7,15 @@
  * https://github.com/qenta-cee/oxid-qcs/blob/master/LICENSE
 */
 
-class wirecardcheckoutseamlessoxuserpayment extends wirecardcheckoutseamlessoxuserpayment_parent
+class qmorecheckoutseamlessoxuserpayment extends qmorecheckoutseamlessoxuserpayment_parent
 {
     public function isWcsPaymethod($sPaymentID)
     {
-        return wirecardCheckoutSeamlessPayment::isWcsPaymethod($sPaymentID);
+        return qmoreCheckoutSeamlessPayment::isWcsPaymethod($sPaymentID);
     }
 
     public function getWcsRawPaymentDesc($paymethodNameWithPrefix)
     {
-        return wirecardCheckoutSeamlessPayment::getWcsRawPaymentDesc($paymethodNameWithPrefix);
+        return qmoreCheckoutSeamlessPayment::getWcsRawPaymentDesc($paymethodNameWithPrefix);
     }
 }

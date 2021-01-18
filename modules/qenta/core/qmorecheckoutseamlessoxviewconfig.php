@@ -7,9 +7,9 @@
  * https://github.com/qenta-cee/oxid-qcs/blob/master/LICENSE
 */
 
-class wirecardCheckoutSeamlessOxViewConfig extends wirecardCheckoutSeamlessOxViewConfig_parent
+class qmoreCheckoutSeamlessOxViewConfig extends qmoreCheckoutSeamlessOxViewConfig_parent
 {
-    /** @var wirecardCheckoutSeamlessConfig */
+    /** @var qmoreCheckoutSeamlessConfig */
     protected $_oWirecardCheckoutSeamlesConfig = null;
 
     /**
@@ -147,13 +147,13 @@ class wirecardCheckoutSeamlessOxViewConfig extends wirecardCheckoutSeamlessOxVie
     /**
      * Returns Wirecard Checkout Seamles config.
      *
-     * @return wirecardCheckoutSeamlessConfig
+     * @return qmoreCheckoutSeamlessConfig
      */
     protected function _getWirecardCheckoutSeamlesConfig()
     {
 
         if (is_null($this->_oWirecardCheckoutSeamlesConfig)) {
-            $this->_oWirecardCheckoutSeamlesConfig = wirecardCheckoutSeamlessConfig::getInstance();
+            $this->_oWirecardCheckoutSeamlesConfig = qmoreCheckoutSeamlessConfig::getInstance();
         }
 
         return $this->_oWirecardCheckoutSeamlesConfig;

@@ -11,7 +11,7 @@ $sLangName = "English";
 
 $aLang = array(
     "charset" => "UTF-8",
-    "wirecardcheckoutseamless" => "QMORE Checkout Seamless",
+    "qmorecheckoutseamless" => "QMORE Checkout Seamless",
     'SHOP_MODULE_GROUP_qcs_params' => 'General Settings',
     'SHOP_MODULE_GROUP_qcs_plugin' => 'Plugin Settings',
     'SHOP_MODULE_GROUP_qcs_risk_settings' => 'Fraud Prevention Suite',

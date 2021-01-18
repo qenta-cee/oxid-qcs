@@ -11,7 +11,7 @@
 /**
  * Order class wrapper for QMORE Checkout Seamless
  */
-class wirecardCheckoutSeamlessThankyou extends wirecardCheckoutSeamlessThankyou_parent
+class qmoreCheckoutSeamlessThankyou extends qmoreCheckoutSeamlessThankyou_parent
 {
     /**
      * @var oxOrder

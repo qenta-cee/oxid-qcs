@@ -15,10 +15,10 @@ require_once getShopBasePath() . 'modules/qenta/checkoutseamless/autoloader.php'
  *
  * @see oxPayment
  */
-class wirecardCheckoutSeamlessPayment extends wirecardCheckoutSeamlessPayment_parent
+class qmoreCheckoutSeamlessPayment extends qmoreCheckoutSeamlessPayment_parent
 {
     /**
-     * @var wirecardCheckoutSeamlessDataStorage
+     * @var qmoreCheckoutSeamlessDataStorage
      */
     protected $_oWirecardDataStorage;
 
@@ -29,7 +29,7 @@ class wirecardCheckoutSeamlessPayment extends wirecardCheckoutSeamlessPayment_pa
     protected $_oWirecardDataStorageReadResponse;
 
     /**
-     * url to wirecard JS Library for cross domain request.
+     * url to qenta JS Library for cross domain request.
      * Should be returned by WirecardCEE_Client_DataStorage_Request_Initiation
      *
      * @var string
@@ -51,8 +51,8 @@ class wirecardCheckoutSeamlessPayment extends wirecardCheckoutSeamlessPayment_pa
 
         $aValues = Array();
         $sPaymentId = (string )oxRegistry::getConfig()->getRequestParameter('paymentid');
-        $sPaymenttype = wirecardCheckoutSeamlessUtils::getInstance()->convertPaymenttype($sPaymentId);
-        $config = wirecardCheckoutSeamlessConfig::getInstance();
+        $sPaymenttype = qmoreCheckoutSeamlessUtils::getInstance()->convertPaymenttype($sPaymentId);
+        $config = qmoreCheckoutSeamlessConfig::getInstance();
         $oUser = $this->getUser();
         $oLang = oxRegistry::get('oxLang');
 
@@ -147,14 +147,14 @@ class wirecardCheckoutSeamlessPayment extends wirecardCheckoutSeamlessPayment_pa
                 break;
         }
 
-        oxRegistry::getSession()->setVariable('wirecardCheckoutSeamlessValues', $aValues);
+        oxRegistry::getSession()->setVariable('qmoreCheckoutSeamlessValues', $aValues);
 
         return $parentResult;
     }
 
     protected function _initWirecardDatastorage()
     {
-        $this->_oWirecardDataStorage = wirecardCheckoutSeamlessDataStorage::getInstance();
+        $this->_oWirecardDataStorage = qmoreCheckoutSeamlessDataStorage::getInstance();
 
         try {
             $oResponse = $this->_oWirecardDataStorage->initiate();
@@ -170,8 +170,8 @@ class wirecardCheckoutSeamlessPayment extends wirecardCheckoutSeamlessPayment_pa
                 }
                 oxRegistry::getSession()->setVariable('payerror', -1);
                 oxRegistry::getSession()->setVariable('payerrortext', $sErrorMessages);
-                $this->_aViewData['wirecardcheckoutseamless_errors'] = $sErrorMessages;
-                wirecardCheckoutSeamlessUtils::getInstance()->log(__METHOD__ . ':ERROR:' . $sErrorMessages);
+                $this->_aViewData['qmorecheckoutseamless_errors'] = $sErrorMessages;
+                qmoreCheckoutSeamlessUtils::getInstance()->log(__METHOD__ . ':ERROR:' . $sErrorMessages);
             } else {
                 $this->_sWirecardDataStorageJsUrl = $oResponse->getJavascriptUrl();
                 $this->_oWirecardDataStorage->setStorageId($oResponse->getStorageId());
@@ -220,7 +220,7 @@ class wirecardCheckoutSeamlessPayment extends wirecardCheckoutSeamlessPayment_pa
             return $aResponse;
         }
 
-        $sWirecardPaymentType = wirecardCheckoutSeamlessUtils::getInstance()->convertPaymenttype($sPaymenttype);
+        $sWirecardPaymentType = qmoreCheckoutSeamlessUtils::getInstance()->convertPaymenttype($sPaymenttype);
         if ($this->_oWirecardDataStorageReadResponse->hasPaymentInformation($sWirecardPaymentType)) {
             $aResponse = $this->_oWirecardDataStorageReadResponse->getPaymentInformation($sWirecardPaymentType);
         }
@@ -320,17 +320,17 @@ class wirecardCheckoutSeamlessPayment extends wirecardCheckoutSeamlessPayment_pa
      */
     public function getWirecardCheckoutSeamlessFinancialInstitutions($sPaymentID)
     {
-        $sPaymentType = wirecardCheckoutSeamlessUtils::getInstance()->convertPaymenttype($sPaymentID);
+        $sPaymentType = qmoreCheckoutSeamlessUtils::getInstance()->convertPaymenttype($sPaymentID);
 
         if (QentaCEE\Qmore\PaymentType::hasFinancialInstitutions($sPaymentType)) {
             return QentaCEE\Qmore\PaymentType::getFinancialInstitutions($sPaymentType);
         } elseif ($sPaymentType == QentaCEE\Qmore\PaymentType::TRUSTPAY) {
 
-            $financialInstitutions = $this->getSession()->getVariable('wirecardCheckoutSeamlessTrustPayFinancialInstitutions');
-            $financialInstitutionsLastModified = $this->getSession()->getVariable('wirecardCheckoutSeamlessTrustPayFinancialInstitutionsLastModified');
+            $financialInstitutions = $this->getSession()->getVariable('qmoreCheckoutSeamlessTrustPayFinancialInstitutions');
+            $financialInstitutionsLastModified = $this->getSession()->getVariable('qmoreCheckoutSeamlessTrustPayFinancialInstitutionsLastModified');
 
-            /** @var wirecardCheckoutSeamlessConfig $config */
-            $config = wirecardCheckoutSeamlessConfig::getInstance();
+            /** @var qmoreCheckoutSeamlessConfig $config */
+            $config = qmoreCheckoutSeamlessConfig::getInstance();
 
             if (empty($financialInstitutions) || $financialInstitutionsLastModified < (time() - $config->getFinancialInstitutionsLastModifiedTimer())) {
 
@@ -353,14 +353,14 @@ class wirecardCheckoutSeamlessPayment extends wirecardCheckoutSeamlessPayment_pa
                         $financialInstitutions[$institution["id"]] = $institution["name"];
                     }
 
-                    $this->getSession()->setVariable('wirecardCheckoutSeamlessTrustPayFinancialInstitutions',
+                    $this->getSession()->setVariable('qmoreCheckoutSeamlessTrustPayFinancialInstitutions',
                         $financialInstitutions);
-                    $this->getSession()->setVariable('wirecardCheckoutSeamlessTrustPayFinancialInstitutionsLastModified',
+                    $this->getSession()->setVariable('qmoreCheckoutSeamlessTrustPayFinancialInstitutionsLastModified',
                         time());
                 } catch (Exception $e) {
                     $financialInstitutions = array();
-                    $this->getSession()->deleteVariable('wirecardCheckoutSeamlessTrustPayFinancialInstitutions');
-                    $this->getSession()->deleteVariable('wirecardCheckoutSeamlessTrustPayFinancialInstitutionsLastModified');
+                    $this->getSession()->deleteVariable('qmoreCheckoutSeamlessTrustPayFinancialInstitutions');
+                    $this->getSession()->deleteVariable('qmoreCheckoutSeamlessTrustPayFinancialInstitutionsLastModified');
                 }
             }
 
@@ -385,7 +385,7 @@ class wirecardCheckoutSeamlessPayment extends wirecardCheckoutSeamlessPayment_pa
         if (!is_object($this->_oWirecardDataStorageReadResponse)) {
             return false;
         }
-        $sWirecardPaymentType = wirecardCheckoutSeamlessUtils::getInstance()->convertPaymenttype($sPaymenttype);
+        $sWirecardPaymentType = qmoreCheckoutSeamlessUtils::getInstance()->convertPaymenttype($sPaymenttype);
 
         return $this->_oWirecardDataStorageReadResponse->hasPaymentInformation($sWirecardPaymentType);
     }
@@ -460,19 +460,19 @@ class wirecardCheckoutSeamlessPayment extends wirecardCheckoutSeamlessPayment_pa
 
 
     /**
-     * strips "WCS " prefix from paymethod description
+     * strips "QCS " prefix from paymethod description
      *
      * @param String paymethod description with prefix
      * @return String paymethod description without prefix
      **/
-    public static function getWcsRawPaymentDesc($paymethodNameWithPrefix)
+    public static function getQcsRawPaymentDesc($paymethodNameWithPrefix)
     {
-        return str_replace('WCS ', '', $paymethodNameWithPrefix);
+        return str_replace('QCS ', '', $paymethodNameWithPrefix);
     }
 
-    public static function isWcsPaymethod($sPaymentId)
+    public static function isQcsPaymethod($sPaymentId)
     {
-        $sPaymenttype = wirecardCheckoutSeamlessUtils::getInstance()->convertPaymenttype($sPaymentId);
+        $sPaymenttype = qmoreCheckoutSeamlessUtils::getInstance()->convertPaymenttype($sPaymentId);
 
         switch ($sPaymenttype) {
             case QentaCEE\Qmore\PaymentType::BMC:
@@ -507,11 +507,11 @@ class wirecardCheckoutSeamlessPayment extends wirecardCheckoutSeamlessPayment_pa
 
     public function getWcsPaymentLogo($sPaymentId)
     {
-        $sPaymenttype = wirecardCheckoutSeamlessUtils::getInstance()->convertPaymenttype($sPaymentId);
+        $sPaymenttype = qmoreCheckoutSeamlessUtils::getInstance()->convertPaymenttype($sPaymentId);
 
         $conf = oxRegistry::getConfig();
         $modulePaths = $conf->getConfigParam('aModulePaths');
-        $imgPath = $conf->getConfigParam('sShopURL') . '/modules/' . $modulePaths['wirecardcheckoutseamless'] . '/out/img/';
+        $imgPath = $conf->getConfigParam('sShopURL') . '/modules/' . $modulePaths['qmorecheckoutseamless'] . '/out/img/';
 
         switch ($sPaymenttype) {
             case QentaCEE\Qmore\PaymentType::BMC:
@@ -578,7 +578,7 @@ class wirecardCheckoutSeamlessPayment extends wirecardCheckoutSeamlessPayment_pa
 
     public function hasWcsVatIdField($sPaymentId)
     {
-        $config = wirecardCheckoutSeamlessConfig::getInstance();
+        $config = qmoreCheckoutSeamlessConfig::getInstance();
 
         if ($config->getInvoiceProvider() == 'PAYOLUTION') {
             if ($sPaymentId == 'qcs_invoice_b2b') {
@@ -592,7 +592,7 @@ class wirecardCheckoutSeamlessPayment extends wirecardCheckoutSeamlessPayment_pa
 
     function showWcsTrustedShopsCheckbox($sPaymentId)
     {
-        $config = wirecardCheckoutSeamlessConfig::getInstance();
+        $config = qmoreCheckoutSeamlessConfig::getInstance();
 
         if ($config->getInvoiceProvider() == 'PAYOLUTION') {
             switch ($sPaymentId) {
@@ -608,7 +608,7 @@ class wirecardCheckoutSeamlessPayment extends wirecardCheckoutSeamlessPayment_pa
 
 	function showWcsInstallmentTrustedShopsCheckbox($sPaymentId)
 	{
-		$config = wirecardCheckoutSeamlessConfig::getInstance();
+		$config = qmoreCheckoutSeamlessConfig::getInstance();
 
 		if ($config->getInstallmentProvider() == 'PAYOLUTION') {
 			return $config->getInstallmentTrustedShopsCheckbox();
@@ -619,7 +619,7 @@ class wirecardCheckoutSeamlessPayment extends wirecardCheckoutSeamlessPayment_pa
     function getWcsInvoicePayolutionTerms()
     {
         $oLang = oxRegistry::get('oxLang');
-        $config = wirecardCheckoutSeamlessConfig::getInstance();
+        $config = qmoreCheckoutSeamlessConfig::getInstance();
 
         return sprintf($oLang->translateString('WIRECARD_CHECKOUT_SEAMLESS_PAYOLUTION_TERMS',
             $oLang->getBaseLanguage()),
@@ -629,7 +629,7 @@ class wirecardCheckoutSeamlessPayment extends wirecardCheckoutSeamlessPayment_pa
 	function getWcsInstallmentPayolutionTerms()
 	{
 		$oLang = oxRegistry::get('oxLang');
-		$config = wirecardCheckoutSeamlessConfig::getInstance();
+		$config = qmoreCheckoutSeamlessConfig::getInstance();
 
 		return sprintf($oLang->translateString('WIRECARD_CHECKOUT_SEAMLESS_PAYOLUTION_TERMS',
 			$oLang->getBaseLanguage()),
@@ -638,7 +638,7 @@ class wirecardCheckoutSeamlessPayment extends wirecardCheckoutSeamlessPayment_pa
 
 	function getWcsRatePayConsumerDeviceId()
 	{
-		$config = wirecardCheckoutSeamlessConfig::getInstance();
+		$config = qmoreCheckoutSeamlessConfig::getInstance();
 
 		if(isset($_SESSION['wcs-consumerDeviceId'])) {
 			$consumerDeviceId = $_SESSION['wcs-consumerDeviceId'];

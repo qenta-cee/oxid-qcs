@@ -9,7 +9,7 @@
 
 require_once getShopBasePath() . 'modules/qenta/checkoutseamless/autoloader.php';
 
-class wirecardCheckoutSeamlessEvents
+class qmoreCheckoutSeamlessEvents
 {
 
     public static function getAvailablePaymenttypes()
@@ -242,7 +242,7 @@ class wirecardCheckoutSeamlessEvents
 
     public static function addWirecardCheckoutSeamlessOrderTable()
     {
-        $sSql = "CREATE TABLE IF NOT EXISTS `wirecardcheckoutseamless_order` (
+        $sSql = "CREATE TABLE IF NOT EXISTS `qmorecheckoutseamless_order` (
               `OXID` char(32) NOT NULL COLLATE 'latin1_general_ci',
               `OXORDERID` char(32) NOT NULL COLLATE 'latin1_general_ci',
               `BASKET` TEXT NULL,

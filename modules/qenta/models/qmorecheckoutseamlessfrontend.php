@@ -9,7 +9,7 @@
 
 require_once getShopBasePath() . 'modules/qenta/checkoutseamless/autoloader.php';
 
-class wirecardCheckoutSeamlessFrontend
+class qmoreCheckoutSeamlessFrontend
 {
     /**
      * @var QentaCEE\Qmore\FrontendClient
@@ -18,8 +18,8 @@ class wirecardCheckoutSeamlessFrontend
 
     public function __construct()
     {
-        /** @var wirecardCheckoutSeamlessConfig $config */
-        $config = wirecardCheckoutSeamlessConfig::getInstance();
+        /** @var qmoreCheckoutSeamlessConfig $config */
+        $config = qmoreCheckoutSeamlessConfig::getInstance();
 
         /** @var oxLang $oLang */
         $oLang = oxRegistry::get('oxLang');
@@ -48,16 +48,16 @@ class wirecardCheckoutSeamlessFrontend
         /** @var oxUtilsUrl $util */
         $util = oxRegistry::get("oxUtilsUrl");
 
-        $this->_client->setConfirmUrl($util->cleanUrlParams($sHomeUrl . 'cl=order&fnc=wirecardConfirm&stoken=' . '&' . oxRegistry::getSession()->sid(true) . '&rtoken=' . $sRtoken,
+        $this->_client->setConfirmUrl($util->cleanUrlParams($sHomeUrl . 'cl=order&fnc=qentaConfirm&stoken=' . '&' . oxRegistry::getSession()->sid(true) . '&rtoken=' . $sRtoken,
             '&'));
-        $this->_client->setSuccessUrl($util->cleanUrlParams($sHomeUrl . 'cl=order&fnc=wirecardSuccess', '&'));
-        $this->_client->setPendingUrl($util->cleanUrlParams($sHomeUrl . 'cl=order&fnc=wirecardPending', '&'));
-        $this->_client->setCancelUrl($util->cleanUrlParams($sHomeUrl . 'cl=order&fnc=wirecardCancel', '&'));
-        $this->_client->setFailureUrl($util->cleanUrlParams($sHomeUrl . 'cl=order&fnc=wirecardFailure', '&'));
+        $this->_client->setSuccessUrl($util->cleanUrlParams($sHomeUrl . 'cl=order&fnc=qentaSuccess', '&'));
+        $this->_client->setPendingUrl($util->cleanUrlParams($sHomeUrl . 'cl=order&fnc=qentaPending', '&'));
+        $this->_client->setCancelUrl($util->cleanUrlParams($sHomeUrl . 'cl=order&fnc=qentaCancel', '&'));
+        $this->_client->setFailureUrl($util->cleanUrlParams($sHomeUrl . 'cl=order&fnc=qentaFailure', '&'));
 
         $this->_client->setServiceUrl($config->getServiceUrl());
 
-        $this->_client->setWindowName('wirecardCheckoutSeamlessIframe');
+        $this->_client->setWindowName('qmoreCheckoutSeamlessIframe');
         $this->_client->setAutoDeposit($config->getAutoDeposit());
         $this->_client->setDuplicateRequestCheck($config->getDuplicateRequestCheck());
         $this->_client->setAutoDeposit($config->getAutoDeposit());
@@ -72,15 +72,15 @@ class wirecardCheckoutSeamlessFrontend
     public function initiate()
     {
         $this->_client->setStorageReference(oxRegistry::getSession()->getId(),
-            wirecardCheckoutSeamlessDataStorage::getInstance()->getStorageId());
+            qmoreCheckoutSeamlessDataStorage::getInstance()->getStorageId());
 
         return $this->_client->initiate();
     }
 
     public function setOrderData(oxOrder $oOrder, $paymentType)
     {
-        /** @var wirecardCheckoutSeamlessConfig $config */
-        $config = wirecardCheckoutSeamlessConfig::getInstance();
+        /** @var qmoreCheckoutSeamlessConfig $config */
+        $config = qmoreCheckoutSeamlessConfig::getInstance();
 
         $paymentTypeShop = strtoupper(str_replace('qcs_', '', $oOrder->oxorder__oxpaymenttype->value));
         $paymentType = $paymentTypeShop;
@@ -122,12 +122,12 @@ class wirecardCheckoutSeamlessFrontend
      *
      * @param oxOrder $oOrder
      *
-     * @return wirecardCheckoutSeamlessFrontend
+     * @return qmoreCheckoutSeamlessFrontend
      */
     public function setConsumerData(oxOrder $oOrder, $paymentType)
     {
-        /** @var wirecardCheckoutSeamlessConfig $config */
-        $config = wirecardCheckoutSeamlessConfig::getInstance();
+        /** @var qmoreCheckoutSeamlessConfig $config */
+        $config = qmoreCheckoutSeamlessConfig::getInstance();
         $consumerData = new QentaCEE\Stdlib\ConsumerData();
 
         if ($config->getSendBillingData() || in_array($paymentType, array('INVOICE_B2B', 'INVOICE_B2C', 'INSTALLMENT'))) {
@@ -227,12 +227,12 @@ class wirecardCheckoutSeamlessFrontend
      *
      * @param oxOrder $oOrder
      *
-     * @return wirecardCheckoutSeamlessFrontend
+     * @return qmoreCheckoutSeamlessFrontend
      */
 	public function setBasket(oxOrder $oOrder, $paymentType)
 	{
-		/** @var wirecardCheckoutSeamlessConfig $config */
-		$config = wirecardCheckoutSeamlessConfig::getInstance();
+		/** @var qmoreCheckoutSeamlessConfig $config */
+		$config = qmoreCheckoutSeamlessConfig::getInstance();
 
 		if ($config->getSendAdditionalBasketData()
 		    || ((in_array($paymentType, array('INVOICE_B2B', 'INVOICE_B2C'))
@@ -320,22 +320,22 @@ class wirecardCheckoutSeamlessFrontend
 	}
 
     /**
-     * @return wirecardCheckoutSeamlessFrontend
+     * @return qmoreCheckoutSeamlessFrontend
      */
     public static function getInstance()
     {
-        if (is_object(oxRegistry::get('wirecardCheckoutSeamlessFrontend'))) {
-            return oxRegistry::get('wirecardCheckoutSeamlessFrontend');
+        if (is_object(oxRegistry::get('qmoreCheckoutSeamlessFrontend'))) {
+            return oxRegistry::get('qmoreCheckoutSeamlessFrontend');
         }
 
-        oxRegistry::set('wirecardCheckoutSeamlessFrontend', new self());
+        oxRegistry::set('qmoreCheckoutSeamlessFrontend', new self());
     }
 
     private function _getCustomerStatement($paymenttype)
     {
         $oOrder = $this->_getOrder();
-        /** @var wirecardCheckoutSeamlessConfig $config */
-        $oConfig = wirecardCheckoutSeamlessConfig::getInstance();
+        /** @var qmoreCheckoutSeamlessConfig $config */
+        $oConfig = qmoreCheckoutSeamlessConfig::getInstance();
 
         $orderReference = sprintf('%010d', $oOrder->oxorder__oxordernr->value);
         $customerStatementString = sprintf('%s id:%s', $oConfig->getShopName(), $orderReference);

@@ -16,7 +16,7 @@ $sMetadataVersion = '1.1';
  * Module information
  */
 $aModule = array(
-    'id'          => 'wirecardcheckoutseamless',
+    'id'          => 'qmorecheckoutseamless',
     'title'       => 'QMORE Checkout Seamless',
     'description' => array(
         'de' => 'Modul zur Bezahlung mit QMORE Checkout Seamless.<br /><br /><div id="helpPanel"><div class="bd"><strong>Support und Vertrieb:</strong><br /><a href="https://guides.qenta.com/support" target="_blank">Support</a><br /><a href="https://guides.qenta.com/sales" target="_blank">Sales</a></div></div>',
@@ -28,33 +28,33 @@ $aModule = array(
     'url'         => 'http://www.qenta.com',
     'email'       => 'support@qenta.com',
     'extend'      => array(
-        'order'            => 'qenta/checkoutseamless/controllers/wirecardcheckoutseamlessorder',
-        'payment'          => 'qenta/checkoutseamless/controllers/wirecardcheckoutseamlesspayment',
-        'thankyou'         => 'qenta/checkoutseamless/controllers/wirecardcheckoutseamlessthankyou',
-        'oxviewconfig'     => 'qenta/checkoutseamless/core/wirecardcheckoutseamlessoxviewconfig',
-        'oxpaymentgateway' => 'qenta/checkoutseamless/models/wirecardcheckoutseamlessoxpaymentgateway',
-        'oxorder'          => 'qenta/checkoutseamless/models/wirecardcheckoutseamlessoxorder',
-        'oxpaymentlist'    => 'qenta/checkoutseamless/models/wirecardcheckoutseamlessoxpaymentlist',
-        'oxuserpayment'    => 'qenta/checkoutseamless/models/wirecardcheckoutseamlessoxuserpayment',
+        'order'            => 'qenta/checkoutseamless/controllers/qmorecheckoutseamlessorder',
+        'payment'          => 'qenta/checkoutseamless/controllers/qmorecheckoutseamlesspayment',
+        'thankyou'         => 'qenta/checkoutseamless/controllers/qmorecheckoutseamlessthankyou',
+        'oxviewconfig'     => 'qenta/checkoutseamless/core/qmorecheckoutseamlessoxviewconfig',
+        'oxpaymentgateway' => 'qenta/checkoutseamless/models/qmorecheckoutseamlessoxpaymentgateway',
+        'oxorder'          => 'qenta/checkoutseamless/models/qmorecheckoutseamlessoxorder',
+        'oxpaymentlist'    => 'qenta/checkoutseamless/models/qmorecheckoutseamlessoxpaymentlist',
+        'oxuserpayment'    => 'qenta/checkoutseamless/models/qmorecheckoutseamlessoxuserpayment',
    ),
     'files'       => array(
-        'wirecardCheckoutSeamlessConfig'         => 'qenta/checkoutseamless/core/wirecardcheckoutseamlessconfig.php',
-        'wirecardCheckoutSeamlessEvents'         => 'qenta/checkoutseamless/core/wirecardcheckoutseamlessevents.php',
-        'wirecardCheckoutSeamlessDataStorage'    => 'qenta/checkoutseamless/models/wirecardcheckoutseamlessdatastorage.php',
-        'wirecardCheckoutSeamlessFrontend'       => 'qenta/checkoutseamless/models/wirecardcheckoutseamlessfrontend.php',
-        'wirecardCheckoutSeamlessUtils'          => 'qenta/checkoutseamless/models/wirecardcheckoutseamlessutils.php',
-        'wirecardCheckoutSeamlessOrderDbGateway' => 'qenta/checkoutseamless/models/dbgateways/wirecardcheckoutseamlessorderdbgateway.php',
-		'wirecardCheckoutSeamlessSubmitConfig'   => 'qenta/checkoutseamless/controllers/admin/wirecardcheckoutseamlesssubmitconfig.php',
-		'wirecardCheckoutSeamlessBasket'         => 'qenta/checkoutseamless/models/wirecardcheckoutseamlessoxbasket.php',
+        'qmoreCheckoutSeamlessConfig'         => 'qenta/checkoutseamless/core/qmorecheckoutseamlessconfig.php',
+        'qmoreCheckoutSeamlessEvents'         => 'qenta/checkoutseamless/core/qmorecheckoutseamlessevents.php',
+        'qmoreCheckoutSeamlessDataStorage'    => 'qenta/checkoutseamless/models/qmorecheckoutseamlessdatastorage.php',
+        'qmoreCheckoutSeamlessFrontend'       => 'qenta/checkoutseamless/models/qmorecheckoutseamlessfrontend.php',
+        'qmoreCheckoutSeamlessUtils'          => 'qenta/checkoutseamless/models/qmorecheckoutseamlessutils.php',
+        'qmoreCheckoutSeamlessOrderDbGateway' => 'qenta/checkoutseamless/models/dbgateways/qmorecheckoutseamlessorderdbgateway.php',
+		'qmoreCheckoutSeamlessSubmitConfig'   => 'qenta/checkoutseamless/controllers/admin/qmorecheckoutseamlesssubmitconfig.php',
+		'qmoreCheckoutSeamlessBasket'         => 'qenta/checkoutseamless/models/qmorecheckoutseamlessoxbasket.php',
 
     ),
     'events'      => array(
-        'onActivate'   => 'wirecardCheckoutSeamlessEvents::onActivate',
-        'onDeactivate' => 'wirecardCheckoutSeamlessEvents::onDeactivate'
+        'onActivate'   => 'qmoreCheckoutSeamlessEvents::onActivate',
+        'onDeactivate' => 'qmoreCheckoutSeamlessEvents::onDeactivate'
     ),
     'templates'   => array(
-        'wirecardcheckoutseamlessiframecheckout.tpl' => 'qenta/checkoutseamless/views/page/checkout/iframecheckout.tpl',
-        'wirecardcheckoutseamlesssubmitconfig.tpl'   => 'qenta/checkoutseamless/views/admin/tpl/wirecardcheckoutseamlesssubmitconfig.tpl',
+        'qmorecheckoutseamlessiframecheckout.tpl' => 'qenta/checkoutseamless/views/page/checkout/iframecheckout.tpl',
+        'qmorecheckoutseamlesssubmitconfig.tpl'   => 'qenta/checkoutseamless/views/admin/tpl/qmorecheckoutseamlesssubmitconfig.tpl',
         'qcs_payment_ccard.tpl'       =>  'qenta/checkoutseamless/views/blocks/paymethods/qcs_payment_ccard.tpl',
         'qcs_payment_eps.tpl'         =>  'qenta/checkoutseamless/views/blocks/paymethods/qcs_payment_eps.tpl',
         'qcs_payment_giropay.tpl'     =>  'qenta/checkoutseamless/views/blocks/paymethods/qcs_payment_giropay.tpl',
@@ -70,8 +70,8 @@ $aModule = array(
     'blocks'      => array(
         array('template' => 'page/checkout/payment.tpl', 'block' => 'select_payment', 'file' => '/views/blocks/paymentselector.tpl'),
         array('template' => 'page/checkout/thankyou.tpl', 'block' => 'checkout_thankyou_info', 'file' => '/views/blocks/thankyou.tpl'),
-        array('template' => 'page/checkout/payment.tpl','block' => 'checkout_payment_errors','file' => '/views/blocks/wirecardcheckoutseamlesserrors.tpl'),
-        array('template' => 'page/checkout/order.tpl', 'block' => 'shippingAndPayment', 'file' => '/views/blocks/wirecardcheckoutseamlessorder.tpl'),
+        array('template' => 'page/checkout/payment.tpl','block' => 'checkout_payment_errors','file' => '/views/blocks/qmorecheckoutseamlesserrors.tpl'),
+        array('template' => 'page/checkout/order.tpl', 'block' => 'shippingAndPayment', 'file' => '/views/blocks/qmorecheckoutseamlessorder.tpl'),
         array('template' => 'email/html/order_cust.tpl', 'block' => 'email_html_order_cust_paymentinfo_top', 'file' => '/views/blocks/email/html/order_cust.tpl'),
         array('template' => 'email/plain/order_cust.tpl', 'block' => 'email_plain_order_cust_paymentinfo', 'file' => '/views/blocks/email/plain/order_cust.tpl'),
     ),
