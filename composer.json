@@ -1,20 +1,20 @@
 {
-    "name": "qenta/oxid-qenta-checkout-seamless",
-    "description": "QENTA Checkout Seamless plugin for Oxid",
-    "keywords": [
-        "QENTA",
-        "checkout",
-        "page",
-        "seamless",
-        "payment"
-    ],
-    "type": "library",
-    "license": "GPL-3.0",
-    "require": {
-        "php": ">=7.2.0",
-        "qenta/checkout-client-library": "^5.0.2"
-    },
-    "config": {
-        "vendor-dir": "modules/qenta/checkoutseamless/vendor"
-    }
+  "name": "qenta/oxid-qenta-checkout-seamless",
+  "description": "QENTA Checkout Seamless plugin for Oxid",
+  "keywords": [
+    "QENTA",
+    "checkout",
+    "page",
+    "seamless",
+    "payment"
+  ],
+  "type": "library",
+  "license": "GPL-3.0",
+  "require": {
+    "php": ">=7.2.0",
+    "qenta/checkout-client-library": "^5.0.2"
+  },
+  "config": {
+    "vendor-dir": "modules/qenta/checkoutseamless/vendor"
+  }
 }
