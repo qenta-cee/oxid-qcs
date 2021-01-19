@@ -10,7 +10,7 @@
 /**
  * Metadata version
  */
-$sMetadataVersion = '1.1';
+$sMetadataVersion = '2.0';
 
 /**
  * Module information
@@ -25,32 +25,31 @@ $aModule = array(
     'thumbnail'   => 'picture.jpg',
     'version'     => '3.0.0',
     'author'      => 'QENTA Payment CEE GmbH',
-    'url'         => 'http://www.qenta.com',
+    'url'         => 'https://www.qenta.com',
     'email'       => 'support@qenta.com',
-    'extend'      => array(
-        'order'            => 'qenta/checkoutseamless/controllers/qmorecheckoutseamlessorder',
-        'payment'          => 'qenta/checkoutseamless/controllers/qmorecheckoutseamlesspayment',
-        'thankyou'         => 'qenta/checkoutseamless/controllers/qmorecheckoutseamlessthankyou',
-        'oxviewconfig'     => 'qenta/checkoutseamless/core/qmorecheckoutseamlessoxviewconfig',
-        'oxpaymentgateway' => 'qenta/checkoutseamless/models/qmorecheckoutseamlessoxpaymentgateway',
-        'oxorder'          => 'qenta/checkoutseamless/models/qmorecheckoutseamlessoxorder',
-        'oxpaymentlist'    => 'qenta/checkoutseamless/models/qmorecheckoutseamlessoxpaymentlist',
-        'oxuserpayment'    => 'qenta/checkoutseamless/models/qmorecheckoutseamlessoxuserpayment',
-   ),
-    'files'       => array(
-        'qmoreCheckoutSeamlessConfig'         => 'qenta/checkoutseamless/core/qmorecheckoutseamlessconfig.php',
-        'qmoreCheckoutSeamlessEvents'         => 'qenta/checkoutseamless/core/qmorecheckoutseamlessevents.php',
-        'qmoreCheckoutSeamlessDataStorage'    => 'qenta/checkoutseamless/models/qmorecheckoutseamlessdatastorage.php',
-        'qmoreCheckoutSeamlessFrontend'       => 'qenta/checkoutseamless/models/qmorecheckoutseamlessfrontend.php',
-        'qmoreCheckoutSeamlessUtils'          => 'qenta/checkoutseamless/models/qmorecheckoutseamlessutils.php',
-        'qmoreCheckoutSeamlessOrderDbGateway' => 'qenta/checkoutseamless/models/dbgateways/qmorecheckoutseamlessorderdbgateway.php',
-		'qmoreCheckoutSeamlessSubmitConfig'   => 'qenta/checkoutseamless/controllers/admin/qmorecheckoutseamlesssubmitconfig.php',
-		'qmoreCheckoutSeamlessBasket'         => 'qenta/checkoutseamless/models/qmorecheckoutseamlessoxbasket.php',
-
-    ),
+    'extend'      => [
+        \OxidEsales\Eshop\Application\Controller\OrderController::class  => \Qenta\Extend\Controller\qmoreCheckoutSeamlessOrder::class,
+        \OxidEsales\Eshop\Application\Controller\PaymentController::class => \Qenta\Extend\Controller\qmoreCheckoutSeamlessPayment::class,
+        \OxidEsales\Eshop\Application\Controller\ThankYouController::class => \Qenta\Extend\Controller\qmoreCheckoutSeamlessThankyou::class,
+        \OxidEsales\Eshop\Core\ViewConfig::class     => \Qenta\Extend\Core\qmoreCheckoutSeamlessOxViewConfig::class,
+        \OxidEsales\Eshop\Application\Model\PaymentGateway::class => \Qenta\Extend\Application\Model\qmoreCheckoutSeamlessOxPaymentGateway::class,
+        \OxidEsales\Eshop\Application\Model\Order::class => \Qenta\Extend\Application\Model\qmoreCheckoutSeamlessOxOrder::class,
+        \OxidEsales\Eshop\Application\Model\PaymentList::class    => \Qenta\Extend\Application\Model\qmorecheckoutseamlessoxpaymentlist::class,
+        \OxidEsales\Eshop\Application\Model\UserPayment::class    => \Qenta\Extend\Application\Model\qmorecheckoutseamlessoxuserpayment::class,
+    ],
+   'controllers' => [
+        'qmoreCheckoutSeamlessConfig'         => \Qenta\Core\qmoreCheckoutSeamlessConfig::class,
+        'qmoreCheckoutSeamlessEvents'         => \Qenta\Core\qmoreCheckoutSeamlessEvents::class,
+        'qmoreCheckoutSeamlessDataStorage'    => \Qenta\Model\qmoreCheckoutSeamlessDataStorage::class,
+        'qmoreCheckoutSeamlessFrontend'       => \Qenta\Model\qmoreCheckoutSeamlessFrontend::class,
+        'qmoreCheckoutSeamlessUtils'          => \Qenta\Model\qmoreCheckoutSeamlessUtils::class,
+        'qmoreCheckoutSeamlessOrderDbGateway' => \Qenta\Model\qmoreCheckoutSeamlessOrderDbGateway::class,
+		'qmoreCheckoutSeamlessSubmitConfig'   => \Qenta\Controller\Admin\qmorecheckoutseamlessSubmitConfig::class,
+		'qmoreCheckoutSeamlessBasket'         => \Qenta\Model\qmoreCheckoutSeamlessBasket::class
+    ],
     'events'      => array(
-        'onActivate'   => 'qmoreCheckoutSeamlessEvents::onActivate',
-        'onDeactivate' => 'qmoreCheckoutSeamlessEvents::onDeactivate'
+        'onActivate'   => '\Qenta\Core\qmoreCheckoutSeamlessEvents::onActivate',
+        'onDeactivate' => '\Qenta\Core\qmoreCheckoutSeamlessEvents::onDeactivate'
     ),
     'templates'   => array(
         'qmorecheckoutseamlessiframecheckout.tpl' => 'qenta/checkoutseamless/views/page/checkout/iframecheckout.tpl',

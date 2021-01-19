@@ -6,7 +6,7 @@
  * - License can be found under:
  * https://github.com/qenta-cee/oxid-qcs/blob/master/LICENSE
 */
-
+namespace Qenta\Extend\Controller;
 
 /**
  * Order class wrapper for QMORE Checkout Seamless

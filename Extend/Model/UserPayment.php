@@ -6,6 +6,7 @@
  * - License can be found under:
  * https://github.com/qenta-cee/oxid-qcs/blob/master/LICENSE
 */
+namespace Qenta\Extend\Application\Model;
 
 class qmorecheckoutseamlessoxuserpayment extends qmorecheckoutseamlessoxuserpayment_parent
 {
