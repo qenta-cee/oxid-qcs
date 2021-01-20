@@ -8,8 +8,6 @@
 */
 namespace Qenta\Core;
 
-require_once getShopBasePath() . 'modules/qenta/checkoutseamless/autoloader.php';
-
 class qmoreCheckoutSeamlessEvents
 {
 

@@ -8,8 +8,6 @@
 */
 namespace Qenta\Model;
 
-require_once getShopBasePath() . 'modules/qenta/checkoutseamless/autoloader.php';
-
 /**
  * QMORE Checkout Seamless oxBasket class
  *

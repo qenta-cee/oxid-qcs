@@ -8,8 +8,6 @@
 */
 namespace Qenta\Model;
 
-require_once getShopBasePath() . 'modules/qenta/checkoutseamless/autoloader.php';
-
 class qmoreCheckoutSeamlessDataStorage
 {
     /**
