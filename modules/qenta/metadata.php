@@ -113,5 +113,6 @@ $aModule = [
 
         ['group' => 'qcs_risk_settings', 'name' => 'sRiskConfigAlias', 'type' => 'str', 'value' => ''],
         ['group' => 'qcs_risk_settings', 'name' => 'bRiskSuppress', 'type' => 'bool', 'value' => 'false'],
-    ]
+    ],
+    'settings' => []
 ];
