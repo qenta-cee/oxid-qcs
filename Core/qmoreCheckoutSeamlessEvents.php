@@ -250,6 +250,6 @@ class qmoreCheckoutSeamlessEvents
               KEY `QMORECHECKOUTSEAMLESS_ORDER_OXORDERID` (`OXORDERID`)
             ) COLLATE='utf8_general_ci'";
 
-        oxDb::getDb()->execute($sSql);
+        DatabaseProvider::getDb()->execute($sSql);
     }
 }

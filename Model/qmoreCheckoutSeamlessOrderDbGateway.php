@@ -72,7 +72,7 @@ class qmoreCheckoutSeamlessOrderDbGateway
      */
     protected function _getDb()
     {
-        return oxDb::getDb(oxDb::FETCH_MODE_ASSOC);
+        return DatabaseProvider::getDb(DatabaseProvider::FETCH_MODE_ASSOC);
     }
 
 }

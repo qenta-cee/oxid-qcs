@@ -160,7 +160,7 @@ class qmoreCheckoutSeamlessFrontend
 	        $billingAddressObj->setCity( $oOrder->getFieldData( 'oxbillcity' ) );
 
 	        $sBillingCountryId = $oOrder->getFieldData( 'oxbillcountryid' );
-	        $oDB               = oxDb::GetDB();
+	        $oDB               = DatabaseProvider::GetDB();
 	        $sBillingCountry   = $oDB->getOne( "select oxisoalpha2 from oxcountry where oxid = '$sBillingCountryId'" );
 
 	        $billingAddressObj->setCountry( $sBillingCountry );
@@ -185,7 +185,7 @@ class qmoreCheckoutSeamlessFrontend
                 $shippingAddressObj->setCity($oShippingData->getFieldData('oxcity'));
 
                 $sShippingCountryId = $oShippingData->getFieldData('oxcountryid');
-                $oDB = oxDb::GetDB();
+                $oDB = DatabaseProvider::GetDB();
                 $sShippingCountry = $oDB->getOne("select oxisoalpha2 from oxcountry where oxid = '$sShippingCountryId'");
 
                 $shippingAddressObj->setCountry($sShippingCountry);
