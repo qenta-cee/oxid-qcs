@@ -80,7 +80,7 @@ class qmoreCheckoutSeamlessOrder extends qmoreCheckoutSeamlessOrder_parent
                     return parent::_getNextStep(implode("<br/>\n", $aFormattedErrors));
                 }
 
-                if ($config->getUseIframe() && $sQentaPaymentType != QentaCEE\Qmore\PaymentType::SOFORTUEBERWEISUNG) {
+                if ($config->getUseIframe() && $sQentaPaymentType != \QentaCEE\Qmore\PaymentType::SOFORTUEBERWEISUNG) {
                     $sStoken = oxRegistry::getSession()->getSessionChallengeToken();
                     $sHomeUrl = oxRegistry::getSession()->processUrl($config->getOxConfig()->getShopSecureHomeUrl());
                     oxRegistry::getSession()->setVariable('qmoreCheckoutIframeUrl', $oResponse->getRedirectUrl());
@@ -180,10 +180,10 @@ EOT
 
         $config = qmoreCheckoutSeamlessConfig::getInstance();
 
-        $out = QentaCEE\Qmore\ReturnFactory::generateConfirmResponseString();
+        $out = \QentaCEE\Qmore\ReturnFactory::generateConfirmResponseString();
 
         if (!isset($_POST['oxid_orderid'])) {
-            print QentaCEE\Qmore\ReturnFactory::generateConfirmResponseString('Order Id is missing');
+            print \QentaCEE\Qmore\ReturnFactory::generateConfirmResponseString('Order Id is missing');
 
             return;
         }
@@ -192,14 +192,14 @@ EOT
         /** @var oxOrder $oOrder */
         $oOrder = $this->_getOrderById($sOXID);
         if ($oOrder === null) {
-            print QentaCEE\Qmore\ReturnFactory::generateConfirmResponseString('Order not found.');
+            print \QentaCEE\Qmore\ReturnFactory::generateConfirmResponseString('Order not found.');
 
             return;
         }
 
         if(in_array($oOrder->oxorder__oxtransstatus, array('PAID'))) {
             qmoreCheckoutSeamlessUtils::getInstance()->log(__METHOD__ . ':ORDER: can\'t update order state, since it is already in a final state: ' . $oOrder->oxorder__oxtransstatus);
-            print QentaCEE\Qmore\ReturnFactory::generateConfirmResponseString('Can\'t update order state, since it is already in a final state.');
+            print \QentaCEE\Qmore\ReturnFactory::generateConfirmResponseString('Can\'t update order state, since it is already in a final state.');
 
             return;
         }
@@ -208,23 +208,23 @@ EOT
         $oDbOrder = oxNew('qmoreCheckoutSeamlessOrderDbGateway');
         $aOrderData = $oDbOrder->loadByOrderId($sOXID);
         if (!count($aOrderData)) {
-            print QentaCEE\Qmore\ReturnFactory::generateConfirmResponseString('QENTA Order not found.');
+            print \QentaCEE\Qmore\ReturnFactory::generateConfirmResponseString('QENTA Order not found.');
 
             return;
         }
 
         try {
-            /** @var $return QentaCEE\Stdlib\Return\ReturnAbstract */
-            $return = QentaCEE\Qmore\ReturnFactory::getInstance($_POST, qmoreCheckoutSeamlessConfig::getInstance()->getSecret());
+            /** @var $return \QentaCEE\Stdlib\Return\ReturnAbstract */
+            $return = \QentaCEE\Qmore\ReturnFactory::getInstance($_POST, qmoreCheckoutSeamlessConfig::getInstance()->getSecret());
             if (!$return->validate()) {
                 qmoreCheckoutSeamlessUtils::getInstance()->log(__METHOD__ . ':Validation error: invalid response');
-                print QentaCEE\Qmore\ReturnFactory::generateConfirmResponseString('Validation error: invalid response');
+                print \QentaCEE\Qmore\ReturnFactory::generateConfirmResponseString('Validation error: invalid response');
                 return;
             }
 
             switch ($return->getPaymentState()) {
-                case QentaCEE\Qmore\ReturnFactory::STATE_SUCCESS:
-                    /** @var $return QentaCEE\Qmore\Return_Success */
+                case \QentaCEE\Qmore\ReturnFactory::STATE_SUCCESS:
+                    /** @var $return \QentaCEE\Qmore\Return_Success */
                     qmoreCheckoutSeamlessUtils::getInstance()->log(__METHOD__ . ':SUCCESS:' . $return->getOrderNumber() . ':' . $return->getGatewayReferenceNumber());
                     $oOrder->oxorder__oxtransstatus = new oxField('PAID');
                     $oOrder->oxorder__oxpaid = new oxField(date('Y-m-d H:i:s'));
@@ -259,10 +259,10 @@ EOT
                     $oDbOrder->delete($aOrderData['OXID']);
                     break;
 
-                case QentaCEE\Qmore\ReturnFactory::STATE_PENDING:
+                case \QentaCEE\Qmore\ReturnFactory::STATE_PENDING:
                     $sendEmail = !in_array($oOrder->oxorder__oxtransstatus, array('PENDING'));
 
-                    /** @var $return QentaCEE\Qmore\Return_Pending */
+                    /** @var $return \QentaCEE\Qmore\Return_Pending */
                     qmoreCheckoutSeamlessUtils::getInstance()->log(__METHOD__ . ':PENDING');
                     $oOrder->oxorder__oxtransstatus = new oxField('PENDING');
                     $oOrder->oxorder__oxtransid = new oxField($return->getOrderNumber());
@@ -282,8 +282,8 @@ EOT
 
                     break;
 
-                case QentaCEE\Qmore\ReturnFactory::STATE_CANCEL:
-                    /** @var $return QentaCEE\Qmore\Return_Cancel */
+                case \QentaCEE\Qmore\ReturnFactory::STATE_CANCEL:
+                    /** @var $return \QentaCEE\Qmore\Return_Cancel */
                     qmoreCheckoutSeamlessUtils::getInstance()->log(__METHOD__ . ':CANCEL');
 
                     $oDbOrder->delete($aOrderData['OXID']);
@@ -298,8 +298,8 @@ EOT
                     }
                     break;
 
-                case QentaCEE\Qmore\ReturnFactory::STATE_FAILURE:
-                    /** @var $return QentaCEE\Qmore\Return_Failure */
+                case \QentaCEE\Qmore\ReturnFactory::STATE_FAILURE:
+                    /** @var $return \QentaCEE\Qmore\Return_Failure */
                     qmoreCheckoutSeamlessUtils::getInstance()->log(__METHOD__ . ':FAILURE:' . print_r($return->getErrors(),
                             true));
 
@@ -314,7 +314,7 @@ EOT
                     }
 
                     $consumerMessage = '';
-                    /** var $e QentaCEE\Qmore\Error */
+                    /** var $e \QentaCEE\Qmore\Error */
                     foreach ($return->getErrors() as $e) {
                         $consumerMessage .= ' ' . $e->getConsumerMessage();
                     }
@@ -326,7 +326,7 @@ EOT
             }
         } catch (Exception $e) {
             qmoreCheckoutSeamlessUtils::getInstance()->log(__METHOD__ . ':EXCEPTION:' . $e->getMessage() . $e->getTraceAsString());
-            $out = QentaCEE\Qmore\ReturnFactory::generateConfirmResponseString($e->getMessage());
+            $out = \QentaCEE\Qmore\ReturnFactory::generateConfirmResponseString($e->getMessage());
         }
 
         qmoreCheckoutSeamlessUtils::getInstance()->log(__METHOD__ . ':' . print_r($out, true));

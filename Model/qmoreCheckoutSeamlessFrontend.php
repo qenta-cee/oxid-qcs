@@ -11,7 +11,7 @@ namespace Qenta\Model;
 class qmoreCheckoutSeamlessFrontend
 {
     /**
-     * @var QentaCEE\Qmore\FrontendClient
+     * @var \QentaCEE\Qmore\FrontendClient
      */
     protected $_client;
 
@@ -23,14 +23,14 @@ class qmoreCheckoutSeamlessFrontend
         /** @var oxLang $oLang */
         $oLang = oxRegistry::get('oxLang');
 
-        $this->_client = new QentaCEE\Qmore\FrontendClient(Array(
+        $this->_client = new \QentaCEE\Qmore\FrontendClient(Array(
             'CUSTOMER_ID' => $config->getCustomerId(),
             'SHOP_ID' => $config->getShopId(),
             'LANGUAGE' => $oLang->getLanguageAbbr(),
             'SECRET' => $config->getSecret()
         ));
 
-        $pluginVersion = QentaCEE\Qmore\FrontendClient::generatePluginVersion(
+        $pluginVersion = \QentaCEE\Qmore\FrontendClient::generatePluginVersion(
             'OXID ' . $config->getOxConfig()->getEdition(),
             $config->getOxConfig()->getVersion() . ' Revision: ' . $config->getOxConfig()->getRevision(),
             $config->getModuleId(),
@@ -127,7 +127,7 @@ class qmoreCheckoutSeamlessFrontend
     {
         /** @var qmoreCheckoutSeamlessConfig $config */
         $config = qmoreCheckoutSeamlessConfig::getInstance();
-        $consumerData = new QentaCEE\Stdlib\ConsumerData();
+        $consumerData = new \QentaCEE\Stdlib\ConsumerData();
 
         if ($config->getSendBillingData() || in_array($paymentType, array('INVOICE_B2B', 'INVOICE_B2C', 'INSTALLMENT'))) {
 
@@ -152,7 +152,7 @@ class qmoreCheckoutSeamlessFrontend
 	        }
 
 	        // billing Address
-	        $billingAddressObj = new QentaCEE\Stdlib\ConsumerData\Address( QentaCEE\Stdlib\ConsumerData\Address::TYPE_BILLING );
+	        $billingAddressObj = new \QentaCEE\Stdlib\ConsumerData\Address( \QentaCEE\Stdlib\ConsumerData\Address::TYPE_BILLING );
 	        $billingAddressObj->setFirstname( $oOrder->getFieldData( 'oxbillfname' ) );
 	        $billingAddressObj->setLastname( $oOrder->getFieldData( 'oxbilllname' ) );
 	        $billingAddressObj->setAddress1( $oOrder->getFieldData( 'oxbillstreet' ) );
@@ -174,7 +174,7 @@ class qmoreCheckoutSeamlessFrontend
 	    if ($config->getSendShippingData()
 	        || (in_array($paymentType, array('INVOICE_B2B', 'INVOICE_B2C')) && $config->getInvoiceProvider() != 'PAYOLUTION')
 	        || ($paymentType == 'INSTALLMENT' && $config->getInstallmentProvider() != 'PAYOLUTION')) {
-            $shippingAddressObj = new QentaCEE\Stdlib\ConsumerData\Address(QentaCEE\Stdlib\ConsumerData\Address::TYPE_SHIPPING);
+            $shippingAddressObj = new \QentaCEE\Stdlib\ConsumerData\Address(QentaCEE\Stdlib\ConsumerData\Address::TYPE_SHIPPING);
 
             $oShippingData = $oOrder->getDelAddressInfo();
             if ($oShippingData) {
@@ -243,14 +243,14 @@ class qmoreCheckoutSeamlessFrontend
 			$iLangId = $oLang->getBaseLanguage();
 
 			$basketItemsCount = 0;
-			$basket = new QentaCEE\Stdlib\Basket();
+			$basket = new \QentaCEE\Stdlib\Basket();
 
 			foreach ($oOrderArticles as $oOrderArticle) {
 				$netPrice = number_format($oOrderArticle->oxorderarticles__oxnprice->rawValue, 2);
 				$netTax = number_format($oOrderArticle->oxorderarticles__oxbprice->rawValue - $oOrderArticle->oxorderarticles__oxnprice->rawValue,
 					2);
 				$amount = $oOrderArticle->oxorderarticles__oxamount->rawValue;
-				$item = new QentaCEE\Stdlib\Basket\Item($oOrderArticle->oxorderarticles__oxartnum->rawValue);
+				$item = new \QentaCEE\Stdlib\Basket\Item($oOrderArticle->oxorderarticles__oxartnum->rawValue);
 
 				$item->setUnitGrossAmount(number_format($oOrderArticle->oxorderarticles__oxbprice->rawValue, 2, '.', ''))
 				     ->setUnitNetAmount(number_format($netPrice, 2, '.', ''))
@@ -300,7 +300,7 @@ class qmoreCheckoutSeamlessFrontend
 					$basketItemsCount++;
 					$netTaxAdditional = number_format($data['price'] * ($data['vat'] / 100), 2);
 					$netPriceAdditional = number_format($data['price'] - $netTaxAdditional, 2);
-					$item = new QentaCEE\Stdlib\Basket\Item($type);
+					$item = new \QentaCEE\Stdlib\Basket\Item($type);
 
 					$item->setUnitGrossAmount(number_format($data['price'], 2, '.', ''))
 					     ->setUnitNetAmount(number_format($netPriceAdditional, 2, '.', ''))

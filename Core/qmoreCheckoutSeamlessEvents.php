@@ -14,157 +14,157 @@ class qmoreCheckoutSeamlessEvents
     public static function getAvailablePaymenttypes()
     {
         return Array(
-            QentaCEE\Qmore\PaymentType::CCARD => array(
+            \QentaCEE\Qmore\PaymentType::CCARD => array(
                 'weight' => 1,
                 'fromamount' => 0,
                 'toamount' => 100000,
                 'activatePaymethod' => 1
             ),
-            QentaCEE\Qmore\PaymentType::CCARD_MOTO => array(
+            \QentaCEE\Qmore\PaymentType::CCARD_MOTO => array(
                 'weight' => 2,
                 'fromamount' => 0,
                 'toamount' => 100000,
                 'activatePaymethod' => 0
             ),
-            QentaCEE\Qmore\PaymentType::EPS => array(
+            \QentaCEE\Qmore\PaymentType::EPS => array(
                 'weight' => 4,
                 'fromamount' => 0,
                 'toamount' => 100000,
                 'activatePaymethod' => 0
             ),
-            QentaCEE\Qmore\PaymentType::IDL => array(
+            \QentaCEE\Qmore\PaymentType::IDL => array(
                 'weight' => 5,
                 'fromamount' => 0,
                 'toamount' => 100000,
                 'activatePaymethod' => 0
             ),
-            QentaCEE\Qmore\PaymentType::GIROPAY => array(
+            \QentaCEE\Qmore\PaymentType::GIROPAY => array(
                 'weight' => 6,
                 'fromamount' => 0,
                 'toamount' => 100000,
                 'activatePaymethod' => 0
             ),
-            QentaCEE\Qmore\PaymentType::TATRAPAY => array(
+            \QentaCEE\Qmore\PaymentType::TATRAPAY => array(
                 'weight' => 7,
                 'fromamount' => 0,
                 'toamount' => 100000,
                 'activatePaymethod' => 0
             ),
-            QentaCEE\Qmore\PaymentType::TRUSTPAY => array(
+            \QentaCEE\Qmore\PaymentType::TRUSTPAY => array(
                 'weight' => 8,
                 'fromamount' => 0,
                 'toamount' => 100000,
                 'activatePaymethod' => 0
             ),
-            QentaCEE\Qmore\PaymentType::SOFORTUEBERWEISUNG => array(
+            \QentaCEE\Qmore\PaymentType::SOFORTUEBERWEISUNG => array(
                 'weight' => 9,
                 'fromamount' => 0,
                 'toamount' => 100000,
                 'activatePaymethod' => 1
             ),
-            QentaCEE\Qmore\PaymentType::SKRILLDIRECT => array(
+            \QentaCEE\Qmore\PaymentType::SKRILLDIRECT => array(
                 'weight' => 10,
                 'fromamount' => 0,
                 'toamount' => 100000,
                 'activatePaymethod' => 0
             ),
-            QentaCEE\Qmore\PaymentType::SKRILLWALLET => array(
+            \QentaCEE\Qmore\PaymentType::SKRILLWALLET => array(
                 'weight' => 11,
                 'fromamount' => 0,
                 'toamount' => 100000,
                 'activatePaymethod' => 0
             ),
-            QentaCEE\Qmore\PaymentType::MPASS => array(
+            \QentaCEE\Qmore\PaymentType::MPASS => array(
                 'weight' => 12,
                 'fromamount' => 0,
                 'toamount' => 100000,
                 'activatePaymethod' => 0
             ),
-            QentaCEE\Qmore\PaymentType::BMC => array(
+            \QentaCEE\Qmore\PaymentType::BMC => array(
                 'weight' => 13,
                 'fromamount' => 0,
                 'toamount' => 100000,
                 'activatePaymethod' => 0
             ),
-            QentaCEE\Qmore\PaymentType::P24 => array(
+            \QentaCEE\Qmore\PaymentType::P24 => array(
                 'weight' => 14,
                 'fromamount' => 0,
                 'toamount' => 100000,
                 'activatePaymethod' => 0
             ),
-            QentaCEE\Qmore\PaymentType::MONETA => array(
+            \QentaCEE\Qmore\PaymentType::MONETA => array(
                 'weight' => 15,
                 'fromamount' => 0,
                 'toamount' => 100000,
                 'activatePaymethod' => 0
             ),
-            QentaCEE\Qmore\PaymentType::POLI => array(
+            \QentaCEE\Qmore\PaymentType::POLI => array(
                 'weight' => 16,
                 'fromamount' => 0,
                 'toamount' => 100000,
                 'activatePaymethod' => 0
             ),
-            QentaCEE\Qmore\PaymentType::EKONTO => array(
+            \QentaCEE\Qmore\PaymentType::EKONTO => array(
                 'weight' => 17,
                 'fromamount' => 0,
                 'toamount' => 100000,
                 'activatePaymethod' => 0
             ),
-            QentaCEE\Qmore\PaymentType::TRUSTLY => array(
+            \QentaCEE\Qmore\PaymentType::TRUSTLY => array(
                 'weight' => 18,
                 'fromamount' => 0,
                 'toamount' => 100000,
                 'activatePaymethod' => 0
             ),
-            QentaCEE\Qmore\PaymentType::PBX => array(
+            \QentaCEE\Qmore\PaymentType::PBX => array(
                 'weight' => 19,
                 'fromamount' => 0,
                 'toamount' => 100000,
                 'activatePaymethod' => 0
             ),
-            QentaCEE\Qmore\PaymentType::PSC => array(
+            \QentaCEE\Qmore\PaymentType::PSC => array(
                 'weight' => 20,
                 'fromamount' => 0,
                 'toamount' => 100000,
                 'activatePaymethod' => 0
             ),
-            QentaCEE\Qmore\PaymentType::PAYPAL => array(
+            \QentaCEE\Qmore\PaymentType::PAYPAL => array(
                 'weight' => 22,
                 'fromamount' => 0,
                 'toamount' => 100000,
                 'activatePaymethod' => 1
             ),
-            QentaCEE\Qmore\PaymentType::EPAYBG => array(
+            \QentaCEE\Qmore\PaymentType::EPAYBG => array(
                 'weight' => 23,
                 'fromamount' => 0,
                 'toamount' => 100000,
                 'activatePaymethod' => 0
             ),
-            QentaCEE\Qmore\PaymentType::SEPADD => array(
+            \QentaCEE\Qmore\PaymentType::SEPADD => array(
                 'weight' => 24,
                 'fromamount' => 0,
                 'toamount' => 100000,
                 'activatePaymethod' => 1
             ),
-            QentaCEE\Qmore\PaymentType::INVOICE . '_B2C' => array(
+            \QentaCEE\Qmore\PaymentType::INVOICE . '_B2C' => array(
                 'weight' => 25,
                 'fromamount' => 10,
                 'toamount' => 3500,
                 'activatePaymethod' => 1
             ),
-            QentaCEE\Qmore\PaymentType::INVOICE . '_B2B' => array(
+            \QentaCEE\Qmore\PaymentType::INVOICE . '_B2B' => array(
                 'weight' => 26,
                 'fromamount' => 25,
                 'toamount' => 3500,
                 'activatePaymethod' => 1
             ),
-            QentaCEE\Qmore\PaymentType::INSTALLMENT => array(
+            \QentaCEE\Qmore\PaymentType::INSTALLMENT => array(
                 'weight' => 27,
                 'fromamount' => 150,
                 'toamount' => 3500,
                 'activatePaymethod' => 0
             ),
-            QentaCEE\Qmore\PaymentType::VOUCHER => array(
+            \QentaCEE\Qmore\PaymentType::VOUCHER => array(
                 'weight' => 28,
                 'fromamount' => 0,
                 'toamount' => 100000,

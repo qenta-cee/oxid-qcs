@@ -11,7 +11,7 @@ namespace Qenta\Model;
 class qmoreCheckoutSeamlessDataStorage
 {
     /**
-     * @var QentaCEE\Qmore\DataStorageClient
+     * @var \QentaCEE\Qmore\DataStorageClient
      */
     protected $_client;
 
@@ -28,7 +28,7 @@ class qmoreCheckoutSeamlessDataStorage
         $sHomeUrl = oxRegistry::getSession()->processUrl($config->getOxConfig()->getShopSecureHomeUrl());
 
         $sReturnUrl = $util->cleanUrlParams($sHomeUrl . 'cl=payment&fnc=datastorageReturn', '&');
-        $this->_client = new QentaCEE\Qmore\DataStorageClient(Array(
+        $this->_client = new \QentaCEE\Qmore\DataStorageClient(Array(
             'CUSTOMER_ID' => $config->getCustomerId(),
             'SHOP_ID' => $config->getShopId(),
             'LANGUAGE' => $oLang->getLanguageAbbr(),
