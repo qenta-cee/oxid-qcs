@@ -13,7 +13,7 @@ use OxidEsales\Eshop\Core\Registry;
 use OxidEsales\Eshop\Core\Field;
 
 use Qenta\Core\qmoreCheckoutSeamlessConfig;
-
+use Qenta\Model\qmoreCheckoutSeamlessDataStorage;
 
 /**
  * Payment class wrapper for PayPal module
