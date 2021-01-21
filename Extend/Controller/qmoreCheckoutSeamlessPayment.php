@@ -328,7 +328,7 @@ class qmoreCheckoutSeamlessPayment extends qmoreCheckoutSeamlessPayment_parent
     {
         $sPaymentType = qmoreCheckoutSeamlessUtils::getInstance()->convertPaymenttype($sPaymentID);
 
-        if (QentaCEE\Qmore\PaymentType::hasFinancialInstitutions($sPaymentType)) {
+        if (\QentaCEE\Qmore\PaymentType::hasFinancialInstitutions($sPaymentType)) {
             return \QentaCEE\Qmore\PaymentType::getFinancialInstitutions($sPaymentType);
         } elseif ($sPaymentType == \QentaCEE\Qmore\PaymentType::TRUSTPAY) {
 
@@ -353,7 +353,7 @@ class qmoreCheckoutSeamlessPayment extends qmoreCheckoutSeamlessPayment_parent
                         'PASSWORD' => $config->getPassword(),
                     ));
 
-                    $response = $_client->getFinancialInstitutions(QentaCEE\Qmore\PaymentType::TRUSTPAY)->getResponse();
+                    $response = $_client->getFinancialInstitutions(\QentaCEE\Qmore\PaymentType::TRUSTPAY)->getResponse();
 
                     foreach ($response['financialInstitution'] as $institution) {
                         $financialInstitutions[$institution["id"]] = $institution["name"];
