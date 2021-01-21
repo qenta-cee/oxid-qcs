@@ -188,7 +188,7 @@ class qmoreCheckoutSeamlessEvents
             $pt = sprintf('%s_%s', '', strtolower($wpt));
 
             /** @var oxPayment $oPayment */
-            $oPayment = oxNew('oxPayment');
+            $oPayment = oxNew(\OxidEsales\Eshop\Application\Model\Payment::class);
             $oPayment->setId($pt);
             $oPayment->oxpayments__oxactive = new Field($configValues['activatePaymethod']);
             $oPayment->oxpayments__oxaddsum = new Field(0);
@@ -217,7 +217,7 @@ class qmoreCheckoutSeamlessEvents
         foreach (self::getAvailablePaymenttypes() as $pt => $configData) {
             $pt = sprintf('%s_%s', '', strtolower($pt));
             /** @var oxPayment $oPayment */
-            $oPayment = oxNew('oxpayment');
+            $oPayment = oxNew(\OxidEsales\Eshop\Application\Model\Payment::class);
             $oPayment->load($pt);
             $oPayment->oxpayments__oxactive = new Field(0);
             $oPayment->save();

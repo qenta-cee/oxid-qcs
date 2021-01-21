@@ -45,7 +45,7 @@ class qmoreCheckoutSeamlessOrder extends qmoreCheckoutSeamlessOrder_parent
             $oOrder = $this->_getOrder();
 
             /** @var qmoreCheckoutSeamlessOrderDbGateway $oDbOrder */
-            $oDbOrder = oxNew('qmoreCheckoutSeamlessOrderDbGateway');
+            $oDbOrder = oxNew(\Qenta\Model\qmoreCheckoutSeamlessOrderDbGateway::class);
             $aOrderData = Array(
                 'BASKET' => serialize(Registry::getSession()->getBasket()),
                 'OXORDERID' => $oOrder->getId()
@@ -215,7 +215,7 @@ EOT
         }
 
         /** @var qmoreCheckoutSeamlessOrderDbGateway $oDbOrder */
-        $oDbOrder = oxNew('qmoreCheckoutSeamlessOrderDbGateway');
+        $oDbOrder = oxNew(\Qenta\Model\qmoreCheckoutSeamlessOrderDbGateway::class);
         $aOrderData = $oDbOrder->loadByOrderId($sOXID);
         if (!count($aOrderData)) {
             print \QentaCEE\Qmore\ReturnFactory::generateConfirmResponseString('QENTA Order not found.');
@@ -255,7 +255,7 @@ EOT
                         $aInfo[$prefix . $k] = mysqli_real_escape_string($v);
                     }
 
-                    $oOxUserPayment = oxNew("oxUserPayment");
+                    $oOxUserPayment = oxNew(\OxidEsales\Eshop\Application\Model\UserPayment::class);
                     $oOxUserPayment->load($oOrder->oxorder__oxpaymentid->value);
                     $oOxUserPayment->oxuserpayments__oxvalue = new Field(Registry::getUtils()->assignValuesToText($aInfo), Field::T_RAW);
                     $oOxUserPayment->setDynValues($aInfo);
@@ -278,7 +278,7 @@ EOT
                     $oOrder->oxorder__oxtransid = new Field($return->getOrderNumber());
                     $oOrder->save();
 
-                    $oOxUserPayment = oxNew("oxUserPayment");
+                    $oOxUserPayment = oxNew(\OxidEsales\Eshop\Application\Model\UserPayment::class);
                     $oOxUserPayment->load($oOrder->oxorder__oxpaymentid->value);
 
                     /** @var qmoreCheckoutSeamlessOxOrder $oOrder */
@@ -352,7 +352,7 @@ EOT
     protected function _getOrder()
     {
         /** @var Order $oOrder */
-        $oOrder = oxNew("Order");
+        $oOrder = oxNew(\OxidEsales\Eshop\Application\Controller\OrderController::class);
         $bSuccess = $oOrder->load(Registry::getSession()->getVariable('sess_challenge'));
 
         return $bSuccess ? $oOrder : null;
@@ -366,7 +366,7 @@ EOT
     protected function _getOrderById($sOXID)
     {
         /** @var Order $oOrder */
-        $oOrder = oxNew("qmoreCheckoutSeamlessOxOrder");
+        $oOrder = oxNew(\Qenta\Extend\Application\Model\qmoreCheckoutSeamlessOxOrder);
         $bSuccess = $oOrder->load($sOXID);
 
         return $bSuccess ? $oOrder : null;

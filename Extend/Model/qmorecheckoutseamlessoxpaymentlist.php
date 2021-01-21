@@ -23,7 +23,7 @@ class qmorecheckoutseamlessoxpaymentlist extends qmorecheckoutseamlessoxpaymentl
         ) {
             $dob = $oUser->oxuser__oxbirthdate->value;
             $oBasket = Registry::getSession()->getBasket();
-            $oOrder = oxNew('oxorder');
+            $oOrder = oxNew(\OxidEsales\Eshop\Application\Model\Order::class);
             $config = qmoreCheckoutSeamlessConfig::getInstance();
 
             if (array_key_exists('qcs_invoice_b2c', $paymentList)) {
@@ -96,7 +96,7 @@ class qmorecheckoutseamlessoxpaymentlist extends qmorecheckoutseamlessoxpaymentl
             return false;
         }
 
-        $oPayment = oxNew("qmoreCheckoutSeamlessPayment");
+        $oPayment = oxNew(\Qenta\Extend\Controller\qmoreCheckoutSeamlessPayment::class);
         $config = qmoreCheckoutSeamlessConfig::getInstance();
 
         if (!$oPayment->qcsValidateCustomerAge($oUser)) {
@@ -125,7 +125,7 @@ class qmorecheckoutseamlessoxpaymentlist extends qmorecheckoutseamlessoxpaymentl
             return false;
         }
 
-        $oPayment = oxNew("qmoreCheckoutSeamlessPayment");
+        $oPayment = oxNew(\Qenta\Extend\Controller\qmoreCheckoutSeamlessPayment::class);
         $config = qmoreCheckoutSeamlessConfig::getInstance();
 
         if (!$oPayment->qcsValidateCustomerAge($oUser)) {

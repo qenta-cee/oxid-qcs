@@ -32,7 +32,7 @@ class qmoreCheckoutSeamlessOxOrder extends qmoreCheckoutSeamlessOxOrder_parent
     {
         $sUserId = $this->oxorder__oxuserid;
         /** @var oxUser $oUser */
-        $oUser = oxNew('oxUser');
+        $oUser = oxNew(\OxidEsales\Eshop\Application\Model\User::class);
         $oUser->load($sUserId);
 
         $this->_setUser($oUser);

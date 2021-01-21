@@ -132,7 +132,7 @@ class qmoreCheckoutSeamlessOxViewConfig extends qmoreCheckoutSeamlessOxViewConfi
     {
         if ($this->_aElvCountries === null) {
             // passing country list
-            $oCountryList = oxNew('oxcountrylist');
+            $oCountryList = oxNew(\OxidEsales\Eshop\Application\Model\CountryList::class);
             $oListObject = $oCountryList->getBaseObject();
             $sViewName = $oListObject->getViewName();
             $sQ = "select " . $sViewName . ".oxisoalpha2, " . $sViewName . ".oxtitle from " . $oListObject->getViewName();

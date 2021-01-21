@@ -309,7 +309,7 @@ class qmoreCheckoutSeamlessConfig
     {
         if ($this->_oModule === null) {
             /** @var oxModule $module */
-            $this->_oModule = oxNew('oxModule');
+            $this->_oModule = oxNew(\OxidEsales\Eshop\Core\Module\Module::class);
             $this->_oModule->load('qmorecheckoutseamless');
         }
 

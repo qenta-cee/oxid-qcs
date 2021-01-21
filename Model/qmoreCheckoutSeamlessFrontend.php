@@ -361,7 +361,7 @@ class qmoreCheckoutSeamlessFrontend
     protected function _getOrder()
     {
         if ($this->_oOrder === null) {
-            $oOrder = oxNew('oxorder');
+            $oOrder = oxNew(\OxidEsales\Eshop\Application\Model\Order::class);
             $oOrder->load(Registry::getSession()->getVariable('sess_challenge'));
             $this->_oOrder = $oOrder;
         }
