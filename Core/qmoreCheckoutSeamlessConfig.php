@@ -8,12 +8,13 @@
 */
 namespace Qenta\Core;
 
+use OxidEsales\Eshop\Core\Registry;
+
 /**
  * QMORE Checkout Seamless config class
  */
 class qmoreCheckoutSeamlessConfig
 {
-
     private static $_CUSTOMER_ID_DEMO_MODE = 'D200001';
     private static $_CUSTOMER_ID_TEST_MODE = 'D200411';
     private static $_SECRET_DEMO_MODE = 'B8AKTPWBRMNBV455FG6M2DANE99WU2';
@@ -298,7 +299,7 @@ class qmoreCheckoutSeamlessConfig
      */
     protected function _getConfig()
     {
-        return oxRegistry::getConfig();
+        return Registry::getConfig();
     }
 
     /**
@@ -321,10 +322,10 @@ class qmoreCheckoutSeamlessConfig
      */
     public static function getInstance()
     {
-        if (is_object(oxRegistry::get('qmoreCheckoutSeamlessConfig'))) {
-            return oxRegistry::get('qmoreCheckoutSeamlessConfig');
+        if (is_object(Registry::get('qmoreCheckoutSeamlessConfig'))) {
+            return Registry::get('qmoreCheckoutSeamlessConfig');
         }
 
-        oxRegistry::set('qmoreCheckoutSeamlessConfig', new self());
+        Registry::set('qmoreCheckoutSeamlessConfig', new self());
     }
 }

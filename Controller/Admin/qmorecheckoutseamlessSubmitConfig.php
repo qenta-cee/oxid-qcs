@@ -8,7 +8,9 @@
 */
 namespace Qenta\Controller\Admin;
 
-class qmorecheckoutseamlessSubmitConfig extends oxAdminView
+use OxidEsales\Eshop\Core\Registry;
+use OxidEsales\Eshop\Controller\Admin\AdminController;
+class qmorecheckoutseamlessSubmitConfig extends AdminController
 {
     protected $_sThisTemplate = 'qmorecheckoutseamlesssubmitconfig.tpl';
 
@@ -25,24 +27,24 @@ class qmorecheckoutseamlessSubmitConfig extends oxAdminView
     {
         parent::render();
 
-        $sCurrentAdminShop = oxRegistry::getSession()->getVariable("currentadminshop");
+        $sCurrentAdminShop = Registry::getSession()->getVariable("currentadminshop");
 
         if (!$sCurrentAdminShop) {
-            if (oxRegistry::getSession()->getVariable("malladmin")) {
+            if (Registry::getSession()->getVariable("malladmin")) {
                 $sCurrentAdminShop = "oxbaseshop";
             } else {
-                $sCurrentAdminShop = oxRegistry::getSession()->getVariable("actshop");
+                $sCurrentAdminShop = Registry::getSession()->getVariable("actshop");
             }
         }
 
         $this->_aViewData["currentadminshop"] = $sCurrentAdminShop;
-        oxRegistry::getSession()->setVariable("currentadminshop", $sCurrentAdminShop);
+        Registry::getSession()->setVariable("currentadminshop", $sCurrentAdminShop);
 
-        $recipient = oxRegistry::getConfig()->getRequestParameter('qcs_config_export_recipient');
-        $comment = oxRegistry::getConfig()->getRequestParameter('qcs_config_export_description_text');
-        $replyTo = oxRegistry::getConfig()->getRequestParameter('qcs_config_export_reply_to_mail');
+        $recipient = Registry::getConfig()->getRequestParameter('qcs_config_export_recipient');
+        $comment = Registry::getConfig()->getRequestParameter('qcs_config_export_description_text');
+        $replyTo = Registry::getConfig()->getRequestParameter('qcs_config_export_reply_to_mail');
 
-        $oSmarty = oxRegistry::get("oxUtilsView")->getSmarty();
+        $oSmarty = Registry::get("oxUtilsView")->getSmarty();
         $oSmarty->assign("aSupportMails", $this->_aSupportMails);
         if (!empty($recipient)) {
             $oSmarty->assign("sSupportMailActive", $recipient);
@@ -59,7 +61,7 @@ class qmorecheckoutseamlessSubmitConfig extends oxAdminView
 
     public function getModuleConfig()
     {
-        $oConfig = oxRegistry::getConfig();
+        $oConfig = Registry::getConfig();
         $aModules = $oConfig->getConfigParam('aModulePaths');
 
         include('../modules/' . $aModules['qmorecheckoutseamless'] . '/metadata.php');
@@ -87,11 +89,11 @@ class qmorecheckoutseamlessSubmitConfig extends oxAdminView
 
     public function submit()
     {
-        $recipient = oxRegistry::getConfig()->getRequestParameter('qcs_config_export_recipient');
+        $recipient = Registry::getConfig()->getRequestParameter('qcs_config_export_recipient');
         $confString = $this->getModuleConfig();
-        $comment = oxRegistry::getConfig()->getRequestParameter('qcs_config_export_description_text');
-        $replyTo = oxRegistry::getConfig()->getRequestParameter('qcs_config_export_reply_to_mail');
-        $oSmarty = oxRegistry::get("oxUtilsView")->getSmarty();
+        $comment = Registry::getConfig()->getRequestParameter('qcs_config_export_description_text');
+        $replyTo = Registry::getConfig()->getRequestParameter('qcs_config_export_reply_to_mail');
+        $oSmarty = Registry::get("oxUtilsView")->getSmarty();
 
         if (empty($recipient) || !in_array($recipient, $this->_aSupportMails)) {
             $oSmarty->assign("sErrorMessage", 'recipient invalid.');
@@ -99,13 +101,13 @@ class qmorecheckoutseamlessSubmitConfig extends oxAdminView
             return;
         }
 
-        $Mail = oxRegistry::get('oxemail');
-        $Mail->setFrom(oxRegistry::getConfig()->getActiveShop()->oxshops__oxowneremail->rawValue,
-            oxRegistry::getConfig()->getActiveShop()->oxshops__oxname->rawValue);
+        $Mail = Registry::get('oxemail');
+        $Mail->setFrom(Registry::getConfig()->getActiveShop()->oxshops__oxowneremail->rawValue,
+            Registry::getConfig()->getActiveShop()->oxshops__oxname->rawValue);
         $Mail->setRecipient($recipient);
         $Mail->setBody('<p>' . $confString . '</p><p>' . $comment . '</p>');
         $Mail->setAltBody($confString . "\n\n" . $comment);
-        $Mail->setSubject('OXID WCS Plugin Configuration from ' . oxRegistry::getConfig()->getActiveShop()->oxshops__oxname->rawValue);
+        $Mail->setSubject('OXID WCS Plugin Configuration from ' . Registry::getConfig()->getActiveShop()->oxshops__oxname->rawValue);
         if ($replyTo) {
             $Mail->setReplyTo($replyTo, "");
         }

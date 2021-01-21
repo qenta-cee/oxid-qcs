@@ -8,10 +8,12 @@
 */
 namespace Qenta\Extend\Application\Model;
 
+use OxidEsales\Eshop\Application\Model\Order;
+
 /**
- * QMORE Checkout Seamless oxOrder class
+ * QMORE Checkout Seamless Order class
  *
- * @see oxOrder
+ * @see Order
  */
 class qmoreCheckoutSeamlessOxOrder extends qmoreCheckoutSeamlessOxOrder_parent
 {

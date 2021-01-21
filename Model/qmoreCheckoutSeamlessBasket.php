@@ -8,12 +8,17 @@
 */
 namespace Qenta\Model;
 
+use OxidEsales\Eshop\Core\Registry;
+use OxidEsales\Eshop\Application\Model\Basket;
+use OxidEsales\Eshop\Core\Exception\ArticleInputException;
+use OxidEsales\Eshop\Core\Exception\NoArticleException;
+
 /**
  * QMORE Checkout Seamless oxBasket class
  *
- * @see oxBasket
+ * @see Basket
  */
-class qmoreCheckoutSeamlessBasket extends oxBasket
+class qmoreCheckoutSeamlessBasket extends Basket
 {
     /**
      * Returns array of basket oxarticle objects
@@ -42,13 +47,13 @@ class qmoreCheckoutSeamlessBasket extends oxBasket
                         $oProduct->setSelectlist($aSelectlist);
                     }
                 }
-            } catch (oxNoArticleException $oEx) {
-                oxRegistry::get("oxUtilsView")->addErrorToDisplay($oEx);
+            } catch (NoArticleException $oEx) {
+                Registry::get("oxUtilsView")->addErrorToDisplay($oEx);
                 $this->removeItem($sItemKey);
                 $this->calculateBasket(true);
                 continue;
-            } catch (oxArticleInputException $oEx) {
-                oxRegistry::get("oxUtilsView")->addErrorToDisplay($oEx);
+            } catch (ArticleInputException $oEx) {
+                Registry::get("oxUtilsView")->addErrorToDisplay($oEx);
                 $this->removeItem($sItemKey);
                 $this->calculateBasket(true);
                 continue;

@@ -8,6 +8,12 @@
 */
 namespace Qenta\Model;
 
+use DateTime;
+use OxidEsales\Eshop\Core\Registry;
+use OxidEsales\Eshop\Application\Model\Order;
+
+use Qenta\Core\qmoreCheckoutSeamlessConfig;
+
 class qmoreCheckoutSeamlessFrontend
 {
     /**
@@ -21,7 +27,7 @@ class qmoreCheckoutSeamlessFrontend
         $config = qmoreCheckoutSeamlessConfig::getInstance();
 
         /** @var oxLang $oLang */
-        $oLang = oxRegistry::get('oxLang');
+        $oLang = Registry::get('oxLang');
 
         $this->_client = new \QentaCEE\Qmore\FrontendClient(Array(
             'CUSTOMER_ID' => $config->getCustomerId(),
@@ -40,14 +46,14 @@ class qmoreCheckoutSeamlessFrontend
 
         $oOrder = $this->_getOrder();
 
-        $sHomeUrl = oxRegistry::getSession()->processUrl($config->getOxConfig()->getShopSecureHomeUrl());
+        $sHomeUrl = Registry::getSession()->processUrl($config->getOxConfig()->getShopSecureHomeUrl());
 
-        $sRtoken = oxRegistry::getSession()->getRemoteAccessToken(true);
+        $sRtoken = Registry::getSession()->getRemoteAccessToken(true);
 
         /** @var oxUtilsUrl $util */
-        $util = oxRegistry::get("oxUtilsUrl");
+        $util = Registry::get("oxUtilsUrl");
 
-        $this->_client->setConfirmUrl($util->cleanUrlParams($sHomeUrl . 'cl=order&fnc=qentaConfirm&stoken=' . '&' . oxRegistry::getSession()->sid(true) . '&rtoken=' . $sRtoken,
+        $this->_client->setConfirmUrl($util->cleanUrlParams($sHomeUrl . 'cl=order&fnc=qentaConfirm&stoken=' . '&' . Registry::getSession()->sid(true) . '&rtoken=' . $sRtoken,
             '&'));
         $this->_client->setSuccessUrl($util->cleanUrlParams($sHomeUrl . 'cl=order&fnc=qentaSuccess', '&'));
         $this->_client->setPendingUrl($util->cleanUrlParams($sHomeUrl . 'cl=order&fnc=qentaPending', '&'));
@@ -70,13 +76,13 @@ class qmoreCheckoutSeamlessFrontend
 
     public function initiate()
     {
-        $this->_client->setStorageReference(oxRegistry::getSession()->getId(),
+        $this->_client->setStorageReference(Registry::getSession()->getId(),
             qmoreCheckoutSeamlessDataStorage::getInstance()->getStorageId());
 
         return $this->_client->initiate();
     }
 
-    public function setOrderData(oxOrder $oOrder, $paymentType)
+    public function setOrderData(Order $oOrder, $paymentType)
     {
         /** @var qmoreCheckoutSeamlessConfig $config */
         $config = qmoreCheckoutSeamlessConfig::getInstance();
@@ -100,7 +106,7 @@ class qmoreCheckoutSeamlessFrontend
         $orderRef = sprintf('%010d', $oOrder->oxorder__oxordernr->value);
         $this->_client->setOrderReference($orderRef);
         $this->_client->setOrderDescription(sprintf('%s: #%s', $oOrder->getFieldData('oxbillemail'), $oOrder->getId()));
-        $this->_client->setCurrency(oxRegistry::getConfig()->getActShopCurrencyObject()->name);
+        $this->_client->setCurrency(Registry::getConfig()->getActShopCurrencyObject()->name);
         $this->_client->__set('oxid_orderid', $oOrder->getId());
         $this->_client->__set('riskConfigAlias', $config->getRiskConfigAlias());
 
@@ -119,11 +125,11 @@ class qmoreCheckoutSeamlessFrontend
     /**
      * Set QENTA Consumer Data Objects
      *
-     * @param oxOrder $oOrder
+     * @param Order $oOrder
      *
      * @return qmoreCheckoutSeamlessFrontend
      */
-    public function setConsumerData(oxOrder $oOrder, $paymentType)
+    public function setConsumerData(Order $oOrder, $paymentType)
     {
         /** @var qmoreCheckoutSeamlessConfig $config */
         $config = qmoreCheckoutSeamlessConfig::getInstance();
@@ -174,7 +180,7 @@ class qmoreCheckoutSeamlessFrontend
 	    if ($config->getSendShippingData()
 	        || (in_array($paymentType, array('INVOICE_B2B', 'INVOICE_B2C')) && $config->getInvoiceProvider() != 'PAYOLUTION')
 	        || ($paymentType == 'INSTALLMENT' && $config->getInstallmentProvider() != 'PAYOLUTION')) {
-            $shippingAddressObj = new \QentaCEE\Stdlib\ConsumerData\Address(QentaCEE\Stdlib\ConsumerData\Address::TYPE_SHIPPING);
+            $shippingAddressObj = new \QentaCEE\Stdlib\ConsumerData\Address(\QentaCEE\Stdlib\ConsumerData\Address::TYPE_SHIPPING);
 
             $oShippingData = $oOrder->getDelAddressInfo();
             if ($oShippingData) {
@@ -224,11 +230,11 @@ class qmoreCheckoutSeamlessFrontend
     /**
      * Set QENTA Basket Data to Frontend Client
      *
-     * @param oxOrder $oOrder
+     * @param Order $oOrder
      *
      * @return qmoreCheckoutSeamlessFrontend
      */
-	public function setBasket(oxOrder $oOrder, $paymentType)
+	public function setBasket(Order $oOrder, $paymentType)
 	{
 		/** @var qmoreCheckoutSeamlessConfig $config */
 		$config = qmoreCheckoutSeamlessConfig::getInstance();
@@ -239,7 +245,7 @@ class qmoreCheckoutSeamlessFrontend
 		        || ($paymentType == 'INSTALLMENT' && $config->getInstallmentProvider() != 'PAYOLUTION'))
 		) {
 			$oOrderArticles = $oOrder->getOrderArticles();
-			$oLang = oxRegistry::get('oxLang');
+			$oLang = Registry::get('oxLang');
 			$iLangId = $oLang->getBaseLanguage();
 
 			$basketItemsCount = 0;
@@ -323,11 +329,11 @@ class qmoreCheckoutSeamlessFrontend
      */
     public static function getInstance()
     {
-        if (is_object(oxRegistry::get('qmoreCheckoutSeamlessFrontend'))) {
-            return oxRegistry::get('qmoreCheckoutSeamlessFrontend');
+        if (is_object(Registry::get('qmoreCheckoutSeamlessFrontend'))) {
+            return Registry::get('qmoreCheckoutSeamlessFrontend');
         }
 
-        oxRegistry::set('qmoreCheckoutSeamlessFrontend', new self());
+        Registry::set('qmoreCheckoutSeamlessFrontend', new self());
     }
 
     private function _getCustomerStatement($paymenttype)
@@ -356,7 +362,7 @@ class qmoreCheckoutSeamlessFrontend
     {
         if ($this->_oOrder === null) {
             $oOrder = oxNew('oxorder');
-            $oOrder->load(oxRegistry::getSession()->getVariable('sess_challenge'));
+            $oOrder->load(Registry::getSession()->getVariable('sess_challenge'));
             $this->_oOrder = $oOrder;
         }
 

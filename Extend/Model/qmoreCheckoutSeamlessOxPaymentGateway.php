@@ -8,6 +8,9 @@
 */
 namespace Qenta\Extend\Application\Model;
 
+use OxidEsales\Eshop\Application\Model\Order;
+
+
 /**
  * Payment gateway manager.
  * Checks and sets payment method data, executes payment.
@@ -18,7 +21,7 @@ class qmoreCheckoutSeamlessOxPaymentGateway extends qmoreCheckoutSeamlessOxPayme
      * Executes payment, returns true on success.
      *
      * @param double $dAmount Goods amount
-     * @param oxOrder &$oOrder User ordering object
+     * @param Order &$oOrder User ordering object
      *
      * @return bool
      */

@@ -8,6 +8,10 @@
 */
 namespace Qenta\Core;
 
+use OxidEsales\Eshop\Core\DatabaseProvider;
+use OxidEsales\Eshop\Core\Registry;
+use OxidEsales\Eshop\Core\Field;
+
 class qmoreCheckoutSeamlessEvents
 {
 
@@ -176,7 +180,7 @@ class qmoreCheckoutSeamlessEvents
     public static function addPaymentTypes()
     {
         /** @var oxLang $oLang */
-        $oLang = oxRegistry::get('oxLang');
+        $oLang = Registry::get('oxLang');
         $aLanguages = $oLang->getLanguageIds();
 
         foreach (self::getAvailablePaymenttypes() as $wpt => $configValues) {
@@ -186,20 +190,20 @@ class qmoreCheckoutSeamlessEvents
             /** @var oxPayment $oPayment */
             $oPayment = oxNew('oxPayment');
             $oPayment->setId($pt);
-            $oPayment->oxpayments__oxactive = new oxField($configValues['activatePaymethod']);
-            $oPayment->oxpayments__oxaddsum = new oxField(0);
-            $oPayment->oxpayments__oxaddsumtype = new oxField('abs');
-            $oPayment->oxpayments__oxfromboni = new oxField(0);
-            $oPayment->oxpayments__oxsort = new oxField($configValues['weight']);
-            $oPayment->oxpayments__oxfromamount = new oxField($configValues['fromamount']);
-            $oPayment->oxpayments__oxtoamount = new oxField($configValues['toamount']);
+            $oPayment->oxpayments__oxactive = new Field($configValues['activatePaymethod']);
+            $oPayment->oxpayments__oxaddsum = new Field(0);
+            $oPayment->oxpayments__oxaddsumtype = new Field('abs');
+            $oPayment->oxpayments__oxfromboni = new Field(0);
+            $oPayment->oxpayments__oxsort = new Field($configValues['weight']);
+            $oPayment->oxpayments__oxfromamount = new Field($configValues['fromamount']);
+            $oPayment->oxpayments__oxtoamount = new Field($configValues['toamount']);
 
             foreach ($aLanguages as $iLanguageId => $sLangCode) {
                 $oPayment->setLanguage($iLanguageId);
-                $oPayment->oxpayments__oxlongdesc = new oxField($oLang->translateString($trkey . '_DESC',
+                $oPayment->oxpayments__oxlongdesc = new Field($oLang->translateString($trkey . '_DESC',
                     $iLanguageId));
                 $paymethodName = $oLang->translateString($trkey . '_LABEL', $iLanguageId);
-                $oPayment->oxpayments__oxdesc = new oxField('WCS ' . $paymethodName);
+                $oPayment->oxpayments__oxdesc = new Field('WCS ' . $paymethodName);
                 $oPayment->save();
             }
         }
@@ -215,7 +219,7 @@ class qmoreCheckoutSeamlessEvents
             /** @var oxPayment $oPayment */
             $oPayment = oxNew('oxpayment');
             $oPayment->load($pt);
-            $oPayment->oxpayments__oxactive = new oxField(0);
+            $oPayment->oxpayments__oxactive = new Field(0);
             $oPayment->save();
         }
     }

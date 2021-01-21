@@ -8,6 +8,13 @@
 */
 namespace Qenta\Extend\Controller;
 
+use DateTime;
+use OxidEsales\Eshop\Core\Registry;
+use OxidEsales\Eshop\Core\Field;
+
+use Qenta\Core\qmoreCheckoutSeamlessConfig;
+
+
 /**
  * Payment class wrapper for PayPal module
  *
@@ -48,43 +55,43 @@ class qmoreCheckoutSeamlessPayment extends qmoreCheckoutSeamlessPayment_parent
         $parentResult = parent::validatePayment();
 
         $aValues = Array();
-        $sPaymentId = (string )oxRegistry::getConfig()->getRequestParameter('paymentid');
+        $sPaymentId = (string )Registry::getConfig()->getRequestParameter('paymentid');
         $sPaymenttype = qmoreCheckoutSeamlessUtils::getInstance()->convertPaymenttype($sPaymentId);
         $config = qmoreCheckoutSeamlessConfig::getInstance();
-        $oUser = $this->getUser();
-        $oLang = oxRegistry::get('oxLang');
+        $oUser = Registry::getSession()->getUser();
+        $oLang = Registry::get('oxLang');
 
         switch ($sPaymenttype) {
             case \QentaCEE\Qmore\PaymentType::IDL:
-                $aValues['financialInstitution'] = (string)oxRegistry::getConfig()->getRequestParameter('ideal_financialInstitution');
+                $aValues['financialInstitution'] = (string)Registry::getConfig()->getRequestParameter('ideal_financialInstitution');
                 break;
 
             case \QentaCEE\Qmore\PaymentType::EPS:
-                $aValues['financialInstitution'] = (string)oxRegistry::getConfig()->getRequestParameter('eps_financialInstitution');
+                $aValues['financialInstitution'] = (string)Registry::getConfig()->getRequestParameter('eps_financialInstitution');
                 break;
 
             case \QentaCEE\Qmore\PaymentType::TRUSTPAY:
-                $aValues['financialInstitution'] = (string)oxRegistry::getConfig()->getRequestParameter('trustpay_financialInstitution');
+                $aValues['financialInstitution'] = (string)Registry::getConfig()->getRequestParameter('trustpay_financialInstitution');
                 break;
 
             case \QentaCEE\Qmore\PaymentType::INVOICE . '_B2B':
                 if ($config->getInvoiceProvider() == 'PAYOLUTION') {
                     $vatId = $oUser->oxuser__oxustid->value;
                     if ($this->hasQcsVatIdField($sPaymentId) && empty($vatId)) {
-                        $sVatId = oxRegistry::getConfig()->getRequestParameter('sVatId');
+                        $sVatId = Registry::getConfig()->getRequestParameter('sVatId');
 
                         if (!empty($sVatId)) {
-                            $oUser->oxuser__oxustid = new oxField($sVatId, oxField::T_RAW);
+                            $oUser->oxuser__oxustid = new Field($sVatId, Field::T_RAW);
                             $oUser->save();
                         }
                     }
 
                     if ($this->showQcsTrustedShopsCheckbox($sPaymentId)) {
-                        if (!oxRegistry::getConfig()->getRequestParameter('payolutionTerms')) {
-                            oxRegistry::getSession()->setVariable('qcs_payerrortext',
+                        if (!Registry::getConfig()->getRequestParameter('payolutionTerms')) {
+                            Registry::getSession()->setVariable('qcs_payerrortext',
                                 $oLang->translateString('QMORE_CHECKOUT_SEAMLESS_CONFIRM_PAYOLUTION_TERMS',
                                     $oLang->getBaseLanguage()));
-                            $oSmarty = oxRegistry::get("oxUtilsView")->getSmarty();
+                            $oSmarty = Registry::get("oxUtilsView")->getSmarty();
                             $oSmarty->assign("aErrors", array('payolutionTerms' => 1));
 
                             return;
@@ -98,12 +105,12 @@ class qmoreCheckoutSeamlessPayment extends qmoreCheckoutSeamlessPayment_parent
             case \QentaCEE\Qmore\PaymentType::INSTALLMENT:
                 if ($config->getInstallmentProvider() == 'PAYOLUTION') {
                     if ($this->hasQcsDobField($sPaymentId) && $oUser->oxuser__oxbirthdate == '0000-00-00') {
-                        $iBirthdayYear = oxRegistry::getConfig()->getRequestParameter($sPaymentId . '_iBirthdayYear');
-                        $iBirthdayDay = oxRegistry::getConfig()->getRequestParameter($sPaymentId . '_iBirthdayDay');
-                        $iBirthdayMonth = oxRegistry::getConfig()->getRequestParameter($sPaymentId . '_iBirthdayMonth');
+                        $iBirthdayYear = Registry::getConfig()->getRequestParameter($sPaymentId . '_iBirthdayYear');
+                        $iBirthdayDay = Registry::getConfig()->getRequestParameter($sPaymentId . '_iBirthdayDay');
+                        $iBirthdayMonth = Registry::getConfig()->getRequestParameter($sPaymentId . '_iBirthdayMonth');
 
                         if (empty($iBirthdayYear) || empty($iBirthdayDay) || empty($iBirthdayMonth)) {
-                            oxRegistry::getSession()->setVariable('qcs_payerrortext',
+                            Registry::getSession()->setVariable('qcs_payerrortext',
                                 $oLang->translateString('QMORE_CHECKOUT_SEAMLESS_PLEASE_FILL_IN_DOB',
                                     $oLang->getBaseLanguage()));
 
@@ -112,18 +119,18 @@ class qmoreCheckoutSeamlessPayment extends qmoreCheckoutSeamlessPayment_parent
 
                         $dateData = array('day' => $iBirthdayDay, 'month' => $iBirthdayMonth, 'year' => $iBirthdayYear);
                         $aValues['dobData'] = $dateData;
-                        oxRegistry::getSession()->setVariable('qcs_dobData', $dateData);
+                        Registry::getSession()->setVariable('qcs_dobData', $dateData);
 
                         if (is_array($dateData)) {
-                            $oUser->oxuser__oxbirthdate = new oxField($oUser->convertBirthday($dateData),
-                                oxField::T_RAW);
+                            $oUser->oxuser__oxbirthdate = new Field($oUser->convertBirthday($dateData),
+                                Field::T_RAW);
                             $oUser->save();
                         }
                     }
 
                     //validate paymethod
                     if (!$this->qcsValidateCustomerAge($oUser, 18)) {
-                        oxRegistry::getSession()->setVariable('qcs_payerrortext',
+                        Registry::getSession()->setVariable('qcs_payerrortext',
                             sprintf($oLang->translateString('QMORE_CHECKOUT_SEAMLESS_DOB_TOO_YOUNG',
                                 $oLang->getBaseLanguage()), 18));
 
@@ -131,11 +138,11 @@ class qmoreCheckoutSeamlessPayment extends qmoreCheckoutSeamlessPayment_parent
                     }
 
                     if ($this->showQcsInstallmentTrustedShopsCheckbox($sPaymentId)) {
-                        if (!oxRegistry::getConfig()->getRequestParameter('payolutionTerms')) {
-                            oxRegistry::getSession()->setVariable('qcs_payerrortext',
+                        if (!Registry::getConfig()->getRequestParameter('payolutionTerms')) {
+                            Registry::getSession()->setVariable('qcs_payerrortext',
                                 $oLang->translateString('QMORE_CHECKOUT_SEAMLESS_CONFIRM_PAYOLUTION_TERMS',
                                     $oLang->getBaseLanguage()));
-                            $oSmarty = oxRegistry::get("oxUtilsView")->getSmarty();
+                            $oSmarty = Registry::get("oxUtilsView")->getSmarty();
                             $oSmarty->assign("aErrors", array('payolutionTerms' => 1));
 
                             return;
@@ -145,7 +152,7 @@ class qmoreCheckoutSeamlessPayment extends qmoreCheckoutSeamlessPayment_parent
                 break;
         }
 
-        oxRegistry::getSession()->setVariable('qmoreCheckoutSeamlessValues', $aValues);
+        Registry::getSession()->setVariable('qmoreCheckoutSeamlessValues', $aValues);
 
         return $parentResult;
     }
@@ -166,8 +173,8 @@ class qmoreCheckoutSeamlessPayment extends qmoreCheckoutSeamlessPayment_parent
                         $sErrorMessages .= $error->getConsumerMessage();
                     }
                 }
-                oxRegistry::getSession()->setVariable('payerror', -1);
-                oxRegistry::getSession()->setVariable('payerrortext', $sErrorMessages);
+                Registry::getSession()->setVariable('payerror', -1);
+                Registry::getSession()->setVariable('payerrortext', $sErrorMessages);
                 $this->_aViewData['qmorecheckoutseamless_errors'] = $sErrorMessages;
                 qmoreCheckoutSeamlessUtils::getInstance()->log(__METHOD__ . ':ERROR:' . $sErrorMessages);
             } else {
@@ -178,8 +185,8 @@ class qmoreCheckoutSeamlessPayment extends qmoreCheckoutSeamlessPayment_parent
             }
         } catch (Exception $e) {
 
-            oxRegistry::getSession()->setVariable('payerror', -1);
-            oxRegistry::getSession()->setVariable('payerrortext', $e->getMessage());
+            Registry::getSession()->setVariable('payerror', -1);
+            Registry::getSession()->setVariable('payerrortext', $e->getMessage());
 
             return;
         }
@@ -284,7 +291,7 @@ class qmoreCheckoutSeamlessPayment extends qmoreCheckoutSeamlessPayment_parent
 
     public function datastorageReturn()
     {
-        $sFallbackResponse = oxRegistry::getConfig()->getRequestParameter('response');
+        $sFallbackResponse = Registry::getConfig()->getRequestParameter('response');
         echo '<!DOCTYPE>
 <html>
     <head>
@@ -324,8 +331,8 @@ class qmoreCheckoutSeamlessPayment extends qmoreCheckoutSeamlessPayment_parent
             return \QentaCEE\Qmore\PaymentType::getFinancialInstitutions($sPaymentType);
         } elseif ($sPaymentType == \QentaCEE\Qmore\PaymentType::TRUSTPAY) {
 
-            $financialInstitutions = $this->getSession()->getVariable('qmoreCheckoutSeamlessTrustPayFinancialInstitutions');
-            $financialInstitutionsLastModified = $this->getSession()->getVariable('qmoreCheckoutSeamlessTrustPayFinancialInstitutionsLastModified');
+            $financialInstitutions = Registry::getSession()->getVariable('qmoreCheckoutSeamlessTrustPayFinancialInstitutions');
+            $financialInstitutionsLastModified = Registry::getSession()->getVariable('qmoreCheckoutSeamlessTrustPayFinancialInstitutionsLastModified');
 
             /** @var qmoreCheckoutSeamlessConfig $config */
             $config = qmoreCheckoutSeamlessConfig::getInstance();
@@ -333,7 +340,7 @@ class qmoreCheckoutSeamlessPayment extends qmoreCheckoutSeamlessPayment_parent
             if (empty($financialInstitutions) || $financialInstitutionsLastModified < (time() - $config->getFinancialInstitutionsLastModifiedTimer())) {
 
                 /** @var oxLang $oLang */
-                $oLang = oxRegistry::get('oxLang');
+                $oLang = Registry::get('oxLang');
 
                 $financialInstitutions = array();
                 try {
@@ -351,14 +358,14 @@ class qmoreCheckoutSeamlessPayment extends qmoreCheckoutSeamlessPayment_parent
                         $financialInstitutions[$institution["id"]] = $institution["name"];
                     }
 
-                    $this->getSession()->setVariable('qmoreCheckoutSeamlessTrustPayFinancialInstitutions',
+                    Registry::getSession()->setVariable('qmoreCheckoutSeamlessTrustPayFinancialInstitutions',
                         $financialInstitutions);
-                    $this->getSession()->setVariable('qmoreCheckoutSeamlessTrustPayFinancialInstitutionsLastModified',
+                        Registry::getSession()->setVariable('qmoreCheckoutSeamlessTrustPayFinancialInstitutionsLastModified',
                         time());
                 } catch (Exception $e) {
                     $financialInstitutions = array();
-                    $this->getSession()->deleteVariable('qmoreCheckoutSeamlessTrustPayFinancialInstitutions');
-                    $this->getSession()->deleteVariable('qmoreCheckoutSeamlessTrustPayFinancialInstitutionsLastModified');
+                    Registry::getSession()->deleteVariable('qmoreCheckoutSeamlessTrustPayFinancialInstitutions');
+                    Registry::getSession()->deleteVariable('qmoreCheckoutSeamlessTrustPayFinancialInstitutionsLastModified');
                 }
             }
 
@@ -507,7 +514,7 @@ class qmoreCheckoutSeamlessPayment extends qmoreCheckoutSeamlessPayment_parent
     {
         $sPaymenttype = qmoreCheckoutSeamlessUtils::getInstance()->convertPaymenttype($sPaymentId);
 
-        $conf = oxRegistry::getConfig();
+        $conf = Registry::getConfig();
         $modulePaths = $conf->getConfigParam('aModulePaths');
         $imgPath = $conf->getConfigParam('sShopURL') . '/modules/' . $modulePaths['qmorecheckoutseamless'] . '/out/img/';
 
@@ -616,7 +623,7 @@ class qmoreCheckoutSeamlessPayment extends qmoreCheckoutSeamlessPayment_parent
 
     function getQcsInvoicePayolutionTerms()
     {
-        $oLang = oxRegistry::get('oxLang');
+        $oLang = Registry::get('oxLang');
         $config = qmoreCheckoutSeamlessConfig::getInstance();
 
         return sprintf($oLang->translateString('QMORE_CHECKOUT_SEAMLESS_PAYOLUTION_TERMS',
@@ -626,7 +633,7 @@ class qmoreCheckoutSeamlessPayment extends qmoreCheckoutSeamlessPayment_parent
 
 	function getQcsInstallmentPayolutionTerms()
 	{
-		$oLang = oxRegistry::get('oxLang');
+		$oLang = Registry::get('oxLang');
 		$config = qmoreCheckoutSeamlessConfig::getInstance();
 
 		return sprintf($oLang->translateString('QMORE_CHECKOUT_SEAMLESS_PAYOLUTION_TERMS',
@@ -666,11 +673,11 @@ class qmoreCheckoutSeamlessPayment extends qmoreCheckoutSeamlessPayment_parent
     {
         $qcs_payment_error = '';
 
-        if (oxRegistry::getSession()->hasVariable('qcs_payerrortext')) {
-            $qcs_payment_error = oxRegistry::getSession()->getVariable('qcs_payerrortext');
-            oxRegistry::getSession()->deleteVariable('qcs_payerrortext');
-            oxRegistry::getSession()->deleteVariable('sess_challenge');
-            oxRegistry::getSession()->deleteVariable('qcpPaymentState');
+        if (Registry::getSession()->hasVariable('qcs_payerrortext')) {
+            $qcs_payment_error = Registry::getSession()->getVariable('qcs_payerrortext');
+            Registry::getSession()->deleteVariable('qcs_payerrortext');
+            Registry::getSession()->deleteVariable('sess_challenge');
+            Registry::getSession()->deleteVariable('qcpPaymentState');
         }
 
         return $qcs_payment_error;
@@ -681,7 +688,7 @@ class qmoreCheckoutSeamlessPayment extends qmoreCheckoutSeamlessPayment_parent
      */
     public function isQcsPaymentError()
     {
-        if (oxRegistry::getSession()->hasVariable('qcs_payerrortext')) {
+        if (Registry::getSession()->hasVariable('qcs_payerrortext')) {
             return true;
         }
 

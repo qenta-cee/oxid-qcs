@@ -8,6 +8,8 @@
 */
 namespace Qenta\Model;
 
+use OxidEsales\Eshop\Core\Registry;
+
 /**
  * Order db gateway class
  */
@@ -24,7 +26,7 @@ class qmoreCheckoutSeamlessOrderDbGateway
     {
         $oDb = $this->_getDb();
 
-        $aData['OXID'] = oxUtilsObject::getInstance()->generateUID();
+        $aData['OXID'] = Registry::getUtilsObject()->generateUID();
         foreach ($aData as $sField => $sData) {
             $aSql[] = '`' . $sField . '` = ' . $oDb->quote($sData);
         }

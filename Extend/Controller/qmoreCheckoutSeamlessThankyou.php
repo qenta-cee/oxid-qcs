@@ -8,20 +8,22 @@
 */
 namespace Qenta\Extend\Controller;
 
+use OxidEsales\Eshop\Application\Model\Order;
+
 /**
  * Order class wrapper for QMORE Checkout Seamless
  */
 class qmoreCheckoutSeamlessThankyou extends qmoreCheckoutSeamlessThankyou_parent
 {
     /**
-     * @var oxOrder
+     * @var Order
      */
     protected $_oOrder = null;
 
     public function init()
     {
-        $this->_oOrder = oxNew("oxOrder");
-        $this->_oOrder->load($this->getSession()->getVariable('sess_challenge'));
+        $this->_oOrder = oxNew("Order");
+        $this->_oOrder->load(Registry::getSession()->getVariable('sess_challenge'));
         parent::init();
     }
 

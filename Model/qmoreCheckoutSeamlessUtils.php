@@ -8,6 +8,8 @@
 */
 namespace Qenta\Model;
 
+use OxidEsales\Eshop\Core\Registry;
+
 class qmoreCheckoutSeamlessUtils
 {
     protected $_logFilename = 'qmorecheckoutseamless.log';
@@ -28,7 +30,7 @@ class qmoreCheckoutSeamlessUtils
     public function log($str)
     {
         $str = sprintf("%s %s\n", date('Y-m-d H:i:s'), $str);
-        oxRegistry::getUtils()->writeToLog($str, $this->_logFilename);
+        Registry::getUtils()->writeToLog($str, $this->_logFilename);
     }
 
     /**
@@ -36,11 +38,11 @@ class qmoreCheckoutSeamlessUtils
      */
     public static function getInstance()
     {
-        if (is_object(oxRegistry::get('qmoreCheckoutSeamlessUtils'))) {
-            return oxRegistry::get('qmoreCheckoutSeamlessUtils');
+        if (is_object(Registry::get('qmoreCheckoutSeamlessUtils'))) {
+            return Registry::get('qmoreCheckoutSeamlessUtils');
         }
 
-        oxRegistry::set('qmoreCheckoutSeamlessUtils', new self());
+        Registry::set('qmoreCheckoutSeamlessUtils', new self());
     }
 
 }

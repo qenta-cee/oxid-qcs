@@ -8,6 +8,11 @@
 */
 namespace Qenta\Model;
 
+use OxidEsales\Eshop\Core\Registry;
+
+use Qenta\Core\qmoreCheckoutSeamlessConfig;
+
+
 class qmoreCheckoutSeamlessDataStorage
 {
     /**
@@ -21,11 +26,11 @@ class qmoreCheckoutSeamlessDataStorage
         $config = qmoreCheckoutSeamlessConfig::getInstance();
 
         /** @var oxLang $oLang */
-        $oLang = oxRegistry::get('oxLang');
+        $oLang = Registry::get('oxLang');
 
         /** @var oxUtilsUrl $util */
-        $util = oxRegistry::get("oxUtilsUrl");
-        $sHomeUrl = oxRegistry::getSession()->processUrl($config->getOxConfig()->getShopSecureHomeUrl());
+        $util = Registry::get("oxUtilsUrl");
+        $sHomeUrl = Registry::getSession()->processUrl($config->getOxConfig()->getShopSecureHomeUrl());
 
         $sReturnUrl = $util->cleanUrlParams($sHomeUrl . 'cl=payment&fnc=datastorageReturn', '&');
         $this->_client = new \QentaCEE\Qmore\DataStorageClient(Array(
@@ -41,7 +46,7 @@ class qmoreCheckoutSeamlessDataStorage
     {
         $config = qmoreCheckoutSeamlessConfig::getInstance();
 
-        $this->_client->setOrderIdent(oxRegistry::getSession()->getId());
+        $this->_client->setOrderIdent(Registry::getSession()->getId());
 
         if ($config->getDssSaqAEnable()) {
             $this->_client->setJavascriptScriptVersion('pci3');
@@ -75,12 +80,12 @@ class qmoreCheckoutSeamlessDataStorage
 
     public function setStorageId($storageId)
     {
-        oxRegistry::getSession()->setVariable('qmorecheckoutseamlessStorageId', $storageId);
+        Registry::getSession()->setVariable('qmorecheckoutseamlessStorageId', $storageId);
     }
 
     public function getStorageId()
     {
-        return oxRegistry::getSession()->getVariable('qmorecheckoutseamlessStorageId');
+        return Registry::getSession()->getVariable('qmorecheckoutseamlessStorageId');
     }
 
     /**
@@ -88,11 +93,11 @@ class qmoreCheckoutSeamlessDataStorage
      */
     public static function getInstance()
     {
-        if (is_object(oxRegistry::get('qmoreCheckoutSeamlessDataStorage'))) {
-            return oxRegistry::get('qmoreCheckoutSeamlessDataStorage');
+        if (is_object(Registry::get('qmoreCheckoutSeamlessDataStorage'))) {
+            return Registry::get('qmoreCheckoutSeamlessDataStorage');
         }
 
-        oxRegistry::set('qmoreCheckoutSeamlessDataStorage', new self());
+        Registry::set('qmoreCheckoutSeamlessDataStorage', new self());
     }
 
 }

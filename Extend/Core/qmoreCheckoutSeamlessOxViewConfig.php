@@ -8,6 +8,8 @@
 */
 namespace Qenta\Extend\Core;
 
+use Qenta\Core\qmoreCheckoutSeamlessConfig;
+
 class qmoreCheckoutSeamlessOxViewConfig extends qmoreCheckoutSeamlessOxViewConfig_parent
 {
     /** @var qmoreCheckoutSeamlessConfig */

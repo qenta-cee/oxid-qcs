@@ -8,6 +8,10 @@
 */
 namespace Qenta\Extend\Application\Model;
 
+use OxidEsales\Eshop\Core\Registry;
+
+use Qenta\Core\qmoreCheckoutSeamlessConfig;
+
 class qmorecheckoutseamlessoxpaymentlist extends qmorecheckoutseamlessoxpaymentlist_parent
 {
     public function getPaymentList($sShipSetId, $dPrice, $oUser = null)
@@ -18,7 +22,7 @@ class qmorecheckoutseamlessoxpaymentlist extends qmorecheckoutseamlessoxpaymentl
                 $paymentList) || array_key_exists('qcs_installment', $paymentList)
         ) {
             $dob = $oUser->oxuser__oxbirthdate->value;
-            $oBasket = $this->getSession()->getBasket();
+            $oBasket = Registry::getSession()->getBasket();
             $oOrder = oxNew('oxorder');
             $config = qmoreCheckoutSeamlessConfig::getInstance();
 
@@ -28,12 +32,12 @@ class qmorecheckoutseamlessoxpaymentlist extends qmorecheckoutseamlessoxpaymentl
                 ) {
                     unset($paymentList['qcs_invoice_b2c']);
                 } elseif ($dob && $dob == '0000-00-00' && $config->getInvoiceProvider() == 'PAYOLUTION') {
-                    $oSmarty = oxRegistry::get("oxUtilsView")->getSmarty();
+                    $oSmarty = Registry::get("oxUtilsView")->getSmarty();
                     $oSmarty->assign("bShowDobField", true);
 
-                    $dobData = oxRegistry::getSession()->getVariable('qcs_dobData');
+                    $dobData = Registry::getSession()->getVariable('qcs_dobData');
                     if (!empty($dobData)) {
-                        $oSmarty->assign("dobData", oxRegistry::getSession()->getVariable('qcs_dobData'));
+                        $oSmarty->assign("dobData", Registry::getSession()->getVariable('qcs_dobData'));
                     }
                 }
             }
@@ -46,9 +50,9 @@ class qmorecheckoutseamlessoxpaymentlist extends qmorecheckoutseamlessoxpaymentl
                     unset($paymentList['qcs_invoice_b2b']);
                 }
                 if ($config->getInvoiceProvider() == 'PAYOLUTION') {
-                    $sVatId = oxRegistry::getSession()->getVariable('qcs_vatId');
+                    $sVatId = Registry::getSession()->getVariable('qcs_vatId');
                     if (empty($vatId)) {
-                        $oSmarty = oxRegistry::get("oxUtilsView")->getSmarty();
+                        $oSmarty = Registry::get("oxUtilsView")->getSmarty();
                         $oSmarty->assign("sVatId", $sVatId);
                         $oSmarty->assign("bShowVatIdField", true);
                     }
@@ -59,19 +63,19 @@ class qmorecheckoutseamlessoxpaymentlist extends qmorecheckoutseamlessoxpaymentl
                 if (!$this->_isWCSInstallmentAvailable($oUser, $oBasket, $oOrder)) {
                     unset($paymentList['qcs_installment']);
                 } elseif ($dob && $dob == '0000-00-00' && $config->getInstallmentProvider() == 'PAYOLUTION') {
-                    $oSmarty = oxRegistry::get("oxUtilsView")->getSmarty();
+                    $oSmarty = Registry::get("oxUtilsView")->getSmarty();
                     $oSmarty->assign("bShowDobField", true);
 
-                    $dobData = oxRegistry::getSession()->getVariable('qcs_dobData');
+                    $dobData = Registry::getSession()->getVariable('qcs_dobData');
                     if (!empty($dobData)) {
-                        $oSmarty->assign("dobData", oxRegistry::getSession()->getVariable('qcs_dobData'));
+                        $oSmarty->assign("dobData", Registry::getSession()->getVariable('qcs_dobData'));
                     }
                 }
             }
         }
 
         if (array_key_exists('qcs_ccard-moto', $paymentList)) {
-            if (!$this->getUser()->inGroup('oxidadmin')) {
+            if (!Registry::getSession()->getUser()->inGroup('oxidadmin')) {
                 unset($paymentList['qcs_ccard-moto']);
             }
         }

@@ -7,6 +7,16 @@
  * https://github.com/qenta-cee/oxid-qcs/blob/master/LICENSE
 */
 namespace Qenta\Extend\Controller;
+
+use Exception;
+
+use OxidEsales\Eshop\Application\Model\Order;
+use OxidEsales\Eshop\Core\Field;
+use OxidEsales\Eshop\Core\Registry;
+use Qenta\Model\qmoreCheckoutSeamlessUtils;
+use Qenta\Core\qmoreCheckoutSeamlessConfig;
+use Qenta\Model\qmoreCheckoutSeamlessFrontend;
+
 /**
  * Order class wrapper for QMORE Checkout Seamless
  *
@@ -23,21 +33,21 @@ class qmoreCheckoutSeamlessOrder extends qmoreCheckoutSeamlessOrder_parent
      */
     protected function _getNextStep($iSuccess)
     {
-        $sPaymentID = $this->getSession()->getVariable("paymentid");
+        $sPaymentID = Registry::getSession()->getVariable("paymentid");
 
         $isQenta = qmoreCheckoutSeamlessUtils::getInstance()->isOwnPayment($sPaymentID);
 
-        if ($isQenta && is_numeric($iSuccess) && ($iSuccess == oxOrder::ORDER_STATE_OK || $iSuccess == oxOrder::ORDER_STATE_ORDEREXISTS)) {
+        if ($isQenta && is_numeric($iSuccess) && ($iSuccess == Order::ORDER_STATE_OK || $iSuccess == Order::ORDER_STATE_ORDEREXISTS)) {
 
             /** @var oxUtils $utils */
-            $utils = oxRegistry::get('oxUtils');
+            $utils = Registry::get('oxUtils');
 
             $oOrder = $this->_getOrder();
 
             /** @var qmoreCheckoutSeamlessOrderDbGateway $oDbOrder */
             $oDbOrder = oxNew('qmoreCheckoutSeamlessOrderDbGateway');
             $aOrderData = Array(
-                'BASKET' => serialize(oxRegistry::getSession()->getBasket()),
+                'BASKET' => serialize(Registry::getSession()->getBasket()),
                 'OXORDERID' => $oOrder->getId()
             );
             $oDbOrder->insert($aOrderData);
@@ -54,7 +64,7 @@ class qmoreCheckoutSeamlessOrder extends qmoreCheckoutSeamlessOrder_parent
                 $frontend->setOrderData($oOrder, $sQentaPaymentType);
                 $frontend->setBasket($oOrder, $sQentaPaymentType);
 
-                $aValues = oxRegistry::getSession()->getVariable('qmoreCheckoutSeamlessValues');
+                $aValues = Registry::getSession()->getVariable('qmoreCheckoutSeamlessValues');
                 if (isset($aValues['financialInstitution'])) {
                     $frontend->setFinancialInstitution($aValues['financialInstitution']);
                 }
@@ -72,7 +82,7 @@ class qmoreCheckoutSeamlessOrder extends qmoreCheckoutSeamlessOrder_parent
                     }
                     else {
                         $oOrder->cancelOrder();
-                        $oOrder->oxorder__oxtransstatus = new oxField('FAILED');
+                        $oOrder->oxorder__oxtransstatus = new Field('FAILED');
                         $oOrder->save();
                     }
 
@@ -81,17 +91,17 @@ class qmoreCheckoutSeamlessOrder extends qmoreCheckoutSeamlessOrder_parent
                 }
 
                 if ($config->getUseIframe() && $sQentaPaymentType != \QentaCEE\Qmore\PaymentType::SOFORTUEBERWEISUNG) {
-                    $sStoken = oxRegistry::getSession()->getSessionChallengeToken();
-                    $sHomeUrl = oxRegistry::getSession()->processUrl($config->getOxConfig()->getShopSecureHomeUrl());
-                    oxRegistry::getSession()->setVariable('qmoreCheckoutIframeUrl', $oResponse->getRedirectUrl());
+                    $sStoken = Registry::getSession()->getSessionChallengeToken();
+                    $sHomeUrl = Registry::getSession()->processUrl($config->getOxConfig()->getShopSecureHomeUrl());
+                    Registry::getSession()->setVariable('qmoreCheckoutIframeUrl', $oResponse->getRedirectUrl());
                     $utils->redirect($sHomeUrl . 'cl=order&fnc=qmoreCheckoutIframe&stoken=' . $sStoken);
                 } else {
                     $utils->redirect($oResponse->getRedirectUrl());
                 }
 
             } catch (Exception $e) {
-                oxRegistry::getSession()->setVariable('payerror', -1);
-                oxRegistry::getSession()->setVariable('payerrortext', $e->getMessage());
+                Registry::getSession()->setVariable('payerror', -1);
+                Registry::getSession()->setVariable('payerrortext', $e->getMessage());
                 qmoreCheckoutSeamlessUtils::getInstance()->log(__METHOD__ . ':ERROR:' . $e->getMessage());
                 $utils->redirect($redirectErrorUrl);
             }
@@ -105,47 +115,47 @@ class qmoreCheckoutSeamlessOrder extends qmoreCheckoutSeamlessOrder_parent
     {
         $this->qentaIframeBreakout();
 
-        return parent::_getNextStep(oxOrder::ORDER_STATE_OK);
+        return parent::_getNextStep(Order::ORDER_STATE_OK);
     }
 
     public function qentaSuccess()
     {
         $this->qentaIframeBreakout();
 
-        return parent::_getNextStep(oxOrder::ORDER_STATE_OK);
+        return parent::_getNextStep(Order::ORDER_STATE_OK);
     }
 
     public function qentaCancel()
     {
         $this->qentaIframeBreakout();
-        $consumerMessage = oxRegistry::getSession()->getVariable('qmoreCheckoutSeamlessConsumerMessage');
-        oxRegistry::getSession()->setVariable('qcs_payerrortext', $consumerMessage);
+        $consumerMessage = Registry::getSession()->getVariable('qmoreCheckoutSeamlessConsumerMessage');
+        Registry::getSession()->setVariable('qcs_payerrortext', $consumerMessage);
 
-        return parent::_getNextStep(oxOrder::ORDER_STATE_PAYMENTERROR);
+        return parent::_getNextStep(Order::ORDER_STATE_PAYMENTERROR);
     }
 
     public function qentaFailure()
     {
         $this->qentaIframeBreakout();
 
-        $consumerMessage = oxRegistry::getSession()->getVariable('qmoreCheckoutSeamlessConsumerMessage');
-        oxRegistry::getSession()->setVariable('qcs_payerrortext', $consumerMessage);
+        $consumerMessage = Registry::getSession()->getVariable('qmoreCheckoutSeamlessConsumerMessage');
+        Registry::getSession()->setVariable('qcs_payerrortext', $consumerMessage);
 
-        return parent::_getNextStep(oxOrder::ORDER_STATE_PAYMENTERROR);
+        return parent::_getNextStep(Order::ORDER_STATE_PAYMENTERROR);
     }
 
     public function qentaIframeBreakout()
     {
         /** @var oxUtilsUrl $urlUtils */
-        $urlUtils = oxRegistry::get('oxUtilsUrl');
+        $urlUtils = Registry::get('oxUtilsUrl');
         $sRedirectUrl = $urlUtils->getCurrentUrl();
 
-        $redirected = (string)oxRegistry::getConfig()->getRequestParameter('iframebreakout');
+        $redirected = (string)Registry::getConfig()->getRequestParameter('iframebreakout');
         if (!$redirected && qmoreCheckoutSeamlessConfig::getInstance()->getUseIframe()) {
             $sRedirectUrl .= '&iframebreakout=1';
             $sRedirectUrl = json_encode($sRedirectUrl);
             /** @var oxUtils $utils */
-            $utils = oxRegistry::get('oxUtils');
+            $utils = Registry::get('oxUtils');
             $utils->showMessageAndExit(<<<EOT
 <!DOCTYPE>
 <html>
@@ -169,7 +179,7 @@ EOT
     {
         $this->addGlobalParams();
 
-        $this->_aViewData['qmoreCheckoutIframeUrl'] = oxRegistry::getSession()->getVariable('qmoreCheckoutIframeUrl');
+        $this->_aViewData['qmoreCheckoutIframeUrl'] = Registry::getSession()->getVariable('qmoreCheckoutIframeUrl');
 
         $this->_sThisTemplate = 'qmorecheckoutseamlessiframecheckout.tpl';
     }
@@ -189,7 +199,7 @@ EOT
         }
 
         $sOXID = $_POST['oxid_orderid'];
-        /** @var oxOrder $oOrder */
+        /** @var Order $oOrder */
         $oOrder = $this->_getOrderById($sOXID);
         if ($oOrder === null) {
             print \QentaCEE\Qmore\ReturnFactory::generateConfirmResponseString('Order not found.');
@@ -226,11 +236,11 @@ EOT
                 case \QentaCEE\Qmore\ReturnFactory::STATE_SUCCESS:
                     /** @var $return \QentaCEE\Qmore\Return_Success */
                     qmoreCheckoutSeamlessUtils::getInstance()->log(__METHOD__ . ':SUCCESS:' . $return->getOrderNumber() . ':' . $return->getGatewayReferenceNumber());
-                    $oOrder->oxorder__oxtransstatus = new oxField('PAID');
-                    $oOrder->oxorder__oxpaid = new oxField(date('Y-m-d H:i:s'));
-                    $oOrder->oxorder__oxtransid = new oxField($return->getOrderNumber());
-                    $oOrder->oxorder__oxpayid = new oxField($return->getGatewayReferenceNumber());
-                    $oOrder->oxorder__oxxid = new oxField($return->getGatewayContractNumber());
+                    $oOrder->oxorder__oxtransstatus = new Field('PAID');
+                    $oOrder->oxorder__oxpaid = new Field(date('Y-m-d H:i:s'));
+                    $oOrder->oxorder__oxtransid = new Field($return->getOrderNumber());
+                    $oOrder->oxorder__oxpayid = new Field($return->getGatewayReferenceNumber());
+                    $oOrder->oxorder__oxxid = new Field($return->getGatewayContractNumber());
                     $oOrder->save();
 
                     //create info data
@@ -242,12 +252,12 @@ EOT
                     unset($returned['oxid_orderid']);
 
                     foreach ($returned as $k => $v) {
-                        $aInfo[$prefix . $k] = mysql_real_escape_string($v);
+                        $aInfo[$prefix . $k] = mysqli_real_escape_string($v);
                     }
 
                     $oOxUserPayment = oxNew("oxUserPayment");
                     $oOxUserPayment->load($oOrder->oxorder__oxpaymentid->value);
-                    $oOxUserPayment->oxuserpayments__oxvalue = new oxField(oxRegistry::getUtils()->assignValuesToText($aInfo), oxField::T_RAW);
+                    $oOxUserPayment->oxuserpayments__oxvalue = new Field(Registry::getUtils()->assignValuesToText($aInfo), Field::T_RAW);
                     $oOxUserPayment->setDynValues($aInfo);
                     $oOxUserPayment->save();
 
@@ -264,8 +274,8 @@ EOT
 
                     /** @var $return \QentaCEE\Qmore\Return_Pending */
                     qmoreCheckoutSeamlessUtils::getInstance()->log(__METHOD__ . ':PENDING');
-                    $oOrder->oxorder__oxtransstatus = new oxField('PENDING');
-                    $oOrder->oxorder__oxtransid = new oxField($return->getOrderNumber());
+                    $oOrder->oxorder__oxtransstatus = new Field('PENDING');
+                    $oOrder->oxorder__oxtransid = new Field($return->getOrderNumber());
                     $oOrder->save();
 
                     $oOxUserPayment = oxNew("oxUserPayment");
@@ -293,7 +303,7 @@ EOT
                     }
                     else {
                         $oOrder->cancelOrder();
-                        $oOrder->oxorder__oxtransstatus = new oxField('CANCELED');
+                        $oOrder->oxorder__oxtransstatus = new Field('CANCELED');
                         $oOrder->save();
                     }
                     break;
@@ -309,7 +319,7 @@ EOT
                     }
                     else {
                         $oOrder->cancelOrder();
-                        $oOrder->oxorder__oxtransstatus = new oxField('CANCELED');
+                        $oOrder->oxorder__oxtransstatus = new Field('CANCELED');
                         $oOrder->save();
                     }
 
@@ -318,7 +328,7 @@ EOT
                     foreach ($return->getErrors() as $e) {
                         $consumerMessage .= ' ' . $e->getConsumerMessage();
                     }
-                    oxRegistry::getSession()->setVariable('qmoreCheckoutSeamlessConsumerMessage', $consumerMessage);
+                    Registry::getSession()->setVariable('qmoreCheckoutSeamlessConsumerMessage', $consumerMessage);
                     break;
 
                 default:
@@ -337,13 +347,13 @@ EOT
     /**
      * Returns current order object
      *
-     * @return oxOrder
+     * @return Order
      */
     protected function _getOrder()
     {
-        /** @var oxOrder $oOrder */
-        $oOrder = oxNew("oxOrder");
-        $bSuccess = $oOrder->load(oxRegistry::getSession()->getVariable('sess_challenge'));
+        /** @var Order $oOrder */
+        $oOrder = oxNew("Order");
+        $bSuccess = $oOrder->load(Registry::getSession()->getVariable('sess_challenge'));
 
         return $bSuccess ? $oOrder : null;
     }
@@ -355,7 +365,7 @@ EOT
      */
     protected function _getOrderById($sOXID)
     {
-        /** @var oxOrder $oOrder */
+        /** @var Order $oOrder */
         $oOrder = oxNew("qmoreCheckoutSeamlessOxOrder");
         $bSuccess = $oOrder->load($sOXID);
 
