@@ -23,7 +23,7 @@ class qmoreCheckoutSeamlessThankyou extends qmoreCheckoutSeamlessThankyou_parent
 
     public function init()
     {
-        $this->_oOrder = oxNew(\OxidEsales\Eshop\Application\Controller\OrderController::class);
+        $this->_oOrder = oxNew(Order::class);
         $this->_oOrder->load(Registry::getSession()->getVariable('sess_challenge'));
         parent::init();
     }
