@@ -5,7 +5,7 @@
  * - Terms of use can be found under
  * https://guides.qenta.com/shop_plugins:info
  * - License can be found under:
- * https://github.com/qenta-cee/oxid-qcs/blob/master/LICENSE
+ * https://github.com/qenta-cee/oxid-qcs/blob/master/LICENSE.
  */
 
 /**
@@ -114,5 +114,43 @@ $aModule = [
         ['group' => 'qcs_risk_settings', 'name' => 'sRiskConfigAlias', 'type' => 'str', 'value' => ''],
         ['group' => 'qcs_risk_settings', 'name' => 'bRiskSuppress', 'type' => 'bool', 'value' => 'false'],
     ],
-    'settings' => []
+    'settings' => [
+        ['group' => 'qcs_params', 'name' => 'sPluginMode', 'type' => 'select', 'value' => 'Demo', 'constraints' => 'Demo|Test|Live'],
+        ['group' => 'qcs_params', 'name' => 'sCustomerId', 'type' => 'str', 'value' => 'D200001'],
+        ['group' => 'qcs_params', 'name' => 'sShopId', 'type' => 'str', 'value' => 'seamless'],
+        ['group' => 'qcs_params', 'name' => 'sSecret', 'type' => 'str', 'value' => 'B8AKTPWBRMNBV455FG6M2DANE99WU2'],
+        ['group' => 'qcs_params', 'name' => 'sPassword', 'type' => 'str', 'value' => 'jcv45z'],
+        ['group' => 'qcs_params', 'name' => 'sServiceUrl', 'type' => 'str', 'value' => ''],
+        ['group' => 'qcs_params', 'name' => 'bAutoDeposit', 'type' => 'bool', 'value' => 'false'],
+        ['group' => 'qcs_params', 'name' => 'sConfirmMail', 'type' => 'str', 'value' => ''],
+        ['group' => 'qcs_params', 'name' => 'bDuplicateRequestCheck', 'type' => 'bool', 'value' => 'false'],
+        ['group' => 'qcs_params', 'name' => 'sShopName', 'type' => 'str', 'value' => 'Web Shop'],
+
+        ['group' => 'wcs_plugin', 'name' => 'bSendAdditionalCustomerBilling', 'type' => 'bool', 'value' => '1'],
+        ['group' => 'wcs_plugin', 'name' => 'bSendAdditionalCustomerShipping', 'type' => 'bool', 'value' => '1'],
+        ['group' => 'wcs_plugin', 'name' => 'bSendAdditionalBasketData', 'type' => 'bool', 'value' => '1'],
+        ['group' => 'wcs_plugin', 'name' => 'bUseIframe', 'type' => 'bool', 'value' => '1'],
+        ['group' => 'wcs_plugin', 'name' => 'sDeleteFailedOrCanceledOrders', 'type' => 'bool', 'value' => '1'],
+
+        ['group' => 'wcs_invoice_settings', 'name' => 'sInvoiceProvider', 'type' => 'select', 'value' => 'PAYOLUTION', 'constraints' => 'PAYOLUTION|RATEPAY|WIRECARD'],
+        ['group' => 'wcs_invoice_settings', 'name' => 'sInvoicePayolutionMId', 'type' => 'str', 'value' => ''],
+        ['group' => 'wcs_invoice_settings', 'name' => 'bInvoiceb2bTrustedShopsCheckbox', 'type' => 'bool', 'value' => ''],
+        ['group' => 'wcs_invoice_settings', 'name' => 'bInvoiceb2cTrustedShopsCheckbox', 'type' => 'bool', 'value' => ''],
+        ['group' => 'wcs_invoice_settings', 'name' => 'bInvoiceAllowDifferingAddresses', 'type' => 'bool', 'value' => ''],
+
+        ['group' => 'wcs_installment_settings', 'name' => 'sInstallmentProvider', 'type' => 'select', 'value' => 'PAYOLUTION', 'constraints' => 'PAYOLUTION|RATEPAY'],
+        ['group' => 'wcs_installment_settings', 'name' => 'sInstallmentPayolutionMId', 'type' => 'str', 'value' => ''],
+        ['group' => 'wcs_installment_settings', 'name' => 'bInstallmentTrustedShopsCheckbox', 'type' => 'bool', 'value' => ''],
+        ['group' => 'wcs_installment_settings', 'name' => 'bInstallmentAllowDifferingAddresses', 'type' => 'bool', 'value' => ''],
+
+        ['group' => 'wcs_pci_dss', 'name' => 'bDssSaqAEnable', 'type' => 'bool', 'value' => 'false'],
+        ['group' => 'wcs_pci_dss', 'name' => 'bShowCreditcardCardholder', 'type' => 'bool', 'value' => 'true'],
+        ['group' => 'wcs_pci_dss', 'name' => 'bShowCreditcardCvc', 'type' => 'bool', 'value' => 'true'],
+        ['group' => 'wcs_pci_dss', 'name' => 'bShowCreditcardIssueDate', 'type' => 'bool', 'value' => 'false'],
+        ['group' => 'wcs_pci_dss', 'name' => 'bShowCreditcardIssueNumber', 'type' => 'bool', 'value' => 'false'],
+        ['group' => 'wcs_pci_dss', 'name' => 'sIframeCssUrl', 'type' => 'str', 'value' => ''],
+
+        ['group' => 'wcs_risk_settings', 'name' => 'sRiskConfigAlias', 'type' => 'str', 'value' => ''],
+        ['group' => 'wcs_risk_settings', 'name' => 'bRiskSuppress', 'type' => 'bool', 'value' => 'false'],
+    ],
 ];
