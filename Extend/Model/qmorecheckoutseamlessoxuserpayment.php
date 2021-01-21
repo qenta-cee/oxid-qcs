@@ -8,6 +8,8 @@
 */
 namespace Qenta\Extend\Application\Model;
 
+use Qenta\Extend\Controller\qmoreCheckoutSeamlessPayment;
+
 class qmorecheckoutseamlessoxuserpayment extends qmorecheckoutseamlessoxuserpayment_parent
 {
     public function isQcsPaymethod($sPaymentID)
