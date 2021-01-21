@@ -18,11 +18,11 @@ use Qenta\Core\qmoreCheckoutSeamlessConfig;
 use Qenta\Model\qmoreCheckoutSeamlessFrontend;
 
 /**
- * Order class wrapper for QMORE Checkout Seamless
+ * @mixin \OxidEsales\Eshop\Application\Controller\OrderController
  *
  * @see order
  */
-class qmoreCheckoutSeamlessOrder extends qmoreCheckoutSeamlessOrder_parent
+class OrderController extends OrderController_parent
 {
     /**
      * Checks if order payment is a QENTA payment and redirect
