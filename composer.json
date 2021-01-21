@@ -18,7 +18,10 @@
     "psr-4": {
       "Qenta\\Core\\": "Core",
       "Qenta\\Model\\": "Model",
-      "Qenta\\Controller\\": "Controller"
+      "Qenta\\Controller\\": "Controller",
+      "Qenta\\Extend\\Core\\": "Extend/Core",
+      "Qenta\\Extend\\Controller\\": "Extend/Controller",
+      "Qenta\\Extend\\Application\\Model\\": "Extend/Model"
     }
   },
   "config": {
