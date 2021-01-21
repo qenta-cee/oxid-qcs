@@ -13,6 +13,8 @@ use OxidEsales\Eshop\Application\Model\Basket;
 use OxidEsales\Eshop\Core\Exception\ArticleInputException;
 use OxidEsales\Eshop\Core\Exception\NoArticleException;
 
+use Qenta\Model\qmoreCheckoutSeamlessUtils;
+
 /**
  * QMORE Checkout Seamless oxBasket class
  *

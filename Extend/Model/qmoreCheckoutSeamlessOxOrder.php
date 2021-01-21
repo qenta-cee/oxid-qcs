@@ -9,6 +9,7 @@
 namespace Qenta\Extend\Application\Model;
 
 use OxidEsales\Eshop\Application\Model\Order;
+use Qenta\Model\qmoreCheckoutSeamlessUtils;
 
 /**
  * QMORE Checkout Seamless Order class
