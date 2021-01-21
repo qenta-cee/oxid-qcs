@@ -93,11 +93,11 @@ class qmoreCheckoutSeamlessDataStorage
      */
     public static function getInstance()
     {
-        if (is_object(Registry::get('qmoreCheckoutSeamlessDataStorage'))) {
-            return Registry::get('qmoreCheckoutSeamlessDataStorage');
+        if (is_object(Registry::get(\Qenta\Model\qmoreCheckoutSeamlessDataStorage::class))) {
+            return Registry::get(\Qenta\Model\qmoreCheckoutSeamlessDataStorage::class);
         }
 
-        Registry::set('qmoreCheckoutSeamlessDataStorage', new self());
+        Registry::set(\Qenta\Model\qmoreCheckoutSeamlessDataStorage::class, new self());
     }
 
 }

@@ -322,10 +322,10 @@ class qmoreCheckoutSeamlessConfig
      */
     public static function getInstance()
     {
-        if (is_object(Registry::get('qmoreCheckoutSeamlessConfig'))) {
-            return Registry::get('qmoreCheckoutSeamlessConfig');
+        if (is_object(Registry::get(\Qenta\Core\qmoreCheckoutSeamlessConfig::class))) {
+            return Registry::get(\Qenta\Core\qmoreCheckoutSeamlessConfig::class);
         }
 
-        Registry::set('qmoreCheckoutSeamlessConfig', new self());
+        Registry::set(\Qenta\Core\qmoreCheckoutSeamlessConfig::class, new self());
     }
 }

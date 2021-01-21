@@ -330,11 +330,11 @@ class qmoreCheckoutSeamlessFrontend
      */
     public static function getInstance()
     {
-        if (is_object(Registry::get('qmoreCheckoutSeamlessFrontend'))) {
-            return Registry::get('qmoreCheckoutSeamlessFrontend');
+        if (is_object(Registry::get(\Qenta\Model\qmoreCheckoutSeamlessFrontend::class))) {
+            return Registry::get(\Qenta\Model\qmoreCheckoutSeamlessFrontend::class);
         }
 
-        Registry::set('qmoreCheckoutSeamlessFrontend', new self());
+        Registry::set(\Qenta\Model\qmoreCheckoutSeamlessFrontend::class, new self());
     }
 
     private function _getCustomerStatement($paymenttype)

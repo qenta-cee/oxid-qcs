@@ -38,11 +38,11 @@ class qmoreCheckoutSeamlessUtils
      */
     public static function getInstance()
     {
-        if (is_object(Registry::get('qmoreCheckoutSeamlessUtils'))) {
-            return Registry::get('qmoreCheckoutSeamlessUtils');
+        if (is_object(Registry::get(\Qenta\Model\qmoreCheckoutSeamlessUtils::class))) {
+            return Registry::get(\Qenta\Model\qmoreCheckoutSeamlessUtils::class);
         }
 
-        Registry::set('qmoreCheckoutSeamlessUtils', new self());
+        Registry::set(\Qenta\Model\qmoreCheckoutSeamlessUtils::class, new self());
     }
 
 }
