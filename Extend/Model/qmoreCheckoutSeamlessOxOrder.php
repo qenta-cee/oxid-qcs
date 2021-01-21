@@ -24,7 +24,7 @@ class qmoreCheckoutSeamlessOxOrder extends qmoreCheckoutSeamlessOxOrder_parent
         if (qmoreCheckoutSeamlessUtils::getInstance()->isOwnPayment($this->oxorder__oxpaymenttype)) {
             return 1;
         } else {
-            return parent::_sendOrderByEmail($oUser, $oBasket, $oPayment);
+            return Order::_sendOrderByEmail($oUser, $oBasket, $oPayment);
         }
     }
 
@@ -43,7 +43,7 @@ class qmoreCheckoutSeamlessOxOrder extends qmoreCheckoutSeamlessOxOrder_parent
             $oUserPayment = $this->_setPayment($oBasket->getPaymentId());
         }
 
-        return parent::_sendOrderByEmail($oUser, $oBasket, $oUserPayment);
+        return Order::_sendOrderByEmail($oUser, $oBasket, $oUserPayment);
     }
 
 }

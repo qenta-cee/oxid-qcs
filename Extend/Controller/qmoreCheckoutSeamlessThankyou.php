@@ -9,6 +9,7 @@
 namespace Qenta\Extend\Controller;
 
 use OxidEsales\Eshop\Application\Model\Order;
+use OxidEsales\Eshop\Core\Registry;
 
 /**
  * Order class wrapper for QMORE Checkout Seamless
