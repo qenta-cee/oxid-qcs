@@ -13,6 +13,7 @@ use OxidEsales\Eshop\Core\Registry;
 use OxidEsales\Eshop\Application\Model\Order;
 
 use Qenta\Core\qmoreCheckoutSeamlessConfig;
+use Qenta\Model\qmoreCheckoutSeamlessDataStorage;
 
 class qmoreCheckoutSeamlessFrontend
 {
