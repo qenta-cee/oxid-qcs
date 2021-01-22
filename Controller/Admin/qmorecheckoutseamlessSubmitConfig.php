@@ -107,7 +107,7 @@ class qmorecheckoutseamlessSubmitConfig extends AdminController
         $Mail->setRecipient($recipient);
         $Mail->setBody('<p>' . $confString . '</p><p>' . $comment . '</p>');
         $Mail->setAltBody($confString . "\n\n" . $comment);
-        $Mail->setSubject('OXID WCS Plugin Configuration from ' . Registry::getConfig()->getActiveShop()->oxshops__oxname->rawValue);
+        $Mail->setSubject('OXID QCS Plugin Configuration from ' . Registry::getConfig()->getActiveShop()->oxshops__oxname->rawValue);
         if ($replyTo) {
             $Mail->setReplyTo($replyTo, "");
         }

@@ -27,7 +27,7 @@ class qmorecheckoutseamlessoxpaymentlist extends qmorecheckoutseamlessoxpaymentl
             $config = qmoreCheckoutSeamlessConfig::getInstance();
 
             if (array_key_exists('qcs_invoice_b2c', $paymentList)) {
-                if (!$this->_isWCSInvoiceAvailable($oUser, $oBasket,
+                if (!$this->_isQCSInvoiceAvailable($oUser, $oBasket,
                         $oOrder) || !empty($oUser->oxuser__oxcompany->value)
                 ) {
                     unset($paymentList['qcs_invoice_b2c']);
@@ -44,7 +44,7 @@ class qmorecheckoutseamlessoxpaymentlist extends qmorecheckoutseamlessoxpaymentl
             if (array_key_exists('qcs_invoice_b2b', $paymentList)) {
                 $vatId = $oUser->oxuser__oxustid->value;
 
-                if (!$this->_isWCSInvoiceAvailable($oUser, $oBasket,
+                if (!$this->_isQCSInvoiceAvailable($oUser, $oBasket,
                         $oOrder) || empty($oUser->oxuser__oxcompany->value)
                 ) {
                     unset($paymentList['qcs_invoice_b2b']);
@@ -60,7 +60,7 @@ class qmorecheckoutseamlessoxpaymentlist extends qmorecheckoutseamlessoxpaymentl
             }
 
             if (array_key_exists('qcs_installment', $paymentList)) {
-                if (!$this->_isWCSInstallmentAvailable($oUser, $oBasket, $oOrder)) {
+                if (!$this->_isQCSInstallmentAvailable($oUser, $oBasket, $oOrder)) {
                     unset($paymentList['qcs_installment']);
                 } elseif ($dob && $dob == '0000-00-00' && $config->getInstallmentProvider() == 'PAYOLUTION') {
                     $oSmarty = Registry::get("oxUtilsView")->getSmarty();
@@ -90,7 +90,7 @@ class qmorecheckoutseamlessoxpaymentlist extends qmorecheckoutseamlessoxpaymentl
      * @param oxUser $oUser
      * @return boolean
      */
-    protected function _isWCSInvoiceAvailable($oUser, $oBasket, $oOrder)
+    protected function _isQCSInvoiceAvailable($oUser, $oBasket, $oOrder)
     {
         if (!($oUser || $oBasket || $oOrder)) {
             return false;
@@ -119,7 +119,7 @@ class qmorecheckoutseamlessoxpaymentlist extends qmorecheckoutseamlessoxpaymentl
      * @param oxUser $oUser
      * @return boolean
      */
-    protected function _isWCSInstallmentAvailable($oUser, $oBasket, $oOrder)
+    protected function _isQCSInstallmentAvailable($oUser, $oBasket, $oOrder)
     {
         if (!($oUser || $oBasket || $oOrder)) {
             return false;

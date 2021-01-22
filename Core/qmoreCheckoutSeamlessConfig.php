@@ -10,6 +10,7 @@ namespace Qenta\Core;
 
 use OxidEsales\Eshop\Core\Registry;
 
+
 /**
  * QMORE Checkout Seamless config class
  */
@@ -309,7 +310,7 @@ class qmoreCheckoutSeamlessConfig
     {
         if ($this->_oModule === null) {
             /** @var oxModule $module */
-            $this->_oModule = oxNew(\OxidEsales\Eshop\Core\Module\Module::class);
+            $this->_oModule = oxNew('oxModule');
             $this->_oModule->load('qmorecheckoutseamless');
         }
 
@@ -322,10 +323,10 @@ class qmoreCheckoutSeamlessConfig
      */
     public static function getInstance()
     {
-        if (is_object(Registry::get(\Qenta\Core\qmoreCheckoutSeamlessConfig::class))) {
-            return Registry::get(\Qenta\Core\qmoreCheckoutSeamlessConfig::class);
+        if (is_object(Registry::get('qmoreCheckoutSeamlessConfig'))) {
+            return Registry::get('qmoreCheckoutSeamlessConfig');
         }
 
-        Registry::set(\Qenta\Core\qmoreCheckoutSeamlessConfig::class, new self());
+        Registry::set('qmoreCheckoutSeamlessConfig', new self());
     }
 }

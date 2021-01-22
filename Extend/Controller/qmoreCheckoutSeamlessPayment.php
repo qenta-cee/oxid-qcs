@@ -16,6 +16,8 @@ use Qenta\Core\qmoreCheckoutSeamlessConfig;
 use Qenta\Model\qmoreCheckoutSeamlessDataStorage;
 use Qenta\Model\qmoreCheckoutSeamlessUtils;
 
+use QentaCEE\Qmore\PaymentType;
+
 /**
  * Payment class wrapper for PayPal module
  *
@@ -63,19 +65,19 @@ class qmoreCheckoutSeamlessPayment extends qmoreCheckoutSeamlessPayment_parent
         $oLang = Registry::get('oxLang');
 
         switch ($sPaymenttype) {
-            case \QentaCEE\Qmore\PaymentType::IDL:
+            case PaymentType::IDL:
                 $aValues['financialInstitution'] = (string)Registry::getConfig()->getRequestParameter('ideal_financialInstitution');
                 break;
 
-            case \QentaCEE\Qmore\PaymentType::EPS:
+            case PaymentType::EPS:
                 $aValues['financialInstitution'] = (string)Registry::getConfig()->getRequestParameter('eps_financialInstitution');
                 break;
 
-            case \QentaCEE\Qmore\PaymentType::TRUSTPAY:
+            case PaymentType::TRUSTPAY:
                 $aValues['financialInstitution'] = (string)Registry::getConfig()->getRequestParameter('trustpay_financialInstitution');
                 break;
 
-            case \QentaCEE\Qmore\PaymentType::INVOICE . '_B2B':
+            case PaymentType::INVOICE . '_B2B':
                 if ($config->getInvoiceProvider() == 'PAYOLUTION') {
                     $vatId = $oUser->oxuser__oxustid->value;
                     if ($this->hasQcsVatIdField($sPaymentId) && empty($vatId)) {
@@ -101,9 +103,9 @@ class qmoreCheckoutSeamlessPayment extends qmoreCheckoutSeamlessPayment_parent
                 }
                 break;
 
-            case \QentaCEE\Qmore\PaymentType::INVOICE . '_B2C':
+            case PaymentType::INVOICE . '_B2C':
 
-            case \QentaCEE\Qmore\PaymentType::INSTALLMENT:
+            case PaymentType::INSTALLMENT:
                 if ($config->getInstallmentProvider() == 'PAYOLUTION') {
                     if ($this->hasQcsDobField($sPaymentId) && $oUser->oxuser__oxbirthdate == '0000-00-00') {
                         $iBirthdayYear = Registry::getConfig()->getRequestParameter($sPaymentId . '_iBirthdayYear');
@@ -328,9 +330,9 @@ class qmoreCheckoutSeamlessPayment extends qmoreCheckoutSeamlessPayment_parent
     {
         $sPaymentType = qmoreCheckoutSeamlessUtils::getInstance()->convertPaymenttype($sPaymentID);
 
-        if (\QentaCEE\Qmore\PaymentType::hasFinancialInstitutions($sPaymentType)) {
-            return \QentaCEE\Qmore\PaymentType::getFinancialInstitutions($sPaymentType);
-        } elseif ($sPaymentType == \QentaCEE\Qmore\PaymentType::TRUSTPAY) {
+        if (PaymentType::hasFinancialInstitutions($sPaymentType)) {
+            return PaymentType::getFinancialInstitutions($sPaymentType);
+        } elseif ($sPaymentType == PaymentType::TRUSTPAY) {
 
             $financialInstitutions = Registry::getSession()->getVariable('qmoreCheckoutSeamlessTrustPayFinancialInstitutions');
             $financialInstitutionsLastModified = Registry::getSession()->getVariable('qmoreCheckoutSeamlessTrustPayFinancialInstitutionsLastModified');
@@ -353,7 +355,7 @@ class qmoreCheckoutSeamlessPayment extends qmoreCheckoutSeamlessPayment_parent
                         'PASSWORD' => $config->getPassword(),
                     ));
 
-                    $response = $_client->getFinancialInstitutions(\QentaCEE\Qmore\PaymentType::TRUSTPAY)->getResponse();
+                    $response = $_client->getFinancialInstitutions(PaymentType::TRUSTPAY)->getResponse();
 
                     foreach ($response['financialInstitution'] as $institution) {
                         $financialInstitutions[$institution["id"]] = $institution["name"];
@@ -481,30 +483,30 @@ class qmoreCheckoutSeamlessPayment extends qmoreCheckoutSeamlessPayment_parent
         $sPaymenttype = qmoreCheckoutSeamlessUtils::getInstance()->convertPaymenttype($sPaymentId);
 
         switch ($sPaymenttype) {
-            case \QentaCEE\Qmore\PaymentType::BMC:
-            case \QentaCEE\Qmore\PaymentType::CCARD:
-            case \QentaCEE\Qmore\PaymentType::CCARD_MOTO:
-            case \QentaCEE\Qmore\PaymentType::EKONTO:
-            case \QentaCEE\Qmore\PaymentType::EPAYBG:
-            case \QentaCEE\Qmore\PaymentType::EPS:
-            case \QentaCEE\Qmore\PaymentType::GIROPAY:
-            case \QentaCEE\Qmore\PaymentType::IDL:
-            case \QentaCEE\Qmore\PaymentType::INSTALLMENT:
-            case \QentaCEE\Qmore\PaymentType::INVOICE . '_B2B':
-            case \QentaCEE\Qmore\PaymentType::INVOICE . '_B2C':
-            case \QentaCEE\Qmore\PaymentType::MONETA:
-            case \QentaCEE\Qmore\PaymentType::P24:
-            case \QentaCEE\Qmore\PaymentType::PAYPAL:
-            case \QentaCEE\Qmore\PaymentType::PBX:
-            case \QentaCEE\Qmore\PaymentType::POLI:
-            case \QentaCEE\Qmore\PaymentType::PSC:
-            case \QentaCEE\Qmore\PaymentType::SEPADD:
-            case \QentaCEE\Qmore\PaymentType::SKRILLWALLET:
-            case \QentaCEE\Qmore\PaymentType::SOFORTUEBERWEISUNG:
-            case \QentaCEE\Qmore\PaymentType::TATRAPAY:
-            case \QentaCEE\Qmore\PaymentType::TRUSTLY:
-            case \QentaCEE\Qmore\PaymentType::TRUSTPAY:
-            case \QentaCEE\Qmore\PaymentType::VOUCHER:
+            case PaymentType::BMC:
+            case PaymentType::CCARD:
+            case PaymentType::CCARD_MOTO:
+            case PaymentType::EKONTO:
+            case PaymentType::EPAYBG:
+            case PaymentType::EPS:
+            case PaymentType::GIROPAY:
+            case PaymentType::IDL:
+            case PaymentType::INSTALLMENT:
+            case PaymentType::INVOICE . '_B2B':
+            case PaymentType::INVOICE . '_B2C':
+            case PaymentType::MONETA:
+            case PaymentType::P24:
+            case PaymentType::PAYPAL:
+            case PaymentType::PBX:
+            case PaymentType::POLI:
+            case PaymentType::PSC:
+            case PaymentType::SEPADD:
+            case PaymentType::SKRILLWALLET:
+            case PaymentType::SOFORTUEBERWEISUNG:
+            case PaymentType::TATRAPAY:
+            case PaymentType::TRUSTLY:
+            case PaymentType::TRUSTPAY:
+            case PaymentType::VOUCHER:
                 return true;
         }
 
@@ -520,53 +522,53 @@ class qmoreCheckoutSeamlessPayment extends qmoreCheckoutSeamlessPayment_parent
         $imgPath = $conf->getConfigParam('sShopURL') . '/modules/' . $modulePaths['qmorecheckoutseamless'] . '/out/img/';
 
         switch ($sPaymenttype) {
-            case \QentaCEE\Qmore\PaymentType::BMC:
+            case PaymentType::BMC:
                 return '<img src="' . $imgPath . 'bancontact_mistercash.png" />';
-            case \QentaCEE\Qmore\PaymentType::CCARD:
+            case PaymentType::CCARD:
                 return '<img src="' . $imgPath . 'ccard.png" />';
-            case \QentaCEE\Qmore\PaymentType::CCARD_MOTO:
+            case PaymentType::CCARD_MOTO:
                 return '<img src="' . $imgPath . 'ccard_moto.png" />';
-            case \QentaCEE\Qmore\PaymentType::EKONTO:
+            case PaymentType::EKONTO:
                 return '<img src="' . $imgPath . 'ekonto.png" />';
-            case \QentaCEE\Qmore\PaymentType::EPAYBG:
+            case PaymentType::EPAYBG:
                 return '<img src="' . $imgPath . 'epay_bg.png" />';
-            case \QentaCEE\Qmore\PaymentType::EPS:
+            case PaymentType::EPS:
                 return '<img src="' . $imgPath . 'eps.png" />';
-            case \QentaCEE\Qmore\PaymentType::GIROPAY:
+            case PaymentType::GIROPAY:
                 return '<img src="' . $imgPath . 'giropay.png" />';
-            case \QentaCEE\Qmore\PaymentType::IDL:
+            case PaymentType::IDL:
                 return '<img src="' . $imgPath . 'idl.png" />';
-            case \QentaCEE\Qmore\PaymentType::INSTALLMENT:
+            case PaymentType::INSTALLMENT:
                 return '<img src="' . $imgPath . 'installment.png" />';
-            case \QentaCEE\Qmore\PaymentType::INVOICE . '_B2B':
+            case PaymentType::INVOICE . '_B2B':
                 return '<img src="' . $imgPath . 'invoice.png" />';
-            case \QentaCEE\Qmore\PaymentType::INVOICE . '_B2C':
+            case PaymentType::INVOICE . '_B2C':
                 return '<img src="' . $imgPath . 'invoice.png" />';
-            case \QentaCEE\Qmore\PaymentType::MONETA:
+            case PaymentType::MONETA:
                 return '<img src="' . $imgPath . 'moneta.png" />';
-            case \QentaCEE\Qmore\PaymentType::PAYPAL:
+            case PaymentType::PAYPAL:
                 return '<img src="' . $imgPath . 'paypal.png" />';
-            case \QentaCEE\Qmore\PaymentType::PBX:
+            case PaymentType::PBX:
                 return '<img src="' . $imgPath . 'pbx.png" />';
-            case \QentaCEE\Qmore\PaymentType::POLI:
+            case PaymentType::POLI:
                 return '<img src="' . $imgPath . 'poli.png" />';
-            case \QentaCEE\Qmore\PaymentType::P24:
+            case PaymentType::P24:
                 return '<img src="' . $imgPath . 'przelewy24.png" />';
-            case \QentaCEE\Qmore\PaymentType::PSC:
+            case PaymentType::PSC:
                 return '<img src="' . $imgPath . 'psc.png" />';
-            case \QentaCEE\Qmore\PaymentType::SEPADD:
+            case PaymentType::SEPADD:
                 return '<img src="' . $imgPath . 'sepa-dd.png" />';
-            case \QentaCEE\Qmore\PaymentType::SKRILLWALLET:
+            case PaymentType::SKRILLWALLET:
                 return '<img src="' . $imgPath . 'skrillwallet.png" />';
-            case \QentaCEE\Qmore\PaymentType::SOFORTUEBERWEISUNG:
+            case PaymentType::SOFORTUEBERWEISUNG:
                 return '<img src="' . $imgPath . 'sofortueberweisung.png" />';
-            case \QentaCEE\Qmore\PaymentType::TATRAPAY:
+            case PaymentType::TATRAPAY:
                 return '<img src="' . $imgPath . 'tatrapay.png" />';
-            case \QentaCEE\Qmore\PaymentType::TRUSTLY:
+            case PaymentType::TRUSTLY:
                 return '<img src="' . $imgPath . 'trustly.png" />';
-            case \QentaCEE\Qmore\PaymentType::VOUCHER:
+            case PaymentType::VOUCHER:
                 return '<img src="' . $imgPath . 'voucher.png" />';
-            case \QentaCEE\Qmore\PaymentType::TRUSTPAY:
+            case PaymentType::TRUSTPAY:
                 return '<img src="' . $imgPath . 'trustpay.png" />';
             default:
                 return null;

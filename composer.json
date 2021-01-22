@@ -23,8 +23,5 @@
       "Qenta\\Extend\\Controller\\": "Extend/Controller",
       "Qenta\\Extend\\Application\\Model\\": "Extend/Model"
     }
-  },
-  "config": {
-    "vendor-dir": "modules/qenta/checkoutseamless/vendor"
   }
 }

@@ -203,7 +203,7 @@ class qmoreCheckoutSeamlessEvents
                 $oPayment->oxpayments__oxlongdesc = new Field($oLang->translateString($trkey . '_DESC',
                     $iLanguageId));
                 $paymethodName = $oLang->translateString($trkey . '_LABEL', $iLanguageId);
-                $oPayment->oxpayments__oxdesc = new Field('WCS ' . $paymethodName);
+                $oPayment->oxpayments__oxdesc = new Field('QCS ' . $paymethodName);
                 $oPayment->save();
             }
         }
