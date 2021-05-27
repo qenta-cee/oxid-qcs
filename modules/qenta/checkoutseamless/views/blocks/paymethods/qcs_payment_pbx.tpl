@@ -24,7 +24,7 @@
     <dd class="[{if $oView->getCheckedPaymentId() == $paymentmethod->oxpayments__oxid->value}]activePayment[{/if}]">
         <ul class="form">
             <li>
-                <label>[{ oxmultilang ident="WIRECARDCHECKOUTSEAMLESS_PHONE_NUMBER" }]</label>
+                <label>[{ oxmultilang ident="QENTACHECKOUTSEAMLESS_PHONE_NUMBER" }]</label>
                 <input type="text" class="js-oxValidate js-oxValidate_notEmpty" size="20" maxlength="64" name="pbx_payerPayboxNumber" autocomplete="off" value="[{ $qentaCheckoutSeamless_paymentdata.paybox_payerPayboxNumber }]">
                 <p class="oxValidateError">
                     <span class="js-oxError_notEmpty">[{ oxmultilang ident="ERROR_MESSAGE_INPUT_NOTALLFIELDS" }]</span>

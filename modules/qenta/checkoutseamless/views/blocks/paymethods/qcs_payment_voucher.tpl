@@ -24,7 +24,7 @@
     <dd class="[{if $oView->getCheckedPaymentId() == $paymentmethod->oxpayments__oxid->value}]activePayment[{/if}]">
         <ul class="form">
             <li>
-                <label>[{ oxmultilang ident="WIRECARDCHECKOUTSEAMLESS_VOUCHER_ID" }]</label>
+                <label>[{ oxmultilang ident="QENTACHECKOUTSEAMLESS_VOUCHER_ID" }]</label>
                 <input type="text" class="js-oxValidate js-oxValidate_notEmpty" size="20" maxlength="64" name="voucher_voucherId" autocomplete="off" value="[{ $qentaCheckoutSeamless_paymentdata.voucher_voucherId }]">
                 <p class="oxValidateError">
                     <span class="js-oxError_notEmpty">[{ oxmultilang ident="ERROR_MESSAGE_INPUT_NOTALLFIELDS" }]</span>

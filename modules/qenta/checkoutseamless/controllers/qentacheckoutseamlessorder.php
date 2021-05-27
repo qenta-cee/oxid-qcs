@@ -239,7 +239,7 @@ EOT
                     $oOrder->save();
 
                     //create info data
-                    $prefix = 'WIRECARD_CHECKOUT_SEAMLESS_';
+                    $prefix = 'QENTA_CHECKOUT_SEAMLESS_';
                     $returned = $return->getReturned();
 
                     unset($returned['paymentType']);

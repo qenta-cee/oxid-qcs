@@ -24,7 +24,7 @@
     <dd class="[{if $oView->getCheckedPaymentId() == $paymentmethod->oxpayments__oxid->value}]activePayment[{/if}]">
         <ul class="form">
             <li>
-                <span>[{ oxmultilang ident="WIRECARDCHECKOUTSEAMLESS_CHOOSE_FINANCIAL_INSTITUTION" }]</span>
+                <span>[{ oxmultilang ident="QENTACHECKOUTSEAMLESS_CHOOSE_FINANCIAL_INSTITUTION" }]</span>
                 [{html_options name=trustpay_financialInstitution options=$oView->getQentaCheckoutSeamlessFinancialInstitutions($sPaymentID)}]
             </li>
         </ul>

@@ -87,7 +87,7 @@ class qentaCheckoutSeamlessPayment extends qentaCheckoutSeamlessPayment_parent
                     if ($this->showQcsTrustedShopsCheckbox($sPaymentId)) {
                         if (!oxRegistry::getConfig()->getRequestParameter('payolutionTerms')) {
                             oxRegistry::getSession()->setVariable('qcs_payerrortext',
-                                $oLang->translateString('WIRECARD_CHECKOUT_SEAMLESS_CONFIRM_PAYOLUTION_TERMS',
+                                $oLang->translateString('QENTA_CHECKOUT_SEAMLESS_CONFIRM_PAYOLUTION_TERMS',
                                     $oLang->getBaseLanguage()));
                             $oSmarty = oxRegistry::get("oxUtilsView")->getSmarty();
                             $oSmarty->assign("aErrors", array('payolutionTerms' => 1));
@@ -109,7 +109,7 @@ class qentaCheckoutSeamlessPayment extends qentaCheckoutSeamlessPayment_parent
 
                         if (empty($iBirthdayYear) || empty($iBirthdayDay) || empty($iBirthdayMonth)) {
                             oxRegistry::getSession()->setVariable('qcs_payerrortext',
-                                $oLang->translateString('WIRECARD_CHECKOUT_SEAMLESS_PLEASE_FILL_IN_DOB',
+                                $oLang->translateString('QENTA_CHECKOUT_SEAMLESS_PLEASE_FILL_IN_DOB',
                                     $oLang->getBaseLanguage()));
 
                             return;
@@ -129,7 +129,7 @@ class qentaCheckoutSeamlessPayment extends qentaCheckoutSeamlessPayment_parent
                     //validate paymethod
                     if (!$this->qcsValidateCustomerAge($oUser, 18)) {
                         oxRegistry::getSession()->setVariable('qcs_payerrortext',
-                            sprintf($oLang->translateString('WIRECARD_CHECKOUT_SEAMLESS_DOB_TOO_YOUNG',
+                            sprintf($oLang->translateString('QENTA_CHECKOUT_SEAMLESS_DOB_TOO_YOUNG',
                                 $oLang->getBaseLanguage()), 18));
 
                         return;
@@ -138,7 +138,7 @@ class qentaCheckoutSeamlessPayment extends qentaCheckoutSeamlessPayment_parent
                     if ($this->showQcsInstallmentTrustedShopsCheckbox($sPaymentId)) {
                         if (!oxRegistry::getConfig()->getRequestParameter('payolutionTerms')) {
                             oxRegistry::getSession()->setVariable('qcs_payerrortext',
-                                $oLang->translateString('WIRECARD_CHECKOUT_SEAMLESS_CONFIRM_PAYOLUTION_TERMS',
+                                $oLang->translateString('QENTA_CHECKOUT_SEAMLESS_CONFIRM_PAYOLUTION_TERMS',
                                     $oLang->getBaseLanguage()));
                             $oSmarty = oxRegistry::get("oxUtilsView")->getSmarty();
                             $oSmarty->assign("aErrors", array('payolutionTerms' => 1));
@@ -624,7 +624,7 @@ class qentaCheckoutSeamlessPayment extends qentaCheckoutSeamlessPayment_parent
         $oLang = oxRegistry::get('oxLang');
         $config = qentaCheckoutSeamlessConfig::getInstance();
 
-        return sprintf($oLang->translateString('WIRECARD_CHECKOUT_SEAMLESS_PAYOLUTION_TERMS',
+        return sprintf($oLang->translateString('QENTA_CHECKOUT_SEAMLESS_PAYOLUTION_TERMS',
             $oLang->getBaseLanguage()),
             'https://payment.payolution.com/payolution-payment/infoport/dataprivacyconsent?mId=' . $config->getInvoicePayolutionMId());
     }
@@ -634,7 +634,7 @@ class qentaCheckoutSeamlessPayment extends qentaCheckoutSeamlessPayment_parent
 		$oLang = oxRegistry::get('oxLang');
 		$config = qentaCheckoutSeamlessConfig::getInstance();
 
-		return sprintf($oLang->translateString('WIRECARD_CHECKOUT_SEAMLESS_PAYOLUTION_TERMS',
+		return sprintf($oLang->translateString('QENTA_CHECKOUT_SEAMLESS_PAYOLUTION_TERMS',
 			$oLang->getBaseLanguage()),
 			'https://payment.payolution.com/payolution-payment/infoport/dataprivacyconsent?mId=' . $config->getInstallmentPayolutionMId());
 	}

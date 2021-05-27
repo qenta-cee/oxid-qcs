@@ -24,21 +24,21 @@
     <dd class="[{if $oView->getCheckedPaymentId() == $paymentmethod->oxpayments__oxid->value}]activePayment[{/if}]">
         <ul class="form">
             <li>
-                <label>[{ oxmultilang ident="WIRECARDCHECKOUTSEAMLESS_BANK_CODE" }]</label>
+                <label>[{ oxmultilang ident="QENTACHECKOUTSEAMLESS_BANK_CODE" }]</label>
                 <input type="text" class="js-oxValidate js-oxValidate_notEmpty" size="20" maxlength="64" name="giropay_bankNumber" autocomplete="off" value="[{ $qentaCheckoutSeamless_paymentdata.giropay_banknumber }]">
                 <p class="oxValidateError">
                     <span class="js-oxError_notEmpty">[{ oxmultilang ident="ERROR_MESSAGE_INPUT_NOTALLFIELDS" }]</span>
                 </p>
             </li>
             <li>
-                <label>[{ oxmultilang ident="WIRECARDCHECKOUTSEAMLESS_BANK_ACCOUNT_NUMBER" }]</label>
+                <label>[{ oxmultilang ident="QENTACHECKOUTSEAMLESS_BANK_ACCOUNT_NUMBER" }]</label>
                 <input type="text" class="js-oxValidate js-oxValidate_notEmpty" size="20" maxlength="64" name="giropay_bankAccount" autocomplete="off" value="[{ $qentaCheckoutSeamless_paymentdata.giropay_bankaccount }]">
                 <p class="oxValidateError">
                     <span class="js-oxError_notEmpty">[{ oxmultilang ident="ERROR_MESSAGE_INPUT_NOTALLFIELDS" }]</span>
                 </p>
             </li>
             <li>
-                <label>[{ oxmultilang ident="WIRECARDCHECKOUTSEAMLESS_BANK_ACCOUNT_HOLDER" }]</label>
+                <label>[{ oxmultilang ident="QENTACHECKOUTSEAMLESS_BANK_ACCOUNT_HOLDER" }]</label>
                 <input type="text" class="" size="20" maxlength="64" name="giropay_accountOwner" autocomplete="off" value="[{ if $qentaCheckoutSeamless_paymentdata.giropay_accountowner }][{ $qentaCheckoutSeamless_paymentdata.giropay_accountowner }][{else}][{$oxcmp_user->oxuser__oxfname->value}] [{$oxcmp_user->oxuser__oxlname->value}][{/if}]">
                 <p class="oxValidateError">
                     <span class="js-oxError_notEmpty">[{ oxmultilang ident="ERROR_MESSAGE_INPUT_NOTALLFIELDS" }]</span>

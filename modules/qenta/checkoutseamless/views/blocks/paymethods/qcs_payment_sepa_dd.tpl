@@ -23,21 +23,21 @@
     <dd class="[{if $oView->getCheckedPaymentId() == $paymentmethod->oxpayments__oxid->value}]activePayment[{/if}]">
         <ul class="form">
             <li>
-                <label>[{ oxmultilang ident="WIRECARDCHECKOUTSEAMLESS_BIC" }]</label>
+                <label>[{ oxmultilang ident="QENTACHECKOUTSEAMLESS_BIC" }]</label>
                 <input type="text" class="js-oxValidate js-oxValidate_notEmpty" size="20" maxlength="64" name="sepadd_bankBic" autocomplete="off" value="[{ $qentaCheckoutSeamless_paymentdata.sepa_bankBic }]">
                 <p class="oxValidateError">
                     <span class="js-oxError_notEmpty">[{ oxmultilang ident="ERROR_MESSAGE_INPUT_NOTALLFIELDS" }]</span>
                 </p>
             </li>
             <li>
-                <label>[{ oxmultilang ident="WIRECARDCHECKOUTSEAMLESS_IBAN" }]</label>
+                <label>[{ oxmultilang ident="QENTACHECKOUTSEAMLESS_IBAN" }]</label>
                 <input type="text" class="js-oxValidate js-oxValidate_notEmpty" size="20" maxlength="64" name="sepadd_bankAccountIban" autocomplete="off" value="[{ $qentaCheckoutSeamless_paymentdata.sepa_bankAccountIban }]">
                 <p class="oxValidateError">
                     <span class="js-oxError_notEmpty">[{ oxmultilang ident="ERROR_MESSAGE_INPUT_NOTALLFIELDS" }]</span>
                 </p>
             </li>
             <li>
-                <label>[{ oxmultilang ident="WIRECARDCHECKOUTSEAMLESS_ACCOUNTHOLDER" }]</label>
+                <label>[{ oxmultilang ident="QENTACHECKOUTSEAMLESS_ACCOUNTHOLDER" }]</label>
                 <input type="text" class="" size="20" maxlength="64" name="sepadd_accountOwner" autocomplete="off" value="[{ if $qentaCheckoutSeamless_paymentdata.lsktoinhaber }][{ $qentaCheckoutSeamless_paymentdata.sepa_accountOwner }][{else}][{$oxcmp_user->oxuser__oxfname->value}] [{$oxcmp_user->oxuser__oxlname->value}][{/if}]">
                 <p class="oxValidateError">
                     <span class="js-oxError_notEmpty">[{ oxmultilang ident="ERROR_MESSAGE_INPUT_NOTALLFIELDS" }]</span>
