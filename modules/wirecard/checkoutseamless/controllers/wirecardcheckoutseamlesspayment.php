@@ -106,7 +106,7 @@ class wirecardCheckoutSeamlessPayment extends wirecardCheckoutSeamlessPayment_pa
 
                     if ($this->showWcsTrustedShopsCheckbox($sPaymentId)) {
                         if (!oxRegistry::getConfig()->getRequestParameter('payolutionTerms')) {
-                            oxRegistry::getSession()->setVariable('wcs_payerrortext',
+                            oxRegistry::getSession()->setVariable('qcs_payerrortext',
                                 $oLang->translateString('WIRECARD_CHECKOUT_SEAMLESS_CONFIRM_PAYOLUTION_TERMS',
                                     $oLang->getBaseLanguage()));
                             $oSmarty = oxRegistry::get("oxUtilsView")->getSmarty();
@@ -128,7 +128,7 @@ class wirecardCheckoutSeamlessPayment extends wirecardCheckoutSeamlessPayment_pa
                         $iBirthdayMonth = oxRegistry::getConfig()->getRequestParameter($sPaymentId . '_iBirthdayMonth');
 
                         if (empty($iBirthdayYear) || empty($iBirthdayDay) || empty($iBirthdayMonth)) {
-                            oxRegistry::getSession()->setVariable('wcs_payerrortext',
+                            oxRegistry::getSession()->setVariable('qcs_payerrortext',
                                 $oLang->translateString('WIRECARD_CHECKOUT_SEAMLESS_PLEASE_FILL_IN_DOB',
                                     $oLang->getBaseLanguage()));
 
@@ -137,7 +137,7 @@ class wirecardCheckoutSeamlessPayment extends wirecardCheckoutSeamlessPayment_pa
 
                         $dateData = array('day' => $iBirthdayDay, 'month' => $iBirthdayMonth, 'year' => $iBirthdayYear);
                         $aValues['dobData'] = $dateData;
-                        oxRegistry::getSession()->setVariable('wcs_dobData', $dateData);
+                        oxRegistry::getSession()->setVariable('qcs_dobData', $dateData);
 
                         if (is_array($dateData)) {
                             $oUser->oxuser__oxbirthdate = new oxField($oUser->convertBirthday($dateData),
@@ -147,8 +147,8 @@ class wirecardCheckoutSeamlessPayment extends wirecardCheckoutSeamlessPayment_pa
                     }
 
                     //validate paymethod
-                    if (!$this->wcsValidateCustomerAge($oUser, 18)) {
-                        oxRegistry::getSession()->setVariable('wcs_payerrortext',
+                    if (!$this->qcsValidateCustomerAge($oUser, 18)) {
+                        oxRegistry::getSession()->setVariable('qcs_payerrortext',
                             sprintf($oLang->translateString('WIRECARD_CHECKOUT_SEAMLESS_DOB_TOO_YOUNG',
                                 $oLang->getBaseLanguage()), 18));
 
@@ -157,7 +157,7 @@ class wirecardCheckoutSeamlessPayment extends wirecardCheckoutSeamlessPayment_pa
 
                     if ($this->showWcsInstallmentTrustedShopsCheckbox($sPaymentId)) {
                         if (!oxRegistry::getConfig()->getRequestParameter('payolutionTerms')) {
-                            oxRegistry::getSession()->setVariable('wcs_payerrortext',
+                            oxRegistry::getSession()->setVariable('qcs_payerrortext',
                                 $oLang->translateString('WIRECARD_CHECKOUT_SEAMLESS_CONFIRM_PAYOLUTION_TERMS',
                                     $oLang->getBaseLanguage()));
                             $oSmarty = oxRegistry::get("oxUtilsView")->getSmarty();
@@ -234,9 +234,9 @@ class wirecardCheckoutSeamlessPayment extends wirecardCheckoutSeamlessPayment_pa
         if (!$sPaymenttype) {
             return $aResponse;
         } else {
-            if ($sPaymenttype == 'wcs_ccard-moto') {
+            if ($sPaymenttype == 'qcs_ccard-moto') {
                 //CCARD-MOTO is stored in the same store as CCARD, so we have to use sPaymenttype CCARD for reading here
-                $sPaymenttype = 'wcs_ccard';
+                $sPaymenttype = 'qcs_ccard';
             }
         }
         if (!is_object($this->_oWirecardDataStorageReadResponse)) {
@@ -260,8 +260,8 @@ class wirecardCheckoutSeamlessPayment extends wirecardCheckoutSeamlessPayment_pa
         if (is_array($aPaymentInformation) && !empty($aPaymentInformation)) {
 
             switch ($sPaymenttype) {
-                case 'wcs_ccard':
-                case 'wcs_ccard-moto':
+                case 'qcs_ccard':
+                case 'qcs_ccard-moto':
                     $sExpiry = $aPaymentInformation['expiry'];
                     $aExpiry = explode('/', $sExpiry);
                     if (!empty($aExpiry)) {
@@ -279,23 +279,23 @@ class wirecardCheckoutSeamlessPayment extends wirecardCheckoutSeamlessPayment_pa
                     $aResponse['ccard_cvc'] = ($aPaymentInformation['cardVerifyCode']) ? (string)$aPaymentInformation['cardVerifyCode'] : '****';
                     break;
 
-                case 'wcs_sepa-dd':
+                case 'qcs_sepa-dd':
                     $aResponse['sepa_accountOwner'] = (string)$aPaymentInformation['accountOwner'];
                     $aResponse['sepa_bankBic'] = (string)$aPaymentInformation['bankBic'];
                     $aResponse['sepa_bankAccountIban'] = (string)$aPaymentInformation['bankAccountIban'];
                     break;
 
-                case 'wcs_giropay':
+                case 'qcs_giropay':
                     $aResponse['giropay_banknumber'] = (string)$aPaymentInformation['bankNumber'];
                     $aResponse['giropay_bankaccount'] = (string)$aPaymentInformation['bankAccount'];
                     $aResponse['giropay_accountowner'] = (string)$aPaymentInformation['accountOwner'];
                     break;
 
-                case 'wcs_pbx':
+                case 'qcs_pbx':
                     $aResponse['paybox_payerPayboxNumber'] = (string)$aPaymentInformation['payerPayboxNumber'];
                     break;
 
-                case 'wcs_voucher':
+                case 'qcs_voucher':
                     $aResponse['voucher_voucherId'] = (string)$aPaymentInformation['voucherId'];
                     break;
 
@@ -419,7 +419,7 @@ class wirecardCheckoutSeamlessPayment extends wirecardCheckoutSeamlessPayment_pa
      * @param integer $iMinAge
      * @return boolean
      */
-    public function wcsValidateCustomerAge($oUser, $iMinAge = 18)
+    public function qcsValidateCustomerAge($oUser, $iMinAge = 18)
     {
         $dob = $oUser->oxuser__oxbirthdate->value;
         if ($dob && $dob != '0000-00-00') {
@@ -439,7 +439,7 @@ class wirecardCheckoutSeamlessPayment extends wirecardCheckoutSeamlessPayment_pa
         return true;
     }
 
-    public function wcsValidateAddresses($oUser, $oOrder)
+    public function qcsValidateAddresses($oUser, $oOrder)
     {
         //if delivery Address is not set it's the same as billing
         $oDelAddress = $oOrder->getDelAddressInfo();
@@ -471,7 +471,7 @@ class wirecardCheckoutSeamlessPayment extends wirecardCheckoutSeamlessPayment_pa
      * @param Array $aAllowedCurrencies
      * @return boolean
      */
-    public function wcsValidateCurrency($oBasket, $aAllowedCurrencies = Array('EUR'))
+    public function qcsValidateCurrency($oBasket, $aAllowedCurrencies = Array('EUR'))
     {
         $currency = $oBasket->getBasketCurrency();
         if (!in_array($currency->name, $aAllowedCurrencies)) {
@@ -592,7 +592,7 @@ class wirecardCheckoutSeamlessPayment extends wirecardCheckoutSeamlessPayment_pa
 
     public function hasWcsDobField($sPaymentId)
     {
-        if (in_array($sPaymentId, array('wcs_invoice_b2c', 'wcs_installment'))) {
+        if (in_array($sPaymentId, array('qcs_invoice_b2c', 'qcs_installment'))) {
             return true;
         }
 
@@ -604,7 +604,7 @@ class wirecardCheckoutSeamlessPayment extends wirecardCheckoutSeamlessPayment_pa
         $config = wirecardCheckoutSeamlessConfig::getInstance();
 
         if ($config->getInvoiceProvider() == 'PAYOLUTION') {
-            if ($sPaymentId == 'wcs_invoice_b2b') {
+            if ($sPaymentId == 'qcs_invoice_b2b') {
                 return true;
             }
         }
@@ -619,9 +619,9 @@ class wirecardCheckoutSeamlessPayment extends wirecardCheckoutSeamlessPayment_pa
 
         if ($config->getInvoiceProvider() == 'PAYOLUTION') {
             switch ($sPaymentId) {
-                case 'wcs_invoice_b2b':
+                case 'qcs_invoice_b2b':
                     return $config->getInvoiceb2bTrustedShopsCheckbox();
-                case 'wcs_invoice_b2c':
+                case 'qcs_invoice_b2c':
                     return $config->getInvoiceb2cTrustedShopsCheckbox();
                 default:
                     return false;
@@ -663,13 +663,13 @@ class wirecardCheckoutSeamlessPayment extends wirecardCheckoutSeamlessPayment_pa
 	{
 		$config = wirecardCheckoutSeamlessConfig::getInstance();
 
-		if(isset($_SESSION['wcs-consumerDeviceId'])) {
-			$consumerDeviceId = $_SESSION['wcs-consumerDeviceId'];
+		if(isset($_SESSION['qcs-consumerDeviceId'])) {
+			$consumerDeviceId = $_SESSION['qcs-consumerDeviceId'];
 		} else {
 			$timestamp = microtime();
 			$customerId = $config->getCustomerId();
 			$consumerDeviceId = md5($customerId . "_" . $timestamp);
-			$_SESSION['wcs-consumerDeviceId'] = $consumerDeviceId;
+			$_SESSION['qcs-consumerDeviceId'] = $consumerDeviceId;
 		}
 
 		if($config->getInvoiceProvider() == 'RATEPAY' || $config->getInstallmentProvider() == 'RATEPAY')
@@ -689,16 +689,16 @@ class wirecardCheckoutSeamlessPayment extends wirecardCheckoutSeamlessPayment_pa
      */
     public function getWcsPaymentError()
     {
-        $wcs_payment_error = '';
+        $qcs_payment_error = '';
 
-        if (oxRegistry::getSession()->hasVariable('wcs_payerrortext')) {
-            $wcs_payment_error = oxRegistry::getSession()->getVariable('wcs_payerrortext');
-            oxRegistry::getSession()->deleteVariable('wcs_payerrortext');
+        if (oxRegistry::getSession()->hasVariable('qcs_payerrortext')) {
+            $qcs_payment_error = oxRegistry::getSession()->getVariable('qcs_payerrortext');
+            oxRegistry::getSession()->deleteVariable('qcs_payerrortext');
             oxRegistry::getSession()->deleteVariable('sess_challenge');
             oxRegistry::getSession()->deleteVariable('wcpPaymentState');
         }
 
-        return $wcs_payment_error;
+        return $qcs_payment_error;
     }
 
     /**
@@ -706,7 +706,7 @@ class wirecardCheckoutSeamlessPayment extends wirecardCheckoutSeamlessPayment_pa
      */
     public function isWcsPaymentError()
     {
-        if (oxRegistry::getSession()->hasVariable('wcs_payerrortext')) {
+        if (oxRegistry::getSession()->hasVariable('qcs_payerrortext')) {
             return true;
         }
 

@@ -1,4 +1,4 @@
-[{if $sPaymentID == "wcs_eps"}]
+[{if $sPaymentID == "qcs_idl"}]
 [{ assign var="wirecardCheckoutSeamless_paymentdata_stored" value=$oView->hasWirecardCheckoutSeamlessPaymentData($sPaymentID) }]
 [{ assign var="wirecardCheckoutSeamless_paymentdata" value=$oView->getWirecardCheckoutSeamlessPaymentData($sPaymentID) }]
 [{oxscript include=$oView->getWirecardStorageJsUrl() priority=1)}]
@@ -25,7 +25,7 @@
         <ul class="form">
             <li>
                 <span>[{ oxmultilang ident="WIRECARDCHECKOUTSEAMLESS_CHOOSE_FINANCIAL_INSTITUTION" }]</span>
-                [{html_options name=eps_financialInstitution options=$oView->getWirecardCheckoutSeamlessFinancialInstitutions($sPaymentID)}]
+                [{html_options name=ideal_financialInstitution options=$oView->getWirecardCheckoutSeamlessFinancialInstitutions($sPaymentID)}]
             </li>
         </ul>
 

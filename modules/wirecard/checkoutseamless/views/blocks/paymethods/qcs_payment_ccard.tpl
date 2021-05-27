@@ -1,5 +1,5 @@
-[{if $sPaymentID == "wcs_ccard" || $sPaymentID == "wcs_ccard-moto"}]
-[{if $sPaymentID == "wcs_ccard"}]
+[{if $sPaymentID == "qcs_ccard" || $sPaymentID == "qcs_ccard-moto"}]
+[{if $sPaymentID == "qcs_ccard"}]
     [{ assign var="prefix" value="ccard"}]
     [{else}]
     [{ assign var="prefix" value="ccard-moto"}]

@@ -5,17 +5,17 @@
         [{if $sSuccessMessage}]<p class="message">[{ $sSuccessMessage }][{/if}]</p>
     </div>
     [{/if}]
-<form method="post" action="[{ $oViewConf->getSelfLink() }]" name="wcs_config_export_form">
+<form method="post" action="[{ $oViewConf->getSelfLink() }]" name="qcs_config_export_form">
     [{ $oViewConf->getHiddenSid() }]
     <input type="hidden" name="oxid" value="[{ $oxid }]">
     <input type="hidden" name="cl" value="wirecardCheckoutSeamlessSubmitConfig">
     <input type="hidden" name="fnc" value="submit">
 
     <label
-            for="wcs_config_export_recipient"
-            style="display:block"><strong>[{ oxmultilang ident="MODULE_PAYMENT_WCS_EXPORT_CONFIG_RECEIVER"
+            for="qcs_config_export_recipient"
+            style="display:block"><strong>[{ oxmultilang ident="MODULE_PAYMENT_QCS_EXPORT_CONFIG_RECEIVER"
             }]</strong></label>
-    <select name="wcs_config_export_recipient">
+    <select name="qcs_config_export_recipient">
         [{foreach from=$aSupportMails item=mailAddress}]
         [{if $sSupportMailActive == $mailAddress}]
         <option value="[{$mailAddress}]" selected="selected">[{$mailAddress}]</option>
@@ -27,10 +27,10 @@
     <br/>
     <br/>
     <label
-            for="wcs_config_export_config_string"
-            style="display:block"><strong>[{ oxmultilang ident="MODULE_PAYMENT_WCS_EXPORT_CONFIG_CONFIG_STRING"
+            for="qcs_config_export_config_string"
+            style="display:block"><strong>[{ oxmultilang ident="MODULE_PAYMENT_QCS_EXPORT_CONFIG_CONFIG_STRING"
             }]</strong></label>
-                                    <textarea name="wcs_config_export_config_string"
+                                    <textarea name="qcs_config_export_config_string"
                                               cols="80"
                                               rows="20"
                                               style="overflow: scroll;"
@@ -40,9 +40,9 @@
     <br/>
     <br/>
     <label
-            for="wcs_config_export_description_text"
-            style="display:block"><strong>[{ oxmultilang ident="MODULE_PAYMENT_WCS_EXPORT_CONFIG_DESC_TEXT" }]</strong></label>
-                                    <textarea name="wcs_config_export_description_text"
+            for="qcs_config_export_description_text"
+            style="display:block"><strong>[{ oxmultilang ident="MODULE_PAYMENT_QCS_EXPORT_CONFIG_DESC_TEXT" }]</strong></label>
+                                    <textarea name="qcs_config_export_description_text"
                                               cols="80"
                                               rows="20"
                                             >[{$sDescriptionText}]</textarea>
@@ -51,18 +51,18 @@
     <br/>
     <br/>
     <label
-            for="wcs_config_export_reply_to_mail"
-            style="display:block"><strong>[{ oxmultilang ident="MODULE_PAYMENT_WCS_EXPORT_CONFIG_RETURN_MAIL"
+            for="qcs_config_export_reply_to_mail"
+            style="display:block"><strong>[{ oxmultilang ident="MODULE_PAYMENT_QCS_EXPORT_CONFIG_RETURN_MAIL"
             }]</strong></label>
     <input type="text"
            value="[{$sReplyTo}]"
-           name="wcs_config_export_reply_to_mail"
+           name="qcs_config_export_reply_to_mail"
            size="80">
     <br/>
     <br/>
     <input class="submitButton largeButton"
            type="submit"
-           value="[{ oxmultilang ident="WCS_SUBMIT" }]"
+           value="[{ oxmultilang ident="QCS_SUBMIT" }]"
     name="submit">
 
 </form>

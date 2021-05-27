@@ -36,7 +36,7 @@ class wirecardCheckoutSeamlessUtils
 
     public function convertPaymenttype($sPaymentID)
     {
-        $sWirecardPaymentType = str_replace('wcs_', '', $sPaymentID);
+        $sWirecardPaymentType = str_replace('qcs_', '', $sPaymentID);
 
         return strtoupper($sWirecardPaymentType);
     }
@@ -44,7 +44,7 @@ class wirecardCheckoutSeamlessUtils
 
     public function isOwnPayment($sPaymentID)
     {
-        return preg_match('/^wcs_/', $sPaymentID);
+        return preg_match('/^qcs_/', $sPaymentID);
     }
 
     public function log($str)

@@ -205,7 +205,7 @@ class wirecardCheckoutSeamlessEvents
 
         foreach (self::getAvailablePaymenttypes() as $wpt => $configValues) {
             $trkey = sprintf('WIRECARD_CHECKOUT_SEAMLESS_%s', strtoupper($wpt));
-            $pt = sprintf('%s_%s', 'wcs', strtolower($wpt));
+            $pt = sprintf('%s_%s', 'qcs', strtolower($wpt));
 
             /** @var oxPayment $oPayment */
             $oPayment = oxNew('oxPayment');
@@ -235,7 +235,7 @@ class wirecardCheckoutSeamlessEvents
     public static function disablePaymenttypes()
     {
         foreach (self::getAvailablePaymenttypes() as $pt => $configData) {
-            $pt = sprintf('%s_%s', 'wcs', strtolower($pt));
+            $pt = sprintf('%s_%s', 'qcs', strtolower($pt));
             /** @var oxPayment $oPayment */
             $oPayment = oxNew('oxpayment');
             $oPayment->load($pt);

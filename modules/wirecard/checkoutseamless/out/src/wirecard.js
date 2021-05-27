@@ -34,7 +34,7 @@
     var ddWirecardPayment = {
         //field mapping. define which input field belongs to which ds parametername
         paymentTypes: {
-            wcs_ccard: {
+            qcs_ccard: {
                 paymentType: 'CCARD',
                 iframe: null,
                 fields: {
@@ -48,7 +48,7 @@
                     ccard_issueNumber: 'issueNumber'
                 }
             },
-            "wcs_ccard-moto": {
+            "qcs_ccard-moto": {
                 paymentType: 'CCARD',
                 iframe: null,
                 fields: {
@@ -62,7 +62,7 @@
                     "ccard-moto_issueNumber": 'issueNumber'
                 }
             },
-            "wcs_sepa-dd": {
+            "qcs_sepa-dd": {
                 paymentType: 'SEPA-DD',
                 iframe: null,
                 fields: {
@@ -71,7 +71,7 @@
                     sepadd_accountOwner: 'accountOwner'
                 }
             },
-            "wcs_elv": {
+            "qcs_elv": {
                 paymentType: 'ELV',
                 iframe: null,
                 fields: {
@@ -82,7 +82,7 @@
                     elv_bankAccount: 'bankAccount'
                 }
             },
-            wcs_giropay: {
+            qcs_giropay: {
                 paymentType: 'GIROPAY',
                 iframe: null,
                 fields: {
@@ -91,12 +91,12 @@
                     giropay_accountOwner: 'accountOwner'
                 }
             },
-            wcs_pbx: {
+            qcs_pbx: {
                 paymentType: 'PBX',
                 iframe: null,
                 fields: {pbx_payerPayboxNumber: 'payerPayboxNumber'}
             },
-            wcs_voucher: {
+            qcs_voucher: {
                 paymentType: 'VOUCHER',
                 iframe: null,
                 fields: {voucher_voucherId: 'voucherId'}
@@ -116,10 +116,10 @@
 
             var wdcee = new WirecardCEE_DataStorage();
             if ($('#wirecardCheckoutSeamless_ccardIframeContainer').length > 0) {
-                this.paymentTypes['wcs_ccard'].iframe = wdcee.buildIframeCreditCard('wirecardCheckoutSeamless_ccardIframeContainer', '100%', '160px');
+                this.paymentTypes['qcs_ccard'].iframe = wdcee.buildIframeCreditCard('wirecardCheckoutSeamless_ccardIframeContainer', '100%', '160px');
             }
             if ($('#wirecardCheckoutSeamless_ccard-motoIframeContainer').length > 0) {
-                this.paymentTypes['wcs_ccard-moto'].iframe = wdcee.buildIframeCreditCard('wirecardCheckoutSeamless_ccard-motoIframeContainer', '100%', '160px');
+                this.paymentTypes['qcs_ccard-moto'].iframe = wdcee.buildIframeCreditCard('wirecardCheckoutSeamless_ccard-motoIframeContainer', '100%', '160px');
             }
 
             var elEvents = $(el).data('events');

@@ -60,9 +60,9 @@ class wirecardcheckoutseamlessSubmitConfig extends oxAdminView
         $this->_aViewData["currentadminshop"] = $sCurrentAdminShop;
         oxRegistry::getSession()->setVariable("currentadminshop", $sCurrentAdminShop);
 
-        $recipient = oxRegistry::getConfig()->getRequestParameter('wcs_config_export_recipient');
-        $comment = oxRegistry::getConfig()->getRequestParameter('wcs_config_export_description_text');
-        $replyTo = oxRegistry::getConfig()->getRequestParameter('wcs_config_export_reply_to_mail');
+        $recipient = oxRegistry::getConfig()->getRequestParameter('qcs_config_export_recipient');
+        $comment = oxRegistry::getConfig()->getRequestParameter('qcs_config_export_description_text');
+        $replyTo = oxRegistry::getConfig()->getRequestParameter('qcs_config_export_reply_to_mail');
 
         $oSmarty = oxRegistry::get("oxUtilsView")->getSmarty();
         $oSmarty->assign("aSupportMails", $this->_aSupportMails);
@@ -109,10 +109,10 @@ class wirecardcheckoutseamlessSubmitConfig extends oxAdminView
 
     public function submit()
     {
-        $recipient = oxRegistry::getConfig()->getRequestParameter('wcs_config_export_recipient');
+        $recipient = oxRegistry::getConfig()->getRequestParameter('qcs_config_export_recipient');
         $confString = $this->getModuleConfig();
-        $comment = oxRegistry::getConfig()->getRequestParameter('wcs_config_export_description_text');
-        $replyTo = oxRegistry::getConfig()->getRequestParameter('wcs_config_export_reply_to_mail');
+        $comment = oxRegistry::getConfig()->getRequestParameter('qcs_config_export_description_text');
+        $replyTo = oxRegistry::getConfig()->getRequestParameter('qcs_config_export_reply_to_mail');
         $oSmarty = oxRegistry::get("oxUtilsView")->getSmarty();
 
         if (empty($recipient) || !in_array($recipient, $this->_aSupportMails)) {

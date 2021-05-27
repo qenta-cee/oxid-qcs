@@ -1,4 +1,4 @@
-[{if $sPaymentID == "wcs_trustpay"}]
+[{if $sPaymentID == "qcs_sepa-dd"}]
 [{ assign var="wirecardCheckoutSeamless_paymentdata_stored" value=$oView->hasWirecardCheckoutSeamlessPaymentData($sPaymentID) }]
 [{ assign var="wirecardCheckoutSeamless_paymentdata" value=$oView->getWirecardCheckoutSeamlessPaymentData($sPaymentID) }]
 [{oxscript include=$oView->getWirecardStorageJsUrl() priority=1)}]
@@ -19,23 +19,40 @@
                     ([{oxprice price=$oPaymentPrice->getBruttoPrice() currency=$currency}])
                 [{/if}]
             [{/if}]
-
     </dt>
     <dd class="[{if $oView->getCheckedPaymentId() == $paymentmethod->oxpayments__oxid->value}]activePayment[{/if}]">
         <ul class="form">
             <li>
-                <span>[{ oxmultilang ident="WIRECARDCHECKOUTSEAMLESS_CHOOSE_FINANCIAL_INSTITUTION" }]</span>
-                [{html_options name=trustpay_financialInstitution options=$oView->getWirecardCheckoutSeamlessFinancialInstitutions($sPaymentID)}]
+                <label>[{ oxmultilang ident="WIRECARDCHECKOUTSEAMLESS_BIC" }]</label>
+                <input type="text" class="js-oxValidate js-oxValidate_notEmpty" size="20" maxlength="64" name="sepadd_bankBic" autocomplete="off" value="[{ $wirecardCheckoutSeamless_paymentdata.sepa_bankBic }]">
+                <p class="oxValidateError">
+                    <span class="js-oxError_notEmpty">[{ oxmultilang ident="ERROR_MESSAGE_INPUT_NOTALLFIELDS" }]</span>
+                </p>
+            </li>
+            <li>
+                <label>[{ oxmultilang ident="WIRECARDCHECKOUTSEAMLESS_IBAN" }]</label>
+                <input type="text" class="js-oxValidate js-oxValidate_notEmpty" size="20" maxlength="64" name="sepadd_bankAccountIban" autocomplete="off" value="[{ $wirecardCheckoutSeamless_paymentdata.sepa_bankAccountIban }]">
+                <p class="oxValidateError">
+                    <span class="js-oxError_notEmpty">[{ oxmultilang ident="ERROR_MESSAGE_INPUT_NOTALLFIELDS" }]</span>
+                </p>
+            </li>
+            <li>
+                <label>[{ oxmultilang ident="WIRECARDCHECKOUTSEAMLESS_ACCOUNTHOLDER" }]</label>
+                <input type="text" class="" size="20" maxlength="64" name="sepadd_accountOwner" autocomplete="off" value="[{ if $wirecardCheckoutSeamless_paymentdata.lsktoinhaber }][{ $wirecardCheckoutSeamless_paymentdata.sepa_accountOwner }][{else}][{$oxcmp_user->oxuser__oxfname->value}] [{$oxcmp_user->oxuser__oxlname->value}][{/if}]">
+                <p class="oxValidateError">
+                    <span class="js-oxError_notEmpty">[{ oxmultilang ident="ERROR_MESSAGE_INPUT_NOTALLFIELDS" }]</span>
+                </p>
             </li>
         </ul>
 
+
         [{block name="checkout_payment_longdesc"}]
         [{if $paymentmethod->oxpayments__oxlongdesc->value|trim}]
-            <div class="desc">
-                [{ $paymentmethod->oxpayments__oxlongdesc->getRawValue()}]
-            </div>
+        <div class="desc">
+            [{ $paymentmethod->oxpayments__oxlongdesc->getRawValue()}]
+        </div>
         [{/if}]
         [{/block}]
     </dd>
 </dl>
-    [{/if}]
+[{/if}]

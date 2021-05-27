@@ -144,7 +144,7 @@ class wirecardCheckoutSeamlessOrder extends wirecardCheckoutSeamlessOrder_parent
     {
         $this->wirecardIframeBreakout();
         $consumerMessage = oxRegistry::getSession()->getVariable('wirecardCheckoutSeamlessConsumerMessage');
-        oxRegistry::getSession()->setVariable('wcs_payerrortext', $consumerMessage);
+        oxRegistry::getSession()->setVariable('qcs_payerrortext', $consumerMessage);
 
         return parent::_getNextStep(oxOrder::ORDER_STATE_PAYMENTERROR);
     }
@@ -154,7 +154,7 @@ class wirecardCheckoutSeamlessOrder extends wirecardCheckoutSeamlessOrder_parent
         $this->wirecardIframeBreakout();
 
         $consumerMessage = oxRegistry::getSession()->getVariable('wirecardCheckoutSeamlessConsumerMessage');
-        oxRegistry::getSession()->setVariable('wcs_payerrortext', $consumerMessage);
+        oxRegistry::getSession()->setVariable('qcs_payerrortext', $consumerMessage);
 
         return parent::_getNextStep(oxOrder::ORDER_STATE_PAYMENTERROR);
     }

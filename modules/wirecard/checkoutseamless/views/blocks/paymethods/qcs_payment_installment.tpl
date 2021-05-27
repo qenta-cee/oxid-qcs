@@ -1,4 +1,5 @@
-[{if $sPaymentID == "wcs_invoice_b2b" || $sPaymentID == "wcs_invoice_b2c"}]
+[{if $sPaymentID == "qcs_installment"}]
+
     [{if isset( $dobData.month ) }]
         [{assign var="iBirthdayMonth" value=$dobData.month }]
     [{else}]
@@ -23,10 +24,10 @@
                 [{assign var="oPaymentPrice" value=$paymentmethod->getPrice() }]
                 [{if $oViewConf->isFunctionalityEnabled('blShowVATForPayCharge') }]
                     ( [{oxprice price=$oPaymentPrice->getNettoPrice() currency=$currency}]
-                [{if $oPaymentPrice->getVatValue() > 0}]
-                    [{ oxmultilang ident="PLUS_VAT" }] [{oxprice price=$oPaymentPrice->getVatValue() currency=$currency }]
-                [{/if}])
-                [{else}]
+                    [{if $oPaymentPrice->getVatValue() > 0}]
+                        [{ oxmultilang ident="PLUS_VAT" }] [{oxprice price=$oPaymentPrice->getVatValue() currency=$currency }]
+                    [{/if}])
+                    [{else}]
                     ([{oxprice price=$oPaymentPrice->getBruttoPrice() currency=$currency}])
                 [{/if}]
             [{/if}]
@@ -80,23 +81,8 @@
         </div>
         [{/if}]
 
-        [{if $oView->hasWcsVatIdField($sPaymentID) && $bShowVatIdField}]
-        <div class="desc">
-            <ul class="form clear">
-                <li [{if $aErrors.oxuser__oxustid}]class="oxInValid"[{/if}]>
-                    <label class="req">[{ oxmultilang ident="VAT_ID_NUMBER" suffix="COLON" }]</label>
-                    <input class="js-oxValidate" type="text" size="37" maxlength="255" name="sVatId" autocomplete="off" value="[{ $sVatId }]">
-                    <p class="oxValidateError">
-                        <span class="js-oxError_notEmpty">[{ oxmultilang ident="ERROR_MESSAGE_INPUT_NOTALLFIELDS" }]</span>
-                        [{include file="message/inputvalidation.tpl" aErrors=$aErrors.oxuser__oxustid}]
-                    </p>
-                </li>
-            </ul>
-        </div>
-        [{/if}]
-
-        [{if $oView->showWcsTrustedShopsCheckbox($sPaymentID)}]
-            <input id="payolutionTerms" class='js-oxValidate js-oxValidate_notEmpty' name='payolutionTerms' type="checkbox" value="1" autocomplete="off" />[{ $oView->getWcsInvoicePayolutionTerms() }]
+        [{if $oView->showWcsInstallmentTrustedShopsCheckbox($sPaymentID)}]
+             <input id="payolutionTerms" class='js-oxValidate js-oxValidate_notEmpty' name='payolutionTerms' type="checkbox" value="1" autocomplete="off" />[{ $oView->getWcsInstallmentPayolutionTerms() }]
         [{/if}]
     </dd>
 </dl>

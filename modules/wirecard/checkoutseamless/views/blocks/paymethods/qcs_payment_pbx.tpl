@@ -1,4 +1,4 @@
-[{if $sPaymentID == "wcs_voucher"}]
+[{if $sPaymentID == "qcs_pbx"}]
 [{ assign var="wirecardCheckoutSeamless_paymentdata_stored" value=$oView->hasWirecardCheckoutSeamlessPaymentData($sPaymentID) }]
 [{ assign var="wirecardCheckoutSeamless_paymentdata" value=$oView->getWirecardCheckoutSeamlessPaymentData($sPaymentID) }]
 [{oxscript include=$oView->getWirecardStorageJsUrl() priority=1)}]
@@ -24,8 +24,8 @@
     <dd class="[{if $oView->getCheckedPaymentId() == $paymentmethod->oxpayments__oxid->value}]activePayment[{/if}]">
         <ul class="form">
             <li>
-                <label>[{ oxmultilang ident="WIRECARDCHECKOUTSEAMLESS_VOUCHER_ID" }]</label>
-                <input type="text" class="js-oxValidate js-oxValidate_notEmpty" size="20" maxlength="64" name="voucher_voucherId" autocomplete="off" value="[{ $wirecardCheckoutSeamless_paymentdata.voucher_voucherId }]">
+                <label>[{ oxmultilang ident="WIRECARDCHECKOUTSEAMLESS_PHONE_NUMBER" }]</label>
+                <input type="text" class="js-oxValidate js-oxValidate_notEmpty" size="20" maxlength="64" name="pbx_payerPayboxNumber" autocomplete="off" value="[{ $wirecardCheckoutSeamless_paymentdata.paybox_payerPayboxNumber }]">
                 <p class="oxValidateError">
                     <span class="js-oxError_notEmpty">[{ oxmultilang ident="ERROR_MESSAGE_INPUT_NOTALLFIELDS" }]</span>
                 </p>
