@@ -43,8 +43,6 @@ class qentaCheckoutSeamlessPayment extends qentaCheckoutSeamlessPayment_parent
 
         $this->_initQentaDatastorage();
 
-        print_r($sReturn);
-
         return $sReturn;
     }
 

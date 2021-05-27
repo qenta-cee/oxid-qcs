@@ -46,8 +46,6 @@ class qentaCheckoutSeamlessOrder extends qentaCheckoutSeamlessOrder_parent
 
             $sQentaPaymentType = qentaCheckoutSeamlessUtils::getInstance()->convertPaymenttype($sPaymentID);
 
-            print_r($sQentaPaymentType);
-
             $config = qentaCheckoutSeamlessConfig::getInstance();
 
             $redirectErrorUrl = $config->getOxConfig()->getShopSecureHomeUrl() . 'cl=payment';
@@ -97,7 +95,6 @@ class qentaCheckoutSeamlessOrder extends qentaCheckoutSeamlessOrder_parent
                 oxRegistry::getSession()->setVariable('payerror', -1);
                 oxRegistry::getSession()->setVariable('payerrortext', $e->getMessage());
                 qentaCheckoutSeamlessUtils::getInstance()->log(__METHOD__ . ':ERROR:' . $e->getMessage());
-                print_r('error url' . $redirectErrorUrl);
                 $utils->redirect($redirectErrorUrl);
             }
 

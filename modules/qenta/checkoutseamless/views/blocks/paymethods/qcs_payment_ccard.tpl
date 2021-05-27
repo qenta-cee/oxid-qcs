@@ -7,7 +7,7 @@
 [{ assign var="qentaCheckoutSeamless_paymentdata_stored" value=$oView->hasQentaCheckoutSeamlessPaymentData($sPaymentID) }]
 [{ assign var="qentaCheckoutSeamless_paymentdata" value=$oView->getQentaCheckoutSeamlessPaymentData($sPaymentID) }]
 [{oxscript include=$oView->getQentaStorageJsUrl() priority=1)}]
-[{oxscript include=$oViewConf->getModuleUrl('qentacheckoutseamless','out/src/wirecard.js') priority=10}]
+[{oxscript include=$oViewConf->getModuleUrl('qentacheckoutseamless','out/src/qenta.js') priority=10}]
 <dl>
     <dt>
         <input type="hidden" id="[{$sPaymentID}]_stored" value="[{ $qentaCheckoutSeamless_paymentdata_stored|intval }]" />
