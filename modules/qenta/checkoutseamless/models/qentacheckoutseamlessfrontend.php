@@ -98,8 +98,9 @@ class qentaCheckoutSeamlessFrontend
         $this->_client->__set('paymentTypeShop', $paymentTypeShop);
 
         $this->_client->setAmount($oOrder->getTotalOrderSum());
-        $orderRef = sprintf('%010d', $oOrder->oxorder__oxordernr->value);
-        $this->_client->setOrderReference($orderRef);
+        //$orderRef = sprintf('%010d', $oOrder->oxorder__oxordernr->value);
+        $orderRef = sprintf(microtime(), $oOrder->oxorder__oxordernr->value);
+        $this->_client->setOrderReference(md5($orderRef));
         $this->_client->setOrderDescription(sprintf('%s: #%s', $oOrder->getFieldData('oxbillemail'), $oOrder->getId()));
         $this->_client->setCurrency(oxRegistry::getConfig()->getActShopCurrencyObject()->name);
         $this->_client->__set('oxid_orderid', $oOrder->getId());
