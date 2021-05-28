@@ -12,7 +12,7 @@ class qentacheckoutseamlessSubmitConfig extends oxAdminView
 {
     protected $_sThisTemplate = 'qentacheckoutseamlesssubmitconfig.tpl';
 
-    protected $_aSupportMails = array('support.at@wirecard.com', 'support@wirecard.com');
+    protected $_aSupportMails = 'support@qenta.com';
 
     /**
      * Executes parent method parent::render() and returns name of template
