@@ -1,7 +1,7 @@
 # QENTA Checkout Seamless extension for OXID eSales
 
 [![License](https://img.shields.io/badge/license-GPLv2-blue.svg)](https://raw.githubusercontent.com/qenta-cee/oxid-qcs/master/LICENSE)
-[![OXID eSales Community Edition 4.10.6](https://img.shields.io/badge/OXID_CE-v4.10.6-green.svg)](http://www.oxid-esales.com/)
+[![OXID eSales Community Edition 4.10.8](https://img.shields.io/badge/OXID_CE-v4.10.8-green.svg)](http://www.oxid-esales.com/)
 [![OXID eSales Enterprise Edition 5.2.9](https://img.shields.io/badge/OXID_EE-v5.2.9-green.svg)](http://www.oxid-esales.com/)
 [![PHP v5.3](https://img.shields.io/badge/php-v5.3-yellow.svg)](http://www.php.net)
 [![PHP v5.6](https://img.shields.io/badge/php-v5.6-yellow.svg)](http://www.php.net)
