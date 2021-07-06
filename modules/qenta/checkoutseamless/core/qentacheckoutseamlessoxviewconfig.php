@@ -146,7 +146,7 @@ class qentaCheckoutSeamlessOxViewConfig extends qentaCheckoutSeamlessOxViewConfi
     }
 
     /**
-     * Returns QENTA Checkout Seamles config.
+     * Returns Wirecard Checkout Seamles config.
      *
      * @return qentaCheckoutSeamlessConfig
      */
