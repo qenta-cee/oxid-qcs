@@ -169,7 +169,7 @@ abstract class WirecardCEE_Stdlib_PaymentTypeAbstract
 
     /**
      * Returns full name of the financial institution
-     * Used in dd_wirecard_order.php (function: getPayment())
+     * Used in dd_qenta_order.php (function: getPayment())
      *
      * @param string $sFinancialInstitutionShortCode
      *
