@@ -1,23 +1,24 @@
 <?php
+
 /**
  * Shop System Plugins
  * - Terms of use can be found under
  * https://guides.qenta.com/shop_plugins:info
  * - License can be found under:
  * https://github.com/qenta-cee/oxid-qcs/blob/master/LICENSE
-*/
+ */
 
 require_once getShopBasePath() . 'modules/qenta/checkoutseamless/autoloader.php';
 
 /**
- * Order class wrapper for Wirecard Checkout seamless
+ * Order class wrapper for QENTA Checkout seamless
  *
  * @see order
  */
 class qentaCheckoutSeamlessOrder extends qentaCheckoutSeamlessOrder_parent
 {
     /**
-     * Checks if order payment is a Wirecard payment and redirect
+     * Checks if order payment is a QENTA payment and redirect
      *
      * @param int $iSuccess order state
      *
@@ -38,7 +39,7 @@ class qentaCheckoutSeamlessOrder extends qentaCheckoutSeamlessOrder_parent
 
             /** @var qentaCheckoutSeamlessOrderDbGateway $oDbOrder */
             $oDbOrder = oxNew('qentaCheckoutSeamlessOrderDbGateway');
-            $aOrderData = Array(
+            $aOrderData = array(
                 'BASKET' => serialize(oxRegistry::getSession()->getBasket()),
                 'OXORDERID' => $oOrder->getId()
             );
@@ -64,15 +65,14 @@ class qentaCheckoutSeamlessOrder extends qentaCheckoutSeamlessOrder_parent
                 $oResponse = $frontend->initiate();
 
                 if ($oResponse->hasFailed()) {
-                    $aFormattedErrors = Array();
-                    foreach ($oResponse->getErrors() AS $error) {
+                    $aFormattedErrors = array();
+                    foreach ($oResponse->getErrors() as $error) {
                         $aFormattedErrors[] = $error->getConsumerMessage();
                     }
 
-                    if($config->getDeleteFailedOrCanceledOrders()) {
+                    if ($config->getDeleteFailedOrCanceledOrders()) {
                         $oOrder->delete();
-                    }
-                    else {
+                    } else {
                         $oOrder->cancelOrder();
                         $oOrder->oxorder__oxtransstatus = new oxField('FAILED');
                         $oOrder->save();
@@ -90,14 +90,12 @@ class qentaCheckoutSeamlessOrder extends qentaCheckoutSeamlessOrder_parent
                 } else {
                     $utils->redirect($oResponse->getRedirectUrl());
                 }
-
             } catch (Exception $e) {
                 oxRegistry::getSession()->setVariable('payerror', -1);
                 oxRegistry::getSession()->setVariable('payerrortext', $e->getMessage());
                 qentaCheckoutSeamlessUtils::getInstance()->log(__METHOD__ . ':ERROR:' . $e->getMessage());
                 $utils->redirect($redirectErrorUrl);
             }
-
         } else {
             return parent::_getNextStep($iSuccess);
         }
@@ -148,7 +146,8 @@ class qentaCheckoutSeamlessOrder extends qentaCheckoutSeamlessOrder_parent
             $sRedirectUrl = json_encode($sRedirectUrl);
             /** @var oxUtils $utils */
             $utils = oxRegistry::get('oxUtils');
-            $utils->showMessageAndExit(<<<EOT
+            $utils->showMessageAndExit(
+                <<<EOT
 <!DOCTYPE>
 <html>
     <head>
@@ -199,7 +198,7 @@ EOT
             return;
         }
 
-        if(in_array($oOrder->oxorder__oxtransstatus, array('PAID'))) {
+        if (in_array($oOrder->oxorder__oxtransstatus, array('PAID'))) {
             qentaCheckoutSeamlessUtils::getInstance()->log(__METHOD__ . ':ORDER: can\'t update order state, since it is already in a final state: ' . $oOrder->oxorder__oxtransstatus);
             print WirecardCEE_QMore_ReturnFactory::generateConfirmResponseString('Can\'t update order state, since it is already in a final state.');
 
@@ -278,7 +277,7 @@ EOT
                     $sClass = "qentaCheckoutSeamlessBasket";
                     $oBasket = unserialize(preg_replace('/^O:\d+:"[^"]++"/', 'O:' . strlen($sClass) . ':"' . $sClass . '"', $aOrderData['BASKET']));
 
-                    if($sendEmail) {
+                    if ($sendEmail) {
                         $oOrder->sendQentaCheckoutSeamlessOrderByEmail($oBasket, $oOxUserPayment);
                     }
 
@@ -290,10 +289,9 @@ EOT
 
                     $oDbOrder->delete($aOrderData['OXID']);
 
-                    if($config->getDeleteFailedOrCanceledOrders()) {
+                    if ($config->getDeleteFailedOrCanceledOrders()) {
                         $oOrder->delete();
-                    }
-                    else {
+                    } else {
                         $oOrder->cancelOrder();
                         $oOrder->oxorder__oxtransstatus = new oxField('CANCELED');
                         $oOrder->save();
@@ -302,14 +300,15 @@ EOT
 
                 case WirecardCEE_QMore_ReturnFactory::STATE_FAILURE:
                     /** @var $return WirecardCEE_QMore_Return_Failure */
-                    qentaCheckoutSeamlessUtils::getInstance()->log(__METHOD__ . ':FAILURE:' . print_r($return->getErrors(),
-                            true));
+                    qentaCheckoutSeamlessUtils::getInstance()->log(__METHOD__ . ':FAILURE:' . print_r(
+                        $return->getErrors(),
+                        true
+                    ));
 
                     $oDbOrder->delete($aOrderData['OXID']);
-                    if($config->getDeleteFailedOrCanceledOrders()) {
+                    if ($config->getDeleteFailedOrCanceledOrders()) {
                         $oOrder->delete();
-                    }
-                    else {
+                    } else {
                         $oOrder->cancelOrder();
                         $oOrder->oxorder__oxtransstatus = new oxField('CANCELED');
                         $oOrder->save();

@@ -1,14 +1,15 @@
 <?php
+
 /**
  * Shop System Plugins
  * - Terms of use can be found under
  * https://guides.qenta.com/shop_plugins:info
  * - License can be found under:
  * https://github.com/qenta-cee/oxid-qcs/blob/master/LICENSE
-*/
+ */
 
 /**
- * Wirecard Checkout Seamless config class
+ * QENTA Checkout Seamless config class
  */
 class qentaCheckoutSeamlessConfig
 {
@@ -30,7 +31,7 @@ class qentaCheckoutSeamlessConfig
     protected $_oModule;
 
     /**
-     * Return Wirecard Checkout Seamless module id.
+     * Return QENTA Checkout Seamless module id.
      *
      * @return string
      */
@@ -108,7 +109,8 @@ class qentaCheckoutSeamlessConfig
         }
     }
 
-    public function getDeleteFailedOrCanceledOrders(){
+    public function getDeleteFailedOrCanceledOrders()
+    {
         return $this->_getConfig()->getConfigParam('sDeleteFailedOrCanceledOrders');
     }
 
@@ -199,7 +201,7 @@ class qentaCheckoutSeamlessConfig
 
     public function getSendBillingData()
     {
-    	return $this->_getConfig()->getConfigParam('bSendAdditionalCustomerBilling');
+        return $this->_getConfig()->getConfigParam('bSendAdditionalCustomerBilling');
     }
 
     public function getInvoiceProvider()
@@ -207,20 +209,20 @@ class qentaCheckoutSeamlessConfig
         return $this->_getConfig()->getConfigParam('sInvoiceProvider');
     }
 
-	public function getInstallmentProvider()
-	{
-		return $this->_getConfig()->getConfigParam('sInstallmentProvider');
-	}
+    public function getInstallmentProvider()
+    {
+        return $this->_getConfig()->getConfigParam('sInstallmentProvider');
+    }
 
     public function getInstallmentPayolutionMId()
     {
         return $this->_getConfig()->getConfigParam('sInstallmentPayolutionMId');
     }
 
-	public function getInvoicePayolutionMId()
-	{
-		return $this->_getConfig()->getConfigParam('sInvoicePayolutionMId');
-	}
+    public function getInvoicePayolutionMId()
+    {
+        return $this->_getConfig()->getConfigParam('sInvoicePayolutionMId');
+    }
 
     public function getInstallmentTrustedShopsCheckbox()
     {
@@ -252,10 +254,10 @@ class qentaCheckoutSeamlessConfig
         return $this->_getConfig()->getConfigParam('bInvoiceAllowDifferingAddresses');
     }
 
-	public function getInstallmentAllowDifferingAddresses()
-	{
-		return $this->_getConfig()->getConfigParam('bInstallmentAllowDifferingAddresses');
-	}
+    public function getInstallmentAllowDifferingAddresses()
+    {
+        return $this->_getConfig()->getConfigParam('bInstallmentAllowDifferingAddresses');
+    }
 
     public function getFinancialInstitutionsLastModifiedTimer()
     {

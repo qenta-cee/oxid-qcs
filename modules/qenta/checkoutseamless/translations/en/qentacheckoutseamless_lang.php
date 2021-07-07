@@ -1,11 +1,12 @@
 <?php
+
 /**
  * Shop System Plugins
  * - Terms of use can be found under
  * https://guides.qenta.com/shop_plugins:info
  * - License can be found under:
  * https://github.com/qenta-cee/oxid-qcs/blob/master/LICENSE
-*/
+ */
 
 
 $sLangName = "English";
@@ -38,4 +39,6 @@ $aLang = array(
     'QENTA_CHECKOUT_SEAMLESS_CONFIRM_PAYOLUTION_TERMS' => 'Please agree to payolution terms.',
     'QENTA_CHECKOUT_SEAMLESS_PAYOLUTION_TERMS' => 'I agree that the data which are necessary for the liquidation of invoice payments and which are used to complete the identity and credit check are transmitted to payolution. My <a href="%s" target="_blank"><strong>consent</strong></a> can be revoked at any time with future effect.',
     'QENTA_CHECKOUT_SEAMLESS_VAT_ID_MISSING' => 'VAT number is missing.',
+    'ORDER_OVERVIEW_QENTA_CHECKOUT_SEAMLESS_PROVIDERREFERENCENUMBER' => 'Provider reference number',
+    'ORDER_OVERVIEW_QENTA_CHECKOUT_SEAMLESS_PROVIDERCONTRACTNUMBER' => 'Provider contract number'
 );

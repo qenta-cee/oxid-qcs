@@ -1,11 +1,12 @@
 <?php
+
 /**
  * Shop System Plugins
  * - Terms of use can be found under
  * https://guides.qenta.com/shop_plugins:info
  * - License can be found under:
  * https://github.com/qenta-cee/oxid-qcs/blob/master/LICENSE
-*/
+ */
 
 
 class qentaCheckoutSeamlessOxViewConfig extends qentaCheckoutSeamlessOxViewConfig_parent
@@ -146,7 +147,7 @@ class qentaCheckoutSeamlessOxViewConfig extends qentaCheckoutSeamlessOxViewConfi
     }
 
     /**
-     * Returns Wirecard Checkout Seamles config.
+     * Returns QENTA Checkout Seamles config.
      *
      * @return qentaCheckoutSeamlessConfig
      */
@@ -159,6 +160,4 @@ class qentaCheckoutSeamlessOxViewConfig extends qentaCheckoutSeamlessOxViewConfi
 
         return $this->_oQentaCheckoutSeamlesConfig;
     }
-
-
 }

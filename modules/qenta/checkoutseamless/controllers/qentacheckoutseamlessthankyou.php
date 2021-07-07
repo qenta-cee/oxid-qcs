@@ -1,15 +1,16 @@
 <?php
+
 /**
  * Shop System Plugins
  * - Terms of use can be found under
  * https://guides.qenta.com/shop_plugins:info
  * - License can be found under:
  * https://github.com/qenta-cee/oxid-qcs/blob/master/LICENSE
-*/
+ */
 
 
 /**
- * Order class wrapper for Wirecard Checkout seamless
+ * Order class wrapper for QENTA Checkout seamless
  */
 class qentaCheckoutSeamlessThankyou extends qentaCheckoutSeamlessThankyou_parent
 {
@@ -32,5 +33,4 @@ class qentaCheckoutSeamlessThankyou extends qentaCheckoutSeamlessThankyou_parent
     {
         return $this->_oOrder->oxorder__oxtransstatus == 'PENDING';
     }
-
 }
