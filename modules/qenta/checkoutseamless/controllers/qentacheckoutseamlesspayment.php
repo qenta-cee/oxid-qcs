@@ -1,11 +1,12 @@
 <?php
+
 /**
  * Shop System Plugins
  * - Terms of use can be found under
  * https://guides.qenta.com/shop_plugins:info
  * - License can be found under:
  * https://github.com/qenta-cee/oxid-qcs/blob/master/LICENSE
-*/
+ */
 
 
 require_once getShopBasePath() . 'modules/qenta/checkoutseamless/autoloader.php';
@@ -43,6 +44,8 @@ class qentaCheckoutSeamlessPayment extends qentaCheckoutSeamlessPayment_parent
 
         $this->_initQentaDatastorage();
 
+        setcookie("sid", $_COOKIE['sid'], time() + 60, "/" . '; samesite=' . "None", $_SESSION['host'], true, false);
+
         return $sReturn;
     }
 
@@ -50,8 +53,8 @@ class qentaCheckoutSeamlessPayment extends qentaCheckoutSeamlessPayment_parent
     {
         $parentResult = parent::validatePayment();
 
-        $aValues = Array();
-        $sPaymentId = (string )oxRegistry::getConfig()->getRequestParameter('paymentid');
+        $aValues = array();
+        $sPaymentId = (string)oxRegistry::getConfig()->getRequestParameter('paymentid');
         $sPaymenttype = qentaCheckoutSeamlessUtils::getInstance()->convertPaymenttype($sPaymentId);
         $config = qentaCheckoutSeamlessConfig::getInstance();
         $oUser = $this->getUser();
@@ -84,9 +87,13 @@ class qentaCheckoutSeamlessPayment extends qentaCheckoutSeamlessPayment_parent
 
                     if ($this->showQcsTrustedShopsCheckbox($sPaymentId)) {
                         if (!oxRegistry::getConfig()->getRequestParameter('payolutionTerms')) {
-                            oxRegistry::getSession()->setVariable('qcs_payerrortext',
-                                $oLang->translateString('QENTA_CHECKOUT_SEAMLESS_CONFIRM_PAYOLUTION_TERMS',
-                                    $oLang->getBaseLanguage()));
+                            oxRegistry::getSession()->setVariable(
+                                'qcs_payerrortext',
+                                $oLang->translateString(
+                                    'QENTA_CHECKOUT_SEAMLESS_CONFIRM_PAYOLUTION_TERMS',
+                                    $oLang->getBaseLanguage()
+                                )
+                            );
                             $oSmarty = oxRegistry::get("oxUtilsView")->getSmarty();
                             $oSmarty->assign("aErrors", array('payolutionTerms' => 1));
 
@@ -106,9 +113,13 @@ class qentaCheckoutSeamlessPayment extends qentaCheckoutSeamlessPayment_parent
                         $iBirthdayMonth = oxRegistry::getConfig()->getRequestParameter($sPaymentId . '_iBirthdayMonth');
 
                         if (empty($iBirthdayYear) || empty($iBirthdayDay) || empty($iBirthdayMonth)) {
-                            oxRegistry::getSession()->setVariable('qcs_payerrortext',
-                                $oLang->translateString('QENTA_CHECKOUT_SEAMLESS_PLEASE_FILL_IN_DOB',
-                                    $oLang->getBaseLanguage()));
+                            oxRegistry::getSession()->setVariable(
+                                'qcs_payerrortext',
+                                $oLang->translateString(
+                                    'QENTA_CHECKOUT_SEAMLESS_PLEASE_FILL_IN_DOB',
+                                    $oLang->getBaseLanguage()
+                                )
+                            );
 
                             return;
                         }
@@ -118,26 +129,36 @@ class qentaCheckoutSeamlessPayment extends qentaCheckoutSeamlessPayment_parent
                         oxRegistry::getSession()->setVariable('qcs_dobData', $dateData);
 
                         if (is_array($dateData)) {
-                            $oUser->oxuser__oxbirthdate = new oxField($oUser->convertBirthday($dateData),
-                                oxField::T_RAW);
+                            $oUser->oxuser__oxbirthdate = new oxField(
+                                $oUser->convertBirthday($dateData),
+                                oxField::T_RAW
+                            );
                             $oUser->save();
                         }
                     }
 
                     //validate paymethod
                     if (!$this->qcsValidateCustomerAge($oUser, 18)) {
-                        oxRegistry::getSession()->setVariable('qcs_payerrortext',
-                            sprintf($oLang->translateString('QENTA_CHECKOUT_SEAMLESS_DOB_TOO_YOUNG',
-                                $oLang->getBaseLanguage()), 18));
+                        oxRegistry::getSession()->setVariable(
+                            'qcs_payerrortext',
+                            sprintf($oLang->translateString(
+                                'QENTA_CHECKOUT_SEAMLESS_DOB_TOO_YOUNG',
+                                $oLang->getBaseLanguage()
+                            ), 18)
+                        );
 
                         return;
                     }
 
                     if ($this->showQcsInstallmentTrustedShopsCheckbox($sPaymentId)) {
                         if (!oxRegistry::getConfig()->getRequestParameter('payolutionTerms')) {
-                            oxRegistry::getSession()->setVariable('qcs_payerrortext',
-                                $oLang->translateString('QENTA_CHECKOUT_SEAMLESS_CONFIRM_PAYOLUTION_TERMS',
-                                    $oLang->getBaseLanguage()));
+                            oxRegistry::getSession()->setVariable(
+                                'qcs_payerrortext',
+                                $oLang->translateString(
+                                    'QENTA_CHECKOUT_SEAMLESS_CONFIRM_PAYOLUTION_TERMS',
+                                    $oLang->getBaseLanguage()
+                                )
+                            );
                             $oSmarty = oxRegistry::get("oxUtilsView")->getSmarty();
                             $oSmarty->assign("aErrors", array('payolutionTerms' => 1));
 
@@ -186,7 +207,6 @@ class qentaCheckoutSeamlessPayment extends qentaCheckoutSeamlessPayment_parent
 
             return;
         }
-
     }
 
     public function getQentaStorageJsUrl()
@@ -289,25 +309,25 @@ class qentaCheckoutSeamlessPayment extends qentaCheckoutSeamlessPayment_parent
     {
         $sFallbackResponse = oxRegistry::getConfig()->getRequestParameter('response');
         echo '<!DOCTYPE>
-<html>
-    <head>
-        <script type="text/javascript">
-            function setResponse(response)
-            {
-                if(typeof parent.WirecardCEE_Fallback_Request_Object == "object")
-                {
-                    parent.WirecardCEE_Fallback_Request_Object.setResponseText(response);
-                }
-                else
-                {
-                    console.log("Not a valid seamless fallback call.");
-                }
-            }
-        </script>
-    </head>
-    <body onload=\'setResponse("' . addslashes(html_entity_decode($sFallbackResponse)) . '");\'>
-    </body>
-</html>';
+        <html>
+            <head>
+                <script type="text/javascript">
+                    function setResponse(response)
+                    {
+                        if(typeof parent.WirecardCEE_Fallback_Request_Object == "object")
+                        {
+                            parent.WirecardCEE_Fallback_Request_Object.setResponseText(response);
+                        }
+                        else
+                        {
+                            console.log("Not a valid seamless fallback call.");
+                        }
+                    }
+                </script>
+            </head>
+            <body onload=\'setResponse("' . addslashes(html_entity_decode($sFallbackResponse)) . '");\'>
+            </body>
+        </html>';
         exit();
     }
 
@@ -340,7 +360,7 @@ class qentaCheckoutSeamlessPayment extends qentaCheckoutSeamlessPayment_parent
 
                 $financialInstitutions = array();
                 try {
-                    $_client = new WirecardCEE_QMore_BackendClient(Array(
+                    $_client = new WirecardCEE_QMore_BackendClient(array(
                         'CUSTOMER_ID' => $config->getCustomerId(),
                         'SHOP_ID' => $config->getShopId(),
                         'LANGUAGE' => $oLang->getLanguageAbbr(),
@@ -354,10 +374,14 @@ class qentaCheckoutSeamlessPayment extends qentaCheckoutSeamlessPayment_parent
                         $financialInstitutions[$institution["id"]] = $institution["name"];
                     }
 
-                    $this->getSession()->setVariable('qentaCheckoutSeamlessTrustPayFinancialInstitutions',
-                        $financialInstitutions);
-                    $this->getSession()->setVariable('qentaCheckoutSeamlessTrustPayFinancialInstitutionsLastModified',
-                        time());
+                    $this->getSession()->setVariable(
+                        'qentaCheckoutSeamlessTrustPayFinancialInstitutions',
+                        $financialInstitutions
+                    );
+                    $this->getSession()->setVariable(
+                        'qentaCheckoutSeamlessTrustPayFinancialInstitutionsLastModified',
+                        time()
+                    );
                 } catch (Exception $e) {
                     $financialInstitutions = array();
                     $this->getSession()->deleteVariable('qentaCheckoutSeamlessTrustPayFinancialInstitutions');
@@ -367,7 +391,7 @@ class qentaCheckoutSeamlessPayment extends qentaCheckoutSeamlessPayment_parent
 
             return $financialInstitutions;
         } else {
-            return Array();
+            return array();
         }
     }
 
@@ -422,7 +446,8 @@ class qentaCheckoutSeamlessPayment extends qentaCheckoutSeamlessPayment_parent
         //if delivery Address is not set it's the same as billing
         $oDelAddress = $oOrder->getDelAddressInfo();
         if ($oDelAddress) {
-            if ($oDelAddress->oxaddress__oxcompany->value != $oUser->oxuser__oxcompany->value ||
+            if (
+                $oDelAddress->oxaddress__oxcompany->value != $oUser->oxuser__oxcompany->value ||
                 $oDelAddress->oxaddress__oxfname->value != $oUser->oxuser__oxfname->value ||
                 $oDelAddress->oxaddress__oxlname->value != $oUser->oxuser__oxlname->value ||
                 $oDelAddress->oxaddress__oxstreet->value != $oUser->oxuser__oxstreet->value ||
@@ -449,7 +474,7 @@ class qentaCheckoutSeamlessPayment extends qentaCheckoutSeamlessPayment_parent
      * @param Array $aAllowedCurrencies
      * @return boolean
      */
-    public function qcsValidateCurrency($oBasket, $aAllowedCurrencies = Array('EUR'))
+    public function qcsValidateCurrency($oBasket, $aAllowedCurrencies = array('EUR'))
     {
         $currency = $oBasket->getBasketCurrency();
         if (!in_array($currency->name, $aAllowedCurrencies)) {
@@ -607,60 +632,66 @@ class qentaCheckoutSeamlessPayment extends qentaCheckoutSeamlessPayment_parent
         }
     }
 
-	function showQcsInstallmentTrustedShopsCheckbox($sPaymentId)
-	{
-		$config = qentaCheckoutSeamlessConfig::getInstance();
+    function showQcsInstallmentTrustedShopsCheckbox($sPaymentId)
+    {
+        $config = qentaCheckoutSeamlessConfig::getInstance();
 
-		if ($config->getInstallmentProvider() == 'PAYOLUTION') {
-			return $config->getInstallmentTrustedShopsCheckbox();
-		}
-		return false;
-	}
+        if ($config->getInstallmentProvider() == 'PAYOLUTION') {
+            return $config->getInstallmentTrustedShopsCheckbox();
+        }
+        return false;
+    }
 
     function getQcsInvoicePayolutionTerms()
     {
         $oLang = oxRegistry::get('oxLang');
         $config = qentaCheckoutSeamlessConfig::getInstance();
 
-        return sprintf($oLang->translateString('QENTA_CHECKOUT_SEAMLESS_PAYOLUTION_TERMS',
-            $oLang->getBaseLanguage()),
-            'https://payment.payolution.com/payolution-payment/infoport/dataprivacyconsent?mId=' . $config->getInvoicePayolutionMId());
+        return sprintf(
+            $oLang->translateString(
+                'QENTA_CHECKOUT_SEAMLESS_PAYOLUTION_TERMS',
+                $oLang->getBaseLanguage()
+            ),
+            'https://payment.payolution.com/payolution-payment/infoport/dataprivacyconsent?mId=' . $config->getInvoicePayolutionMId()
+        );
     }
 
-	function getQcsInstallmentPayolutionTerms()
-	{
-		$oLang = oxRegistry::get('oxLang');
-		$config = qentaCheckoutSeamlessConfig::getInstance();
+    function getQcsInstallmentPayolutionTerms()
+    {
+        $oLang = oxRegistry::get('oxLang');
+        $config = qentaCheckoutSeamlessConfig::getInstance();
 
-		return sprintf($oLang->translateString('QENTA_CHECKOUT_SEAMLESS_PAYOLUTION_TERMS',
-			$oLang->getBaseLanguage()),
-			'https://payment.payolution.com/payolution-payment/infoport/dataprivacyconsent?mId=' . $config->getInstallmentPayolutionMId());
-	}
+        return sprintf(
+            $oLang->translateString(
+                'QENTA_CHECKOUT_SEAMLESS_PAYOLUTION_TERMS',
+                $oLang->getBaseLanguage()
+            ),
+            'https://payment.payolution.com/payolution-payment/infoport/dataprivacyconsent?mId=' . $config->getInstallmentPayolutionMId()
+        );
+    }
 
-	function getQcsRatePayConsumerDeviceId()
-	{
-		$config = qentaCheckoutSeamlessConfig::getInstance();
+    function getQcsRatePayConsumerDeviceId()
+    {
+        $config = qentaCheckoutSeamlessConfig::getInstance();
 
-		if(isset($_SESSION['qcs-consumerDeviceId'])) {
-			$consumerDeviceId = $_SESSION['qcs-consumerDeviceId'];
-		} else {
-			$timestamp = microtime();
-			$customerId = $config->getCustomerId();
-			$consumerDeviceId = md5($customerId . "_" . $timestamp);
-			$_SESSION['qcs-consumerDeviceId'] = $consumerDeviceId;
-		}
+        if (isset($_SESSION['qcs-consumerDeviceId'])) {
+            $consumerDeviceId = $_SESSION['qcs-consumerDeviceId'];
+        } else {
+            $timestamp = microtime();
+            $customerId = $config->getCustomerId();
+            $consumerDeviceId = md5($customerId . "_" . $timestamp);
+            $_SESSION['qcs-consumerDeviceId'] = $consumerDeviceId;
+        }
 
-		if($config->getInvoiceProvider() == 'RATEPAY' || $config->getInstallmentProvider() == 'RATEPAY')
-        {
-            $ratepay = '<script language="JavaScript">var di = {t:"'.$consumerDeviceId.'",v:"WDWL",l:"Checkout"};</script>';
-            $ratepay .= '<script type="text/javascript" src="//d.ratepay.com/'.$consumerDeviceId.'/di.js"></script>';
-            $ratepay .= '<noscript><link rel="stylesheet" type="text/css" href="//d.ratepay.com/di.css?t='.$consumerDeviceId.'&v=WDWL&l=Checkout"></noscript>';
-            $ratepay .= '<object type="application/x-shockwave-flash" data="//d.ratepay.com/WDWL/c.swf" width="0" height="0"><param name="movie" value="//d.ratepay.com/WDWL/c.swf" /><param name="flashvars" value="t='.$consumerDeviceId.'&v=WDWL"/><param name="AllowScriptAccess" value="always"/></object>';
+        if ($config->getInvoiceProvider() == 'RATEPAY' || $config->getInstallmentProvider() == 'RATEPAY') {
+            $ratepay = '<script language="JavaScript">var di = {t:"' . $consumerDeviceId . '",v:"WDWL",l:"Checkout"};</script>';
+            $ratepay .= '<script type="text/javascript" src="//d.ratepay.com/' . $consumerDeviceId . '/di.js"></script>';
+            $ratepay .= '<noscript><link rel="stylesheet" type="text/css" href="//d.ratepay.com/di.css?t=' . $consumerDeviceId . '&v=WDWL&l=Checkout"></noscript>';
+            $ratepay .= '<object type="application/x-shockwave-flash" data="//d.ratepay.com/WDWL/c.swf" width="0" height="0"><param name="movie" value="//d.ratepay.com/WDWL/c.swf" /><param name="flashvars" value="t=' . $consumerDeviceId . '&v=WDWL"/><param name="AllowScriptAccess" value="always"/></object>';
 
             return $ratepay;
         }
-
-	}
+    }
 
     /**
      * @return mixed

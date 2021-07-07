@@ -4,19 +4,22 @@
 [![OXID eSales Community Edition 4.10.8](https://img.shields.io/badge/OXID_CE-v4.10.8-green.svg)](http://www.oxid-esales.com/)
 [![PHP v5.6](https://img.shields.io/badge/php-v5.6-yellow.svg)](http://www.php.net)
 
-----
-Qenta Checkout Seamless plugin for OXID.
+---
+
+QENTA Checkout Seamless plugin for OXID.
 
 Our [Online Guides](https://guides.qenta.com/) provide further information on payment methods and additional features. Please observe our [terms of use](https://guides.qenta.com/shop_plugins:info#terms_of_use) regarding plugins.
 
 ## Installation
-Our [Online Guides](https://guides.qenta.com/shop_plugins:oxid_qcs:start "Installation details") also provide technical documentation, installation and configuration instructions for the plugin.
 
+Our [Online Guides](https://guides.qenta.com/shop_plugins:oxid_qcs:start 'Installation details') also provide technical documentation, installation and configuration instructions for the plugin.
 
 ## Qenta Checkout Seamless
-Qenta Checkout Page is designed to meet the ambitious demands of merchants offering a wide range of payment methods while at the same time fulfilling PCI DSS compliance.
 
-Qenta Checkout Page offers:
+QENTA Checkout Page is designed to meet the ambitious demands of merchants offering a wide range of payment methods while at the same time fulfilling PCI DSS compliance.
+
+QENTA Checkout Page offers:
+
 - National and international payment methods: credit cards, debit cards, online banking payments, mobile payment solutions and other alternative payment methods.
 - One interface for all payment methods.
 - Intuitive user interface in more than 25 languages and 120 currencies.

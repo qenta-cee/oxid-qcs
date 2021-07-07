@@ -18,7 +18,7 @@ $sMetadataVersion = '2.1';
  */
 $aModule = array(
     'id'          => 'qentacheckoutseamless',
-    'title'       => 'QMORE Checkout Seamless',
+    'title'       => 'QENTA Checkout Seamless',
     'description' => array(
         'de' => 'Modul zur Bezahlung mit QENTA Checkout Seamless.<br /><br /><div id="helpPanel"><div class="bd"><strong>Support und Vertrieb:</strong><br /><a href="https://guides.qenta.at/support" target="_blank">Support</a><br /><a href="https://guides.qenta.at/sales" target="_blank">Sales</a></div></div>',
         'en' => 'Module for payment using QENTA Checkout Seamless.<br /><br /><div id="helpPanel"><div class="bd"><strong>Support and sales information</strong><br /><a href="https://guides.qenta.at/support" target="_blank">support</a><br /><a href="https://guides.qenta.at/sales" target="_blank">sales</a></div></div>',

@@ -1,12 +1,12 @@
 <?php
+
 /**
  * Shop System Plugins
  * - Terms of use can be found under
  * https://guides.qenta.com/shop_plugins:info
  * - License can be found under:
  * https://github.com/qenta-cee/oxid-qcs/blob/master/LICENSE
-*/
-
+ */
 
 class qentacheckoutseamlessSubmitConfig extends oxAdminView
 {
@@ -65,7 +65,7 @@ class qentacheckoutseamlessSubmitConfig extends oxAdminView
         include('../modules/' . $aModules['qentacheckoutseamless'] . '/metadata.php');
 
         foreach ($aModule['settings'] as $k => $aParams) {
-            if ($aParams['name'] !== 'sWcpSecret') {
+            if ($aParams['name'] !== 'sQcpSecret') {
                 $params[$aParams['name']] = $oConfig->getConfigParam($aParams['name']);
             } else {
                 $params[$aParams['name']] = str_pad('', strlen($oConfig->getConfigParam($aParams['name'])), 'X');
@@ -100,8 +100,10 @@ class qentacheckoutseamlessSubmitConfig extends oxAdminView
         }
 
         $Mail = oxRegistry::get('oxemail');
-        $Mail->setFrom(oxRegistry::getConfig()->getActiveShop()->oxshops__oxowneremail->rawValue,
-            oxRegistry::getConfig()->getActiveShop()->oxshops__oxname->rawValue);
+        $Mail->setFrom(
+            oxRegistry::getConfig()->getActiveShop()->oxshops__oxowneremail->rawValue,
+            oxRegistry::getConfig()->getActiveShop()->oxshops__oxname->rawValue
+        );
         $Mail->setRecipient($recipient);
         $Mail->setBody('<p>' . $confString . '</p><p>' . $comment . '</p>');
         $Mail->setAltBody($confString . "\n\n" . $comment);
