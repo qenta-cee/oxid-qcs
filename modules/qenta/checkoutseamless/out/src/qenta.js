@@ -174,7 +174,7 @@
         },
 
         /**
-         * Check if  Paymentid is a wirecard payment and use seamless if necessary,
+         * Check if  Paymentid is a QENTA payment and use seamless if necessary,
          * return bool to maybe stop paymentforms submit
          *
          * @return bool
